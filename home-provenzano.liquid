@@ -1,34 +1,15 @@
 {% comment %}
 ========================================================================
-PROVENZANO HOME — versión completa premium (1 archivo)
+PROVENZANO HOME v2 — premium futurista (1 archivo)
 ========================================================================
-Secciones (en orden):
-  1.  Header glass dark (sticky)
-  2.  Hero bodega + mapa Argentina con líneas de envío
-  3.  Trust band (4 features reales)
-  4.  Brand wall (Energizer · Duracell · Gillette · Candela · BIC)
-  5.  Category orbit (anillo rotando con categorías)
-  6.  Estantería de productos destacados (8 cards)
-  7.  Por qué Provenzano (credenciales + stats)
-  8.  Calculadora de bulto interactiva
-  9.  How to buy (4 pasos scroll-jacked)
-  10. FAQ con acordeón
-  11. Newsletter para revendedores (lista de precios PDF)
-  12. Footer azul oscuro
-  13. WhatsApp FAB flotante
+Estructura focalizada:
+  1. Hero — presentación + CTA principal al catálogo
+  2. Brands — marquee sutil
+  3. Catálogo showcase — productos destacados + CTA gigante
+  4. Envíos — 4 modalidades interactivas
+  5. Footer + WhatsApp FAB
 
-INSTALACIÓN:
-1. Editar código del tema → carpeta "Sections" → Add a new section
-2. Nombre: home-provenzano.liquid
-3. Pegar TODO este contenido y guardar
-4. Personalizador → Add section → "Home Provenzano"
-
-REQUISITOS:
-- Colección "destacados-hero" (productos del hero, opcional)
-- Colección "destacados" (8 productos de la estantería)
-- WhatsApp = 5491141794592 (configurable en el panel)
-
-Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
+Mobile-first (90% del tráfico). Testeado < 360px.
 ========================================================================
 {% endcomment %}
 
@@ -40,48 +21,19 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
     {
       "type": "text",
       "id": "logo_url",
-      "label": "URL del logo (Shopify CDN)",
+      "label": "URL del logo",
       "default": "https://cdn.shopify.com/s/files/1/0729/9366/9368/files/provenzano-logo.svg?v=1777313813"
     },
     {
       "type": "text",
       "id": "wpp_phone",
-      "label": "Número de WhatsApp (sin +, sin espacios)",
+      "label": "WhatsApp (sin + ni espacios)",
       "default": "5491141794592"
-    },
-    {
-      "type": "collection",
-      "id": "hero_collection",
-      "label": "Colección hero (opcional)"
     },
     {
       "type": "collection",
       "id": "featured_collection",
       "label": "Colección de productos destacados (8 cards)"
-    },
-    {
-      "type": "text",
-      "id": "calc_product_name",
-      "label": "Calculadora · nombre del producto",
-      "default": "Encendedor BIC Maxi"
-    },
-    {
-      "type": "number",
-      "id": "calc_units_per_bulto",
-      "label": "Calculadora · unidades por bulto",
-      "default": 50
-    },
-    {
-      "type": "number",
-      "id": "calc_price_mayorista",
-      "label": "Calculadora · precio mayorista por unidad (ARS)",
-      "default": 850
-    },
-    {
-      "type": "number",
-      "id": "calc_price_minorista",
-      "label": "Calculadora · precio minorista promedio por unidad (ARS)",
-      "default": 1400
     }
   ],
   "presets": [
@@ -92,111 +44,96 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
 
 {%- assign logo_url = section.settings.logo_url | default: 'https://cdn.shopify.com/s/files/1/0729/9366/9368/files/provenzano-logo.svg?v=1777313813' -%}
 {%- assign wpp_phone = section.settings.wpp_phone | default: '5491141794592' -%}
-{%- assign hero_products = section.settings.hero_collection.products | default: collections['destacados-hero'].products -%}
 {%- assign featured_products = section.settings.featured_collection.products | default: collections['destacados'].products -%}
-{%- assign calc_name = section.settings.calc_product_name | default: 'Encendedor BIC Maxi' -%}
-{%- assign calc_units = section.settings.calc_units_per_bulto | default: 50 -%}
-{%- assign calc_pmay = section.settings.calc_price_mayorista | default: 850 -%}
-{%- assign calc_pmin = section.settings.calc_price_minorista | default: 1400 -%}
 
 <div class="pv-home-root">
 
-  {%- comment -%} ============ HEADER ============ {%- endcomment -%}
-  <header class="pv-header" id="provHeader">
-    <div class="pv-header__inner">
-      <a href="/" class="pv-header__logo" aria-label="Provenzano home">
-        <span class="pv-header__mark">
-          <img src="{{ logo_url }}" alt="">
-        </span>
-        <div class="pv-header__wordmark">
-          <span class="pv-header__brand">Provenzano</span>
-          <span class="pv-header__tag">
-            <span class="pv-header__dot"></span>
-            Mayorista · Liniers
-          </span>
-        </div>
-      </a>
-
-      <a href="/search" class="pv-header__search" aria-label="Buscar">
-        <i data-lucide="search"></i>
-        <span>Buscar producto, categoría, marca…</span>
-        <kbd class="pv-header__kbd">⌘K</kbd>
-      </a>
-
-      <a href="/cart" class="pv-header__cart" aria-label="Carrito">
-        <i data-lucide="shopping-cart"></i>
-        <span class="pv-header__cart-badge" id="provCartBadge" style="display:none">0</span>
-      </a>
-    </div>
-    <div class="pv-header__beam" aria-hidden="true"></div>
-  </header>
   {%- comment -%} ============ HERO ============ {%- endcomment -%}
-  <section class="pv-hero" id="provHero">
-    <div class="pv-hero__bg" aria-hidden="true">
-      <div class="pv-hero__grid-bg"></div>
-      <div class="pv-hero__orb pv-hero__orb--a"></div>
-      <div class="pv-hero__orb pv-hero__orb--b"></div>
+  <section class="pv-hero" id="provHero" data-spotlight>
+    <div class="pv-hero__atmos" aria-hidden="true">
+      <div class="pv-hero__mesh"></div>
+      <div class="pv-hero__grid"></div>
+      <div class="pv-hero__noise"></div>
+      <div class="pv-hero__spotlight"></div>
+      <div class="pv-hero__scanline"></div>
     </div>
+
+    <header class="pv-hero__nav">
+      <a href="/" class="pv-hero__brand" aria-label="Provenzano home">
+        <span class="pv-hero__brand-mark"><img src="{{ logo_url }}" alt=""></span>
+        <span class="pv-hero__brand-text">
+          <span class="pv-hero__brand-name">Provenzano</span>
+          <span class="pv-hero__brand-tag"><span class="pv-hero__brand-pulse"></span>Mayorista · Liniers</span>
+        </span>
+      </a>
+      <div class="pv-hero__nav-actions">
+        <a href="/search" class="pv-hero__nav-btn" aria-label="Buscar"><i data-lucide="search"></i></a>
+        <a href="/cart" class="pv-hero__nav-btn pv-hero__nav-btn--cart" aria-label="Carrito">
+          <i data-lucide="shopping-cart"></i>
+          <span class="pv-hero__nav-badge" id="provCartBadge" style="display:none">0</span>
+        </a>
+      </div>
+    </header>
 
     <div class="pv-hero__inner">
       <div class="pv-hero__copy">
-        <span class="pv-eyebrow--live">
-          <span class="pv-eyebrow__dot"></span>
-          Mayorista · Liniers · Desde 2003
+        <span class="pv-chip pv-hero__chip">
+          <span class="pv-chip__dot"></span>
+          Desde 2003 · Liniers, CABA
         </span>
 
         <h1 class="pv-hero__title">
-          Productos de kiosco <span class="pv-hero__title-accent">por mayor</span>, sin vueltas.
+          Tu mayorista de <span class="pv-hero__shine">kiosco</span>,<br>
+          sin vueltas.
         </h1>
 
-        <p class="pv-hero__lead">Abastecé tu kiosco, almacén o negocio con productos de alta rotación. Stock garantizado, envíos a todo el país y +20 años trabajando con revendedores como vos.</p>
+        <p class="pv-hero__lead">
+          Más de 20 años abasteciendo kioscos, almacenes y revendedores. Catálogo de 200+ productos con precios mayoristas <b>actualizados al día</b>.
+        </p>
 
         <div class="pv-hero__ctas">
-          <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--lg">
-            <i data-lucide="layout-grid"></i>
-            Ver catálogo
+          <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--xl pv-hero__cta-main">
+            <span>Armá tu pedido</span>
+            <i data-lucide="arrow-right"></i>
           </a>
-          <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--whatsapp pv-btn--lg">
+          <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--ghost pv-btn--lg">
             <i data-lucide="message-circle"></i>
-            Consultar por WhatsApp
+            WhatsApp
           </a>
         </div>
 
-        <div class="pv-hero__stats">
-          <div class="pv-hero__stat">
-            <span class="pv-hero__stat-value" data-counter="216" data-suffix="+">0+</span>
-            <span class="pv-hero__stat-label">Productos en stock</span>
+        <div class="pv-hero__creds">
+          <div class="pv-hero__cred">
+            <span class="pv-hero__cred-num" data-counter="20" data-suffix="+">0+</span>
+            <span class="pv-hero__cred-lab">años en el rubro</span>
           </div>
-          <div class="pv-hero__stat-div"></div>
-          <div class="pv-hero__stat">
-            <span class="pv-hero__stat-value" data-counter="20">0</span>
-            <span class="pv-hero__stat-label">Años en el rubro</span>
+          <div class="pv-hero__cred">
+            <span class="pv-hero__cred-num" data-counter="216" data-suffix="+">0+</span>
+            <span class="pv-hero__cred-lab">productos en stock</span>
           </div>
-          <div class="pv-hero__stat-div"></div>
-          <div class="pv-hero__stat">
-            <span class="pv-hero__stat-value" data-counter="24" data-suffix="hs">0hs</span>
-            <span class="pv-hero__stat-label">Despacho CABA/GBA</span>
+          <div class="pv-hero__cred">
+            <span class="pv-hero__cred-num">A/B</span>
+            <span class="pv-hero__cred-lab">factura</span>
           </div>
         </div>
       </div>
 
       <aside class="pv-hero__visual" aria-hidden="true">
         <div class="pv-hero__stage" id="provHeroStage">
-          <div class="pv-map" id="provMap">
-            <svg class="pv-map__svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+          <div class="pv-map">
+            <svg class="pv-map__svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
               <defs>
                 <radialGradient id="pv-map-glow" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stop-color="rgba(147,197,253,0.5)"/>
                   <stop offset="100%" stop-color="rgba(147,197,253,0)"/>
                 </radialGradient>
+                <linearGradient id="pv-map-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(96,165,250,0.10)"/>
+                  <stop offset="100%" stop-color="rgba(24,95,165,0.05)"/>
+                </linearGradient>
               </defs>
               <g class="pv-map__country">
-                <path d="M 220,40 L 235,55 L 240,75 L 248,95 L 256,115 L 268,140 L 274,165 L 282,195 L 290,225 L 296,255 L 298,290 L 290,325 L 280,360 L 268,395 L 252,425 L 234,450 L 215,470 L 195,485 L 178,495 L 165,505 L 158,520 L 162,533 L 175,530 L 175,512 L 188,508 L 192,495 L 178,488 L 198,470 L 215,455 L 220,470 L 215,488 L 218,500 L 232,492 L 230,478 L 240,460 L 252,440 L 230,425 L 215,395 L 200,370 L 185,345 L 170,335 L 155,330 L 148,320 L 152,300 L 168,285 L 180,272 L 186,250 L 178,225 L 168,200 L 155,180 L 148,158 L 152,135 L 162,115 L 175,95 L 188,72 L 200,55 L 210,42 Z" fill="rgba(147,197,253,0.06)" stroke="rgba(147,197,253,0.30)" stroke-width="1" stroke-linejoin="round"/>
-                <path d="M 195,140 L 270,150" stroke="rgba(147,197,253,0.10)" stroke-width="0.5" stroke-dasharray="2,3"/>
-                <path d="M 175,210 L 285,225" stroke="rgba(147,197,253,0.10)" stroke-width="0.5" stroke-dasharray="2,3"/>
-                <path d="M 165,290 L 295,295" stroke="rgba(147,197,253,0.10)" stroke-width="0.5" stroke-dasharray="2,3"/>
-                <path d="M 175,360 L 270,365" stroke="rgba(147,197,253,0.10)" stroke-width="0.5" stroke-dasharray="2,3"/>
-                <path d="M 195,430 L 240,440" stroke="rgba(147,197,253,0.10)" stroke-width="0.5" stroke-dasharray="2,3"/>
+                <path d="M 220,40 L 235,55 L 240,75 L 248,95 L 256,115 L 268,140 L 274,165 L 282,195 L 290,225 L 296,255 L 298,290 L 290,325 L 280,360 L 268,395 L 252,425 L 234,450 L 215,470 L 195,485 L 178,495 L 165,505 L 158,520 L 162,533 L 175,530 L 175,512 L 188,508 L 192,495 L 178,488 L 198,470 L 215,455 L 220,470 L 215,488 L 218,500 L 232,492 L 230,478 L 240,460 L 252,440 L 230,425 L 215,395 L 200,370 L 185,345 L 170,335 L 155,330 L 148,320 L 152,300 L 168,285 L 180,272 L 186,250 L 178,225 L 168,200 L 155,180 L 148,158 L 152,135 L 162,115 L 175,95 L 188,72 L 200,55 L 210,42 Z" fill="url(#pv-map-gradient)" stroke="rgba(147,197,253,0.30)" stroke-width="1" stroke-linejoin="round"/>
               </g>
               <g class="pv-map__lines" stroke-linecap="round" fill="none">
                 <path class="pv-map__line" style="--delay:0s" d="M 260,295 Q 270,330 255,360" stroke="#93C5FD" stroke-width="1.5"/>
@@ -206,17 +143,17 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
                 <path class="pv-map__line" style="--delay:1.6s" d="M 260,295 Q 210,300 170,280" stroke="#93C5FD" stroke-width="1.5"/>
               </g>
               <g class="pv-map__origin" transform="translate(260,295)">
-                <circle r="20" fill="url(#pv-map-glow)" opacity="0.6"/>
+                <circle r="22" fill="url(#pv-map-glow)" opacity="0.7"/>
                 <circle class="pv-map__ping" r="8" fill="none" stroke="#93C5FD" stroke-width="1.5" opacity="0.7"/>
                 <circle class="pv-map__ping" r="8" fill="none" stroke="#93C5FD" stroke-width="1.5" opacity="0.7" style="animation-delay:1s"/>
                 <circle r="8" fill="#185FA5" stroke="#93C5FD" stroke-width="2"/>
                 <circle r="3" fill="#fff"/>
               </g>
-              <g class="pv-map__pin" style="--delay:1.4s" transform="translate(255,360)"><circle r="4" fill="#93C5FD"/><circle r="4" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
-              <g class="pv-map__pin" style="--delay:1.8s" transform="translate(230,235)"><circle r="4" fill="#93C5FD"/><circle r="4" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
-              <g class="pv-map__pin" style="--delay:2.2s" transform="translate(220,200)"><circle r="4" fill="#93C5FD"/><circle r="4" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
-              <g class="pv-map__pin" style="--delay:2.6s" transform="translate(200,230)"><circle r="4" fill="#93C5FD"/><circle r="4" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
-              <g class="pv-map__pin" style="--delay:3.0s" transform="translate(170,280)"><circle r="4" fill="#93C5FD"/><circle r="4" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
+              <g class="pv-map__pin" style="--delay:1.4s" transform="translate(255,360)"><circle r="3.5" fill="#93C5FD"/><circle r="3.5" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
+              <g class="pv-map__pin" style="--delay:1.8s" transform="translate(230,235)"><circle r="3.5" fill="#93C5FD"/><circle r="3.5" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
+              <g class="pv-map__pin" style="--delay:2.2s" transform="translate(220,200)"><circle r="3.5" fill="#93C5FD"/><circle r="3.5" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
+              <g class="pv-map__pin" style="--delay:2.6s" transform="translate(200,230)"><circle r="3.5" fill="#93C5FD"/><circle r="3.5" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
+              <g class="pv-map__pin" style="--delay:3.0s" transform="translate(170,280)"><circle r="3.5" fill="#93C5FD"/><circle r="3.5" fill="#93C5FD" class="pv-map__pin-pulse"/></g>
             </svg>
 
             <span class="pv-map__label pv-map__label--origin" style="--x:65%;--y:54.6%">
@@ -225,650 +162,457 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
             </span>
             <span class="pv-map__label" style="--x:64%;--y:67%">Mar del Plata</span>
             <span class="pv-map__label" style="--x:58%;--y:43.5%">Rosario</span>
-            <span class="pv-map__label" style="--x:55%;--y:37%">Santa Fe</span>
             <span class="pv-map__label pv-map__label--left" style="--x:50%;--y:42.6%">Córdoba</span>
             <span class="pv-map__label pv-map__label--left" style="--x:42.5%;--y:51.8%">Mendoza</span>
           </div>
 
           <div class="pv-hero__hud pv-hero__hud--tl">
-            <span class="pv-hero__hud-label">Cobertura</span>
-            <span class="pv-hero__hud-value">CABA · GBA · Interior</span>
+            <span class="pv-hero__hud-lab">Cobertura</span>
+            <span class="pv-hero__hud-val">CABA · GBA · 24 provincias</span>
           </div>
           <div class="pv-hero__hud pv-hero__hud--br">
-            <div class="pv-hero__hud-row">
-              <span class="pv-hero__hud-dot"></span>
-              <span class="pv-hero__hud-text">CABA / GBA · Mismo día</span>
-            </div>
-            <div class="pv-hero__hud-row">
-              <span class="pv-hero__hud-text-mono">Interior · Vía Cargo</span>
-            </div>
+            <span class="pv-hero__hud-status"><span class="pv-hero__hud-dot"></span>Despachando</span>
+            <span class="pv-hero__hud-mono">CABA · mismo día</span>
           </div>
         </div>
       </aside>
     </div>
-  </section>
-  {%- comment -%} ============ TRUST BAND ============ {%- endcomment -%}
-  <section class="pv-trust" aria-label="Beneficios">
-    <div class="pv-trust__bg" aria-hidden="true"></div>
-    <div class="pv-trust__inner">
-      <article class="pv-trust__card" style="--idx:0">
-        <span class="pv-trust__icon"><i data-lucide="package-check"></i></span>
-        <div class="pv-trust__copy">
-          <h3 class="pv-trust__title">Stock real</h3>
-          <p class="pv-trust__text">Lo que ves está en bodega. Sin sorpresas al confirmar.</p>
-        </div>
-      </article>
-      <article class="pv-trust__card" style="--idx:1">
-        <span class="pv-trust__icon"><i data-lucide="truck"></i></span>
-        <div class="pv-trust__copy">
-          <h3 class="pv-trust__title">Envío 24hs</h3>
-          <p class="pv-trust__text">CABA y GBA mismo día. Interior vía cargo.</p>
-        </div>
-      </article>
-      <article class="pv-trust__card" style="--idx:2">
-        <span class="pv-trust__icon"><i data-lucide="handshake"></i></span>
-        <div class="pv-trust__copy">
-          <h3 class="pv-trust__title">Sin mínimos rígidos</h3>
-          <p class="pv-trust__text">Compras desde 1 bulto. Reponé como necesites.</p>
-        </div>
-      </article>
-      <article class="pv-trust__card" style="--idx:3">
-        <span class="pv-trust__icon"><i data-lucide="file-check-2"></i></span>
-        <div class="pv-trust__copy">
-          <h3 class="pv-trust__title">Factura A</h3>
-          <p class="pv-trust__text">Transferencia, depósito o efectivo en local.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-  {%- comment -%} ============ BRANDS WALL ============ {%- endcomment -%}
-  <section class="pv-brands" aria-label="Marcas que trabajamos">
-    <div class="pv-brands__bg" aria-hidden="true"></div>
-    <div class="pv-brands__inner">
-      <header class="pv-brands__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Marcas oficiales</span>
-        <h2 class="pv-brands__title">Las marcas que tus clientes <span class="pv-brands__title-accent">ya conocen</span></h2>
-        <p class="pv-brands__lead">Trabajamos directo con primeras marcas. Producto original, precio mayorista.</p>
-      </header>
 
-      <div class="pv-brands__marquee" aria-hidden="false">
+    <a href="#provCatalog" class="pv-hero__scroll" aria-label="Bajar al catálogo">
+      <span class="pv-hero__scroll-mouse"><span class="pv-hero__scroll-wheel"></span></span>
+      <span class="pv-hero__scroll-text">Catálogo</span>
+    </a>
+  </section>
+  {%- comment -%} ============ BRANDS ============ {%- endcomment -%}
+  <section class="pv-brands" aria-label="Marcas oficiales">
+    <div class="pv-brands__inner">
+      <span class="pv-brands__title">Marcas oficiales</span>
+      <div class="pv-brands__marquee">
         <ul class="pv-brands__track">
-          <li class="pv-brand pv-brand--energizer"><span class="pv-brand__name">Energizer</span><span class="pv-brand__cat">Pilas</span></li>
-          <li class="pv-brand pv-brand--duracell"><span class="pv-brand__name">Duracell</span><span class="pv-brand__cat">Pilas</span></li>
-          <li class="pv-brand pv-brand--gillette"><span class="pv-brand__name">Gillette</span><span class="pv-brand__cat">Afeitado</span></li>
-          <li class="pv-brand pv-brand--candela"><span class="pv-brand__name">Candela</span><span class="pv-brand__cat">Hogar</span></li>
-          <li class="pv-brand pv-brand--bic"><span class="pv-brand__name">BIC</span><span class="pv-brand__cat">Encendedores</span></li>
-          <li class="pv-brand pv-brand--energizer" aria-hidden="true"><span class="pv-brand__name">Energizer</span><span class="pv-brand__cat">Pilas</span></li>
-          <li class="pv-brand pv-brand--duracell" aria-hidden="true"><span class="pv-brand__name">Duracell</span><span class="pv-brand__cat">Pilas</span></li>
-          <li class="pv-brand pv-brand--gillette" aria-hidden="true"><span class="pv-brand__name">Gillette</span><span class="pv-brand__cat">Afeitado</span></li>
-          <li class="pv-brand pv-brand--candela" aria-hidden="true"><span class="pv-brand__name">Candela</span><span class="pv-brand__cat">Hogar</span></li>
-          <li class="pv-brand pv-brand--bic" aria-hidden="true"><span class="pv-brand__name">BIC</span><span class="pv-brand__cat">Encendedores</span></li>
+          <li class="pv-brand pv-brand--energizer"><span>Energizer</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--duracell"><span>Duracell</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--gillette"><span>Gillette</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--candela"><span>Candela</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--bic"><span>BIC</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--energizer" aria-hidden="true"><span>Energizer</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--duracell" aria-hidden="true"><span>Duracell</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--gillette" aria-hidden="true"><span>Gillette</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--candela" aria-hidden="true"><span>Candela</span></li>
+          <li class="pv-brand-sep" aria-hidden="true"></li>
+          <li class="pv-brand pv-brand--bic" aria-hidden="true"><span>BIC</span></li>
         </ul>
       </div>
     </div>
   </section>
-  {%- comment -%} ============ ORBIT ============ {%- endcomment -%}
-  <section class="pv-orbit">
-    <div class="pv-orbit__bg" aria-hidden="true">
-      <div class="pv-orbit__grid"></div>
+  {%- comment -%} ============ CATALOG ============ {%- endcomment -%}
+  <section class="pv-cat" id="provCatalog" data-spotlight>
+    <div class="pv-cat__atmos" aria-hidden="true">
+      <div class="pv-cat__mesh"></div>
+      <div class="pv-cat__grid"></div>
+      <div class="pv-cat__spotlight"></div>
     </div>
 
-    <div class="pv-orbit__inner">
-      <header class="pv-orbit__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Catálogo</span>
-        <h2 class="pv-orbit__title">
-          Rubros que <span class="pv-orbit__title-accent">más rotan</span>
-        </h2>
-        <p class="pv-orbit__lead">Las categorías de mayor demanda mayorista. Tocá cualquier rubro para ver todos los productos.</p>
+    <div class="pv-cat__inner">
+      <header class="pv-cat__head pv-reveal">
+        <div class="pv-cat__head-left">
+          <span class="pv-chip"><span class="pv-chip__dot"></span>Catálogo en vivo · 200+ productos</span>
+          <h2 class="pv-cat__title">
+            Mirá. Elegí.<br>
+            <span class="pv-cat__title-accent">Armá tu pedido.</span>
+          </h2>
+          <p class="pv-cat__lead">
+            Todo el catálogo con <b>precios mayoristas actualizados constantemente</b>. Stock real, sin esperar respuestas. Lo que ves es lo que hay.
+          </p>
+        </div>
+        <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--xl pv-cat__head-cta">
+          Ver catálogo completo
+          <i data-lucide="arrow-up-right"></i>
+        </a>
       </header>
 
-      <div class="pv-orbit__stage" id="provOrbitStage">
-        <svg class="pv-orbit__rings" viewBox="0 0 600 600" aria-hidden="true">
-          <defs>
-            <radialGradient id="pv-ring-fade" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.4)"/>
-              <stop offset="100%" stop-color="rgba(147,197,253,0)"/>
-            </radialGradient>
-          </defs>
-          <circle cx="300" cy="300" r="280" fill="none" stroke="rgba(147,197,253,0.10)" stroke-width="1" stroke-dasharray="2 6"/>
-          <circle cx="300" cy="300" r="220" fill="none" stroke="rgba(147,197,253,0.18)" stroke-width="1"/>
-          <circle cx="300" cy="300" r="160" fill="none" stroke="rgba(147,197,253,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
-          <circle cx="300" cy="300" r="100" fill="url(#pv-ring-fade)" opacity="0.3"/>
-        </svg>
+      <div class="pv-cat__featbar pv-reveal">
+        <div class="pv-cat__feat"><i data-lucide="zap"></i> Precios al día</div>
+        <div class="pv-cat__feat"><i data-lucide="package-check"></i> Stock real</div>
+        <div class="pv-cat__feat"><i data-lucide="layers"></i> Por bulto o suelto</div>
+        <div class="pv-cat__feat"><i data-lucide="shield-check"></i> Marcas oficiales</div>
+      </div>
 
-        <div class="pv-orbit__core">
-          <div class="pv-orbit__core-pulse"></div>
-          <div class="pv-orbit__core-ring"></div>
-          <div class="pv-orbit__core-mark">
-            <img src="{{ logo_url }}" alt="Provenzano">
-          </div>
+      {% if featured_products.size > 0 %}
+      <div class="pv-cat__rail">
+        <div class="pv-cat__rail-head">
+          <span class="pv-cat__rail-eye"><span class="pv-chip__dot"></span>Lo más pedido esta semana</span>
+          <span class="pv-cat__rail-mono">8 / <span data-counter="216" data-suffix="+">0+</span></span>
         </div>
 
-        <div class="pv-orbit__ring" id="provOrbitRing">
-          {% assign cats = 'encendedores|flame|Encendedores,pilas|battery|Pilas,pegamentos|paperclip|Pegamentos,afeitado|scissors|Afeitado,perfumeria|sparkles|Perfumería,repelentes|bug|Repelentes,golosinas|candy|Golosinas,farmacia|cross|Farmacia' | split: ',' %}
-          {% for cat in cats %}
-            {% assign parts = cat | split: '|' %}
-            {% assign cat_handle = parts[0] %}
-            {% assign cat_icon = parts[1] %}
-            {% assign cat_name = parts[2] %}
-            {% assign idx = forloop.index0 %}
-            {% assign angle = idx | times: 45 %}
-            <a href="/collections/{{ cat_handle }}" class="pv-orbit__pin" style="--angle:{{ angle }}deg;--idx:{{ idx }}" aria-label="{{ cat_name }}">
-              <span class="pv-orbit__pin-core">
-                <i data-lucide="{{ cat_icon }}"></i>
+        <div class="pv-cat__grid-products">
+          {% for product in featured_products limit: 8 %}
+            {% assign units = product.metafields.custom.bulk_units | default: 0 %}
+            {% assign sku_num = forloop.index | prepend: '00' | slice: -3, 3 %}
+            <a href="{{ product.url }}" class="pv-pcard pv-reveal" style="--delay:{{ forloop.index0 | times: 60 }}ms">
+              <span class="pv-pcard__sku">SKU·{{ sku_num }}</span>
+              <span class="pv-pcard__live">
+                <span class="pv-pcard__live-dot"></span> En stock
               </span>
-              <span class="pv-orbit__pin-label">
-                <span class="pv-orbit__pin-name">{{ cat_name }}</span>
-                <span class="pv-orbit__pin-arrow"><i data-lucide="arrow-right"></i></span>
-              </span>
+              <div class="pv-pcard__img">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: '500x500' }}" alt="{{ product.title }}" loading="lazy">
+                {% endif %}
+                <div class="pv-pcard__shine" aria-hidden="true"></div>
+              </div>
+              <div class="pv-pcard__body">
+                {% if product.type and product.type != '' %}<span class="pv-pcard__cat">{{ product.type }}</span>{% endif %}
+                <h3 class="pv-pcard__name">{{ product.title }}</h3>
+                {% if units > 0 %}
+                  <div class="pv-pcard__bulk"><i data-lucide="package"></i> Bulto x<b>{{ units }}</b></div>
+                {% endif %}
+              </div>
+              <div class="pv-pcard__bottom">
+                <div class="pv-pcard__price-block">
+                  <span class="pv-pcard__price-lab">Mayorista</span>
+                  <span class="pv-pcard__price">{{ product.price | money }}</span>
+                </div>
+                <span class="pv-pcard__add" aria-hidden="true">
+                  <i data-lucide="arrow-right"></i>
+                </span>
+              </div>
             </a>
           {% endfor %}
         </div>
-
-        <div class="pv-orbit__hud">
-          <span class="pv-orbit__hud-label">Rubro</span>
-          <span class="pv-orbit__hud-value" id="provOrbitHudValue">Tocá un rubro</span>
-        </div>
       </div>
-    </div>
-  </section>
-  {%- comment -%} ============ SHELF (PRODUCTOS DESTACADOS) ============ {%- endcomment -%}
-  {% if featured_products.size > 0 %}
-  <section class="pv-shelf" id="provShelf">
-    <div class="pv-shelf__bg" aria-hidden="true">
-      <div class="pv-shelf__grid"></div>
-      <div class="pv-shelf__beam"></div>
-    </div>
+      {% endif %}
 
-    <div class="pv-shelf__inner">
-      <header class="pv-shelf__head">
-        <div class="pv-shelf__head-left">
-          <span class="pv-eyebrow--live"><span class="pv-eyebrow__dot"></span>Inventario · Live</span>
-          <h2 class="pv-shelf__title">
-            Lo que <span class="pv-shelf__title-accent">más rota</span> en bodega
-          </h2>
-          <p class="pv-shelf__lead">Los 8 productos que tus colegas kiosqueros y almaceneros más están moviendo esta semana. Stock real, precio mayorista.</p>
+      <div class="pv-cat__cta pv-reveal">
+        <div class="pv-cat__cta-num">
+          <span class="pv-cat__cta-num-val" data-counter="208" data-suffix="+">0+</span>
+          <span class="pv-cat__cta-num-lab">productos más<br>en el catálogo</span>
         </div>
-        <div class="pv-shelf__head-right">
-          <div class="pv-shelf__counter">
-            <span class="pv-shelf__counter-value">8</span>
-            <span class="pv-shelf__counter-divider">/</span>
-            <span class="pv-shelf__counter-total" data-counter="216">0</span>
-            <span class="pv-shelf__counter-label">productos<br>en pantalla</span>
-          </div>
-        </div>
-      </header>
-
-      <div class="pv-shelf__grid-wrap">
-        {% for product in featured_products limit: 8 %}
-          {% assign units = product.metafields.custom.bulk_units | default: 0 %}
-          {% assign bulk_price = product.metafields.custom.bulk_price | default: 0 %}
-          {% assign sku_num = forloop.index | prepend: '00' | slice: -3, 3 %}
-          <a href="{{ product.url }}" class="pv-shelf-card" style="--delay:{{ forloop.index0 | times: 60 }}ms">
-            <span class="pv-shelf-card__sku">SKU · {{ sku_num }}</span>
-            <div class="pv-shelf-card__img">
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title }}" loading="lazy">
-              {% endif %}
-            </div>
-            <div class="pv-shelf-card__body">
-              {% if product.type and product.type != '' %}<span class="pv-shelf-card__cat">{{ product.type }}</span>{% endif %}
-              <h3 class="pv-shelf-card__name">{{ product.title }}</h3>
-              {% if units > 0 and bulk_price > 0 %}
-                <div class="pv-shelf-card__bulk">
-                  <i data-lucide="package"></i>
-                  Bulto x<b>{{ units }}</b> · {{ bulk_price | money }} c/u
-                </div>
-              {% endif %}
-            </div>
-            <div class="pv-shelf-card__bottom">
-              <div class="pv-shelf-card__price-block">
-                <span class="pv-shelf-card__price-label">Mayorista</span>
-                <span class="pv-shelf-card__price">{{ product.price | money }}</span>
-                <span class="pv-shelf-card__price-unit">por unidad</span>
-              </div>
-              {% if product.available %}
-                <span class="pv-shelf-card__add" aria-label="Ver {{ product.title }}">
-                  <i data-lucide="arrow-right"></i>
-                </span>
-              {% else %}
-                <span class="pv-shelf-card__avisame"><i data-lucide="bell"></i> Avisame</span>
-              {% endif %}
-            </div>
-            <div class="pv-shelf-card__shelf-line"></div>
-          </a>
-        {% endfor %}
-      </div>
-
-      <div class="pv-shelf__foot">
-        <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--lg">
-          Ver todo el catálogo <i data-lucide="arrow-right"></i>
+        <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--xl">
+          Armá tu pedido ahora
+          <i data-lucide="arrow-right"></i>
+        </a>
+        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--ghost pv-btn--lg">
+          <i data-lucide="message-circle"></i>
+          Consultar
         </a>
       </div>
     </div>
   </section>
-  {% endif %}
-  {%- comment -%} ============ WHY PROVENZANO (BENTO GRID) ============ {%- endcomment -%}
-  <section class="pv-why" aria-label="Por qué Provenzano">
-    <div class="pv-why__bg" aria-hidden="true"></div>
-    <div class="pv-why__inner">
-      <header class="pv-why__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Por qué Provenzano</span>
-        <h2 class="pv-why__title">No somos los más nuevos. <span class="pv-why__title-accent">Somos los que siguen acá.</span></h2>
-        <p class="pv-why__lead">Mientras otros van y vienen, nosotros llevamos más de dos décadas abasteciendo kioscos y almacenes. Eso no se improvisa.</p>
-      </header>
-
-      <div class="pv-why__grid">
-
-        <article class="pv-why__card pv-why__card--hero">
-          <div class="pv-why__card-bg" aria-hidden="true"></div>
-          <div class="pv-why__card-content">
-            <span class="pv-why__card-eyebrow">Trayectoria</span>
-            <div class="pv-why__big">
-              <span class="pv-why__big-num" data-counter="20" data-suffix="+">0+</span>
-              <span class="pv-why__big-label">años</span>
-            </div>
-            <p class="pv-why__card-text">En el rubro mayorista desde 2003, trabajando con revendedores de toda Argentina.</p>
-          </div>
-          <div class="pv-why__card-deco" aria-hidden="true">
-            <svg viewBox="0 0 200 200" fill="none">
-              <circle cx="100" cy="100" r="80" stroke="rgba(147,197,253,0.18)" stroke-width="1" stroke-dasharray="3 5"/>
-              <circle cx="100" cy="100" r="55" stroke="rgba(147,197,253,0.30)" stroke-width="1"/>
-              <circle cx="100" cy="100" r="30" fill="rgba(147,197,253,0.10)"/>
-            </svg>
-          </div>
-        </article>
-
-        <article class="pv-why__card pv-why__card--catalog">
-          <span class="pv-why__card-icon"><i data-lucide="boxes"></i></span>
-          <div class="pv-why__card-content">
-            <span class="pv-why__card-eyebrow">Catálogo</span>
-            <h3 class="pv-why__card-title">
-              <span data-counter="216" data-suffix="+">0+</span>
-              <span class="pv-why__card-title-sub">productos</span>
-            </h3>
-            <p class="pv-why__card-text">Stock real en bodega, listo para despacho.</p>
-          </div>
-        </article>
-
-        <article class="pv-why__card pv-why__card--store">
-          <span class="pv-why__card-icon"><i data-lucide="store"></i></span>
-          <div class="pv-why__card-content">
-            <span class="pv-why__card-eyebrow">Sucursal</span>
-            <h3 class="pv-why__card-title">Liniers, CABA</h3>
-            <p class="pv-why__card-text">Carhué 74. Lunes a viernes 8:30 a 16:00.</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Carh%C3%BA%C3%A9+74+Liniers+CABA" target="_blank" rel="noopener" class="pv-why__card-link">Cómo llegar <i data-lucide="arrow-up-right"></i></a>
-        </article>
-
-        <article class="pv-why__card pv-why__card--ship">
-          <span class="pv-why__card-icon"><i data-lucide="truck"></i></span>
-          <div class="pv-why__card-content">
-            <span class="pv-why__card-eyebrow">Despacho</span>
-            <h3 class="pv-why__card-title">
-              <span data-counter="24">0</span><span class="pv-why__card-title-sub">hs CABA/GBA</span>
-            </h3>
-            <p class="pv-why__card-text">Interior vía cargo a las 24 provincias.</p>
-          </div>
-        </article>
-
-        <article class="pv-why__card pv-why__card--invoice">
-          <span class="pv-why__card-icon"><i data-lucide="file-check-2"></i></span>
-          <div class="pv-why__card-content">
-            <span class="pv-why__card-eyebrow">Documentación</span>
-            <h3 class="pv-why__card-title">Factura A</h3>
-            <p class="pv-why__card-text">Para que descontés IVA y declarés todo en regla.</p>
-          </div>
-        </article>
-
-      </div>
+  {%- comment -%} ============ SHIPPING ============ {%- endcomment -%}
+  <section class="pv-ship" id="provShip">
+    <div class="pv-ship__atmos" aria-hidden="true">
+      <div class="pv-ship__mesh"></div>
+      <div class="pv-ship__grid"></div>
     </div>
-  </section>
-  {%- comment -%} ============ CALCULADORA DE BULTO ============ {%- endcomment -%}
-  <section class="pv-calc" id="provCalc"
-           data-units="{{ calc_units }}"
-           data-pmay="{{ calc_pmay }}"
-           data-pmin="{{ calc_pmin }}">
-    <div class="pv-calc__bg" aria-hidden="true">
-      <div class="pv-calc__grid"></div>
-      <div class="pv-calc__orb"></div>
-    </div>
-    <div class="pv-calc__inner">
-      <header class="pv-calc__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Calculá tu pedido</span>
-        <h2 class="pv-calc__title">Mové el slider y mirá <span class="pv-calc__title-accent">cuánto ahorrás</span></h2>
-        <p class="pv-calc__lead">Ejemplo real con un producto del catálogo. Cuantos más bultos, más conviene.</p>
-      </header>
 
-      <div class="pv-calc__widget">
-        <div class="pv-calc__product">
-          <div class="pv-calc__product-icon" aria-hidden="true">
-            <i data-lucide="package"></i>
-            <span class="pv-calc__product-icon-pulse"></span>
-          </div>
-          <div class="pv-calc__product-meta">
-            <span class="pv-calc__product-tag">Producto de ejemplo</span>
-            <h3 class="pv-calc__product-name">{{ calc_name }}</h3>
-            <p class="pv-calc__product-spec">
-              Bulto x <b>{{ calc_units }}</b> unidades ·
-              <span class="pv-calc__product-price">${{ calc_pmay }}</span> c/u mayorista
-            </p>
-          </div>
-        </div>
-
-        <div class="pv-calc__control">
-          <div class="pv-calc__control-head">
-            <label for="provCalcSlider" class="pv-calc__control-label">¿Cuántos bultos?</label>
-            <div class="pv-calc__bultos">
-              <button type="button" class="pv-calc__step" data-step="-1" aria-label="Menos un bulto">−</button>
-              <span class="pv-calc__bultos-val" id="provCalcBultos">3</span>
-              <button type="button" class="pv-calc__step" data-step="1" aria-label="Más un bulto">+</button>
-            </div>
-          </div>
-          <input type="range" min="1" max="20" value="3" step="1" id="provCalcSlider" class="pv-calc__slider" aria-label="Cantidad de bultos">
-          <div class="pv-calc__scale">
-            <span>1</span><span>5</span><span>10</span><span>15</span><span>20</span>
-          </div>
-        </div>
-
-        <div class="pv-calc__output">
-          <div class="pv-calc__row">
-            <span class="pv-calc__row-label">Unidades totales</span>
-            <span class="pv-calc__row-value" id="provCalcUnidades">0</span>
-          </div>
-          <div class="pv-calc__row">
-            <span class="pv-calc__row-label">Precio mayorista por unidad</span>
-            <span class="pv-calc__row-value" id="provCalcPunit">$0</span>
-          </div>
-          <div class="pv-calc__row pv-calc__row--total">
-            <span class="pv-calc__row-label">Total a pagar</span>
-            <span class="pv-calc__row-value" id="provCalcTotal">$0</span>
-          </div>
-          <div class="pv-calc__savings">
-            <div class="pv-calc__savings-icon"><i data-lucide="trending-down"></i></div>
-            <div class="pv-calc__savings-copy">
-              <span class="pv-calc__savings-label">Ahorrás vs. precio minorista promedio</span>
-              <span class="pv-calc__savings-value" id="provCalcAhorro">$0</span>
-            </div>
-          </div>
-          <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero cotizar un pedido' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--whatsapp pv-btn--lg pv-calc__cta">
-            <i data-lucide="message-circle"></i>
-            Cotizar mi pedido por WhatsApp
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  {%- comment -%} ============ HOW TO BUY (scroll-jacked en desktop, stacked en mobile) ============ {%- endcomment -%}
-  <section class="pv-htb" id="provHtb">
-    <div class="pv-htb__sticky">
-      <header class="pv-htb__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Cómo comprar</span>
-        <h2 class="pv-htb__title">
-          De la web a tu negocio en <span class="pv-htb__title-accent">4 pasos</span>
+    <div class="pv-ship__inner">
+      <header class="pv-ship__head pv-reveal">
+        <span class="pv-chip"><span class="pv-chip__dot"></span>Envíos · 4 modalidades</span>
+        <h2 class="pv-ship__title">
+          ¿Cómo te llega <span class="pv-ship__title-accent">tu pedido?</span>
         </h2>
-        <p class="pv-htb__lead">Sin formularios largos. Si ya revendés, ya sabés cómo va.</p>
+        <p class="pv-ship__lead">
+          Elegí cómo querés recibirlo. Tocá la modalidad para ver los detalles.
+        </p>
       </header>
 
-      <div class="pv-htb__progress" role="progressbar" aria-valuenow="0">
-        <div class="pv-htb__progress-track">
-          <div class="pv-htb__progress-fill" id="provHtbFill"></div>
-          <div class="pv-htb__node" data-idx="0" style="left:0%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-label">Web</span></div>
-          <div class="pv-htb__node" data-idx="1" style="left:33.33%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-label">WhatsApp</span></div>
-          <div class="pv-htb__node" data-idx="2" style="left:66.66%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-label">Bodega</span></div>
-          <div class="pv-htb__node" data-idx="3" style="left:100%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-label">Entrega</span></div>
-        </div>
-      </div>
-
-      <div class="pv-htb__viewport">
-        <div class="pv-htb__track" id="provHtbTrack">
-          <article class="pv-htb__panel" data-idx="0">
-            <div class="pv-htb__panel-meta">
-              <span class="pv-htb__panel-num">01</span>
-              <span class="pv-htb__panel-tag"><i data-lucide="search"></i> Web</span>
-            </div>
-            <h3 class="pv-htb__panel-title">Armás tu pedido en la web</h3>
-            <p class="pv-htb__panel-body">Navegá el catálogo de 216+ productos, agregá al carrito por bulto o caja cerrada. Sin formularios largos.</p>
-            <ul class="pv-htb__panel-list">
-              <li><i data-lucide="check"></i> Catálogo en vivo</li>
-              <li><i data-lucide="check"></i> Bultos cerrados</li>
-              <li><i data-lucide="check"></i> Sin mínimos rígidos</li>
-            </ul>
-          </article>
-
-          <article class="pv-htb__panel" data-idx="1">
-            <div class="pv-htb__panel-meta">
-              <span class="pv-htb__panel-num">02</span>
-              <span class="pv-htb__panel-tag"><i data-lucide="message-circle"></i> WhatsApp</span>
-            </div>
-            <h3 class="pv-htb__panel-title">Lo enviás por WhatsApp</h3>
-            <p class="pv-htb__panel-body">Elegís modalidad de entrega, completás tus datos. El pedido pre-armado nos llega listo para confirmar.</p>
-            <ul class="pv-htb__panel-list">
-              <li><i data-lucide="check"></i> 1 click → WhatsApp</li>
-              <li><i data-lucide="check"></i> Sin perder tiempo</li>
-              <li><i data-lucide="check"></i> Asesor real</li>
-            </ul>
-          </article>
-
-          <article class="pv-htb__panel" data-idx="2">
-            <div class="pv-htb__panel-meta">
-              <span class="pv-htb__panel-num">03</span>
-              <span class="pv-htb__panel-tag"><i data-lucide="package"></i> Bodega</span>
-            </div>
-            <h3 class="pv-htb__panel-title">Confirmamos y embalamos</h3>
-            <p class="pv-htb__panel-body">Validamos stock real, preparamos los bultos según tu modalidad y te avisamos el total + tiempo estimado.</p>
-            <ul class="pv-htb__panel-list">
-              <li><i data-lucide="check"></i> Stock real</li>
-              <li><i data-lucide="check"></i> Embalaje cuidado</li>
-              <li><i data-lucide="check"></i> Aviso por WhatsApp</li>
-            </ul>
-          </article>
-
-          <article class="pv-htb__panel" data-idx="3">
-            <div class="pv-htb__panel-meta">
-              <span class="pv-htb__panel-num">04</span>
-              <span class="pv-htb__panel-tag"><i data-lucide="truck"></i> Entrega</span>
-            </div>
-            <h3 class="pv-htb__panel-title">Llega a tu negocio</h3>
-            <p class="pv-htb__panel-body">CABA y GBA: misma jornada si entra antes del corte. Vía Cargo a 24 provincias: 2-5 días hábiles.</p>
-            <ul class="pv-htb__panel-list">
-              <li><i data-lucide="check"></i> CABA mismo día</li>
-              <li><i data-lucide="check"></i> GBA mismo día</li>
-              <li><i data-lucide="check"></i> 24 provincias</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-
-      <div class="pv-htb__cta">
-        <a href="/collections/all" class="pv-btn pv-btn--primary pv-btn--lg">
-          Ver catálogo <i data-lucide="arrow-right"></i>
-        </a>
-        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hablar con un asesor' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--ghost pv-btn--on-dark pv-btn--lg">
-          <i data-lucide="message-circle"></i>
-          Hablar con un asesor
-        </a>
-      </div>
-    </div>
-  </section>
-  {%- comment -%} ============ FAQ ============ {%- endcomment -%}
-  <section class="pv-faq" aria-label="Preguntas frecuentes">
-    <div class="pv-faq__bg" aria-hidden="true"></div>
-    <div class="pv-faq__inner">
-      <header class="pv-faq__head">
-        <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Preguntas frecuentes</span>
-        <h2 class="pv-faq__title">Las dudas que <span class="pv-faq__title-accent">todos preguntan</span></h2>
-        <p class="pv-faq__lead">Si te queda alguna en el tintero, escribinos por WhatsApp y te la respondemos en el día.</p>
-      </header>
-
-      <div class="pv-faq__list">
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Hay mínimo de compra?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>No tenemos mínimos rígidos. Podés comprar desde 1 bulto. Para envíos al interior recomendamos juntar varios bultos para optimizar el costo de cargo.</p>
-          </div>
-        </details>
-
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Qué formas de pago aceptan?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>Transferencia bancaria, depósito y efectivo en local. Para revendedores frecuentes manejamos cuenta corriente bajo acuerdo previo.</p>
-          </div>
-        </details>
-
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Cuánto tarda el envío?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>CABA y GBA: misma jornada si entra antes de las 12 hs. Interior: 2 a 5 días hábiles vía cargo (Andreani, Vía Cargo o transporte a coordinar).</p>
-          </div>
-        </details>
-
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Hacen Factura A?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>Sí. Emitimos Factura A para inscriptos en IVA (necesitamos CUIT y datos fiscales) y Factura B para consumidor final o monotributo.</p>
-          </div>
-        </details>
-
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Puedo retirar en sucursal?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>Sí. Estamos en Carhué 74, Liniers (CABA). Atendemos lunes a viernes de 8:30 a 16:00 hs. Coordiná el retiro por WhatsApp para tener el pedido listo.</p>
-          </div>
-        </details>
-
-        <details class="pv-faq__item">
-          <summary class="pv-faq__q">
-            <span class="pv-faq__q-text">¿Hacen descuento por volumen?</span>
-            <span class="pv-faq__q-icon" aria-hidden="true"><i data-lucide="plus"></i></span>
-          </summary>
-          <div class="pv-faq__a">
-            <p>El precio que ves en la web ya es el precio mayorista. Para pedidos grandes y reposiciones recurrentes podemos coordinar mejores condiciones por WhatsApp.</p>
-          </div>
-        </details>
-      </div>
-
-      <div class="pv-faq__cta">
-        <span class="pv-faq__cta-text">¿Tenés otra duda?</span>
-        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, tengo una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--whatsapp">
-          <i data-lucide="message-circle"></i>
-          Consultanos por WhatsApp
-        </a>
-      </div>
-    </div>
-  </section>
-  {%- comment -%} ============ NEWSLETTER ============ {%- endcomment -%}
-  <section class="pv-news" aria-label="Newsletter para revendedores">
-    <div class="pv-news__bg" aria-hidden="true">
-      <div class="pv-news__orb pv-news__orb--a"></div>
-      <div class="pv-news__orb pv-news__orb--b"></div>
-    </div>
-    <div class="pv-news__inner">
-      <div class="pv-news__card">
-        <div class="pv-news__copy">
-          <span class="pv-eyebrow--dark"><span class="pv-eyebrow__dot"></span>Lista de precios mayorista</span>
-          <h2 class="pv-news__title">Recibí la <span class="pv-news__title-accent">lista de precios</span> actualizada</h2>
-          <p class="pv-news__lead">Dejanos tu mail y te mandamos el PDF con todo el catálogo y precios mayoristas. Una vez por mes y cuando hay novedades. Sin spam.</p>
-          <ul class="pv-news__feats">
-            <li><i data-lucide="file-text"></i> PDF descargable</li>
-            <li><i data-lucide="bell"></i> Avisos de stock nuevo</li>
-            <li><i data-lucide="x"></i> Cero spam</li>
-          </ul>
-        </div>
-
-        {% form 'customer', class: 'pv-news__form' %}
-          <input type="hidden" name="contact[tags]" value="newsletter, lista-precios">
-          <div class="pv-news__field">
-            <i data-lucide="mail" class="pv-news__field-icon"></i>
-            <input
-              type="email"
-              name="contact[email]"
-              id="provNewsEmail"
-              class="pv-news__input"
-              placeholder="tu@email.com"
-              required
-              autocomplete="email"
-            >
-          </div>
-          <button type="submit" class="pv-btn pv-btn--primary pv-btn--lg pv-news__submit">
-            Quiero la lista
-            <i data-lucide="arrow-right"></i>
+      <div class="pv-ship__widget pv-reveal">
+        <div class="pv-ship__tabs" role="tablist" aria-label="Modalidades de envío">
+          <button type="button" class="pv-ship__tab is-active" role="tab" aria-selected="true" data-tab="retiro">
+            <span class="pv-ship__tab-num">01</span>
+            <span class="pv-ship__tab-icon"><i data-lucide="store"></i></span>
+            <span class="pv-ship__tab-label">Retiro</span>
+            <span class="pv-ship__tab-sub">Sucursal</span>
           </button>
-          {% if form.posted_successfully? %}
-            <div class="pv-news__msg pv-news__msg--ok">
-              <i data-lucide="check-circle-2"></i> ¡Listo! Revisá tu mail.
+          <button type="button" class="pv-ship__tab" role="tab" aria-selected="false" data-tab="caba">
+            <span class="pv-ship__tab-num">02</span>
+            <span class="pv-ship__tab-icon"><i data-lucide="truck"></i></span>
+            <span class="pv-ship__tab-label">CABA · GBA</span>
+            <span class="pv-ship__tab-sub">A domicilio</span>
+          </button>
+          <button type="button" class="pv-ship__tab" role="tab" aria-selected="false" data-tab="interior">
+            <span class="pv-ship__tab-num">03</span>
+            <span class="pv-ship__tab-icon"><i data-lucide="map"></i></span>
+            <span class="pv-ship__tab-label">Interior</span>
+            <span class="pv-ship__tab-sub">Vía cargo</span>
+          </button>
+          <button type="button" class="pv-ship__tab" role="tab" aria-selected="false" data-tab="comisio">
+            <span class="pv-ship__tab-num">04</span>
+            <span class="pv-ship__tab-icon"><i data-lucide="handshake"></i></span>
+            <span class="pv-ship__tab-label">Comisionista</span>
+            <span class="pv-ship__tab-sub">Tu transporte</span>
+          </button>
+        </div>
+
+        <div class="pv-ship__panels">
+
+          {%- comment -%} ===== TAB 1 · RETIRO ===== {%- endcomment -%}
+          <article class="pv-ship__panel is-active" data-panel="retiro" role="tabpanel">
+            <div class="pv-ship__panel-side">
+              <div class="pv-ship__visual pv-ship__visual--store">
+                <div class="pv-ship__visual-glow"></div>
+                <i data-lucide="store" class="pv-ship__visual-icon"></i>
+                <div class="pv-ship__pin">
+                  <span class="pv-ship__pin-dot"></span>
+                  <span class="pv-ship__pin-label">Carhué 74<br>Liniers, CABA</span>
+                </div>
+              </div>
             </div>
-          {% endif %}
-          {% if form.errors %}
-            <div class="pv-news__msg pv-news__msg--err">
-              <i data-lucide="alert-circle"></i> {{ form.errors.translated_messages | first }}
+            <div class="pv-ship__panel-body">
+              <span class="pv-ship__panel-eye"><i data-lucide="check-circle-2"></i> Sin costo de envío</span>
+              <h3 class="pv-ship__panel-title">Pasá a buscar tu pedido</h3>
+              <p class="pv-ship__panel-text">Te avisamos por WhatsApp cuando esté listo. Vení tranqui en horario comercial.</p>
+              <div class="pv-ship__facts">
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Costo</span>
+                  <span class="pv-ship__fact-val pv-ship__fact-val--free">GRATIS</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Pedido mínimo</span>
+                  <span class="pv-ship__fact-val">$100.000</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Días</span>
+                  <span class="pv-ship__fact-val">Lun. a Sáb.</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Dirección</span>
+                  <span class="pv-ship__fact-val">Carhué 74, Liniers</span>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=Carh%C3%BA%C3%A9+74+Liniers+CABA" target="_blank" rel="noopener" class="pv-btn pv-btn--ghost">
+                <i data-lucide="map-pin"></i> Cómo llegar
+              </a>
             </div>
-          {% endif %}
-        {% endform %}
+          </article>
+
+          {%- comment -%} ===== TAB 2 · CABA Y GBA ===== {%- endcomment -%}
+          <article class="pv-ship__panel" data-panel="caba" role="tabpanel">
+            <div class="pv-ship__panel-side">
+              <div class="pv-ship__zones">
+                <div class="pv-ship__zone pv-ship__zone--caba">
+                  <span class="pv-ship__zone-name">CABA</span>
+                  <span class="pv-ship__zone-price">$4.100</span>
+                  <span class="pv-ship__zone-info">Toda la Capital</span>
+                </div>
+                <div class="pv-ship__zone pv-ship__zone--g1">
+                  <span class="pv-ship__zone-name">GBA <b>1</b></span>
+                  <span class="pv-ship__zone-price">$5.000</span>
+                  <span class="pv-ship__zone-info">Avellaneda · Lanús · Lomas · La Matanza N · Morón · 3 de Febrero · San Martín · Vte. López · San Isidro</span>
+                </div>
+                <div class="pv-ship__zone pv-ship__zone--g2">
+                  <span class="pv-ship__zone-name">GBA <b>2</b></span>
+                  <span class="pv-ship__zone-price">$6.000</span>
+                  <span class="pv-ship__zone-info">San Fernando · Tigre · Malvinas Arg. · José C. Paz · San Miguel · Hurlingham · Ituzaingó · La Matanza S · Merlo · Moreno · E. Echeverría · Alte. Brown · Ezeiza · Quilmes · F. Varela · Berazategui</span>
+                </div>
+                <div class="pv-ship__zone pv-ship__zone--g3">
+                  <span class="pv-ship__zone-name">GBA <b>3</b></span>
+                  <span class="pv-ship__zone-price">$7.900</span>
+                  <span class="pv-ship__zone-info">Zárate · Campana · Escobar · Maschwitz · Garín · Pilar · Del Viso · Derqui · Villa Rosa · Luján · Gral. Rodríguez · Marcos Paz · Nordelta · San Vicente · Guernica · Berisso · La Plata · Cañuelas · Ensenada</span>
+                </div>
+              </div>
+            </div>
+            <div class="pv-ship__panel-body">
+              <span class="pv-ship__panel-eye pv-ship__panel-eye--accent"><i data-lucide="gift"></i> Envío GRATIS desde $600.000</span>
+              <h3 class="pv-ship__panel-title">A tu puerta, martes y jueves</h3>
+              <p class="pv-ship__panel-text">Despachamos a las 14hs. Llega entre las 14hs y las 21hs del mismo día. Tocá una zona para ver los partidos.</p>
+              <div class="pv-ship__facts">
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Pedido mínimo</span>
+                  <span class="pv-ship__fact-val">$100.000</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Envío GRATIS</span>
+                  <span class="pv-ship__fact-val pv-ship__fact-val--free">desde $600.000</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Días</span>
+                  <span class="pv-ship__fact-val">Mar. y Jue.</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Horario</span>
+                  <span class="pv-ship__fact-val">14 a 21 hs</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {%- comment -%} ===== TAB 3 · INTERIOR ===== {%- endcomment -%}
+          <article class="pv-ship__panel" data-panel="interior" role="tabpanel">
+            <div class="pv-ship__panel-side">
+              <div class="pv-ship__visual pv-ship__visual--country">
+                <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="pv-ship-glow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="rgba(147,197,253,0.5)"/>
+                      <stop offset="100%" stop-color="rgba(147,197,253,0)"/>
+                    </radialGradient>
+                  </defs>
+                  <path d="M 110,20 L 117,28 L 120,38 L 124,48 L 128,58 L 134,70 L 137,82 L 141,98 L 145,113 L 148,128 L 149,145 L 145,162 L 140,180 L 134,197 L 126,212 L 117,225 L 107,235 L 97,242 L 89,247 L 82,252 L 79,260 L 81,266 L 87,265 L 87,256 L 94,254 L 96,247 L 89,244 L 99,235 L 107,228 L 110,235 L 107,244 L 109,250 L 116,246 L 115,239 L 120,230 L 126,220 L 115,212 L 107,197 L 100,185 L 92,172 L 85,167 L 77,165 L 74,160 L 76,150 L 84,142 L 90,135 L 93,125 L 89,113 L 84,100 L 77,90 L 74,79 L 76,67 L 81,57 L 87,47 L 94,36 L 100,28 L 105,21 Z" fill="rgba(147,197,253,0.06)" stroke="rgba(147,197,253,0.30)" stroke-width="1"/>
+                  <circle cx="130" cy="148" r="20" fill="url(#pv-ship-glow)"/>
+                  <circle cx="130" cy="148" r="5" fill="#185FA5" stroke="#93C5FD" stroke-width="2"/>
+                  <circle class="pv-ship__route-ping" cx="130" cy="148" r="5" fill="none" stroke="#93C5FD" stroke-width="1.5" opacity="0.7"/>
+                  <path class="pv-ship__route" d="M 130,148 Q 100,90 90,38" stroke="#93C5FD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <path class="pv-ship__route" style="--rd:0.6s" d="M 130,148 Q 90,170 75,210" stroke="#93C5FD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <path class="pv-ship__route" style="--rd:1.2s" d="M 130,148 Q 110,190 95,235" stroke="#93C5FD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <circle class="pv-ship__route-pin" cx="90" cy="38" r="3" fill="#93C5FD"/>
+                  <circle class="pv-ship__route-pin" cx="75" cy="210" r="3" fill="#93C5FD"/>
+                  <circle class="pv-ship__route-pin" cx="95" cy="235" r="3" fill="#93C5FD"/>
+                </svg>
+                <span class="pv-ship__visual-cap">24 provincias</span>
+              </div>
+            </div>
+            <div class="pv-ship__panel-body">
+              <span class="pv-ship__panel-eye"><i data-lucide="globe-2"></i> A todo el país</span>
+              <h3 class="pv-ship__panel-title">Despachamos por cargo</h3>
+              <p class="pv-ship__panel-text">Coordinamos el envío con la transportadora que te quede más cómoda. El flete lo abonás al recibir el pedido.</p>
+              <div class="pv-ship__facts">
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Pedido mínimo</span>
+                  <span class="pv-ship__fact-val">$200.000</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Costo del flete</span>
+                  <span class="pv-ship__fact-val">Lo paga el cliente</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Tiempo</span>
+                  <span class="pv-ship__fact-val">2 a 7 días hábiles</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Cobertura</span>
+                  <span class="pv-ship__fact-val">24 provincias</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {%- comment -%} ===== TAB 4 · COMISIONISTA ===== {%- endcomment -%}
+          <article class="pv-ship__panel" data-panel="comisio" role="tabpanel">
+            <div class="pv-ship__panel-side">
+              <div class="pv-ship__visual pv-ship__visual--handshake">
+                <div class="pv-ship__visual-glow"></div>
+                <i data-lucide="handshake" class="pv-ship__visual-icon"></i>
+                <div class="pv-ship__chips">
+                  <span class="pv-ship__chip-mini"><i data-lucide="truck"></i> Tu transporte</span>
+                  <span class="pv-ship__chip-mini"><i data-lucide="user-round"></i> Tu comisionista</span>
+                  <span class="pv-ship__chip-mini"><i data-lucide="check"></i> Sin costo nuestro</span>
+                </div>
+              </div>
+            </div>
+            <div class="pv-ship__panel-body">
+              <span class="pv-ship__panel-eye"><i data-lucide="check-circle-2"></i> Sin costo de envío de nuestro lado</span>
+              <h3 class="pv-ship__panel-title">Mandás vos a retirar</h3>
+              <p class="pv-ship__panel-text">Si tenés tu propio transporte o trabajás con comisionista, coordinamos el retiro en Carhué 74.</p>
+              <div class="pv-ship__facts">
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Costo</span>
+                  <span class="pv-ship__fact-val pv-ship__fact-val--free">SIN COSTO</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Pedido mínimo</span>
+                  <span class="pv-ship__fact-val">$500.000</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Retiro en</span>
+                  <span class="pv-ship__fact-val">Carhué 74, Liniers</span>
+                </div>
+                <div class="pv-ship__fact">
+                  <span class="pv-ship__fact-lab">Días</span>
+                  <span class="pv-ship__fact-val">Lun. a Sáb.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="pv-ship__cta">
+          <span class="pv-ship__cta-text">¿Necesitás coordinar?</span>
+          <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero coordinar el envio de un pedido' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--whatsapp">
+            <i data-lucide="message-circle"></i>
+            Coordinar por WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   </section>
   {%- comment -%} ============ FOOTER ============ {%- endcomment -%}
-  <footer class="pv-footer">
-    <div class="pv-footer__inner">
-      <div class="pv-footer__col pv-footer__col--brand">
-        <img src="{{ logo_url }}" alt="Provenzano" class="pv-footer__logo">
-        <p class="pv-footer__about">Venta mayorista para comercios y revendedores. Tu mayorista de siempre desde hace más de 20 años.</p>
-        <div class="pv-footer__pay">
-          <span class="pv-footer__pay-chip">Transferencia</span>
-          <span class="pv-footer__pay-chip">Depósito bancario</span>
-          <span class="pv-footer__pay-chip">Efectivo en local</span>
+  <footer class="pv-foot">
+    <div class="pv-foot__atmos" aria-hidden="true">
+      <div class="pv-foot__mesh"></div>
+      <div class="pv-foot__grid"></div>
+    </div>
+    <div class="pv-foot__inner">
+      <div class="pv-foot__top">
+        <a href="/" class="pv-foot__brand">
+          <span class="pv-foot__brand-mark"><img src="{{ logo_url }}" alt="Provenzano"></span>
+          <span class="pv-foot__brand-text">
+            <span class="pv-foot__brand-name">Provenzano</span>
+            <span class="pv-foot__brand-tag">Mayorista · Desde 2003</span>
+          </span>
+        </a>
+        <div class="pv-foot__top-actions">
+          <a href="/collections/all" class="pv-btn pv-btn--primary">Ver catálogo <i data-lucide="arrow-right"></i></a>
+          <a href="https://wa.me/{{ wpp_phone }}" target="_blank" rel="noopener" class="pv-btn pv-btn--ghost">
+            <i data-lucide="message-circle"></i> WhatsApp
+          </a>
         </div>
       </div>
 
-      <div class="pv-footer__col">
-        <div class="pv-footer__caption">Categorías</div>
-        <a class="pv-footer__link" href="/collections/encendedores">Encendedores</a>
-        <a class="pv-footer__link" href="/collections/pilas">Pilas</a>
-        <a class="pv-footer__link" href="/collections/perfumeria">Perfumería</a>
-        <a class="pv-footer__link" href="/collections/pegamentos">Pegamentos</a>
-        <a class="pv-footer__link" href="/collections/preservativos">Preservativos</a>
-        <a class="pv-footer__link" href="/collections/merceria">Mercería</a>
+      <div class="pv-foot__cols">
+        <div class="pv-foot__col">
+          <span class="pv-foot__cap">Sucursal</span>
+          <div class="pv-foot__line"><i data-lucide="map-pin"></i> Carhué 74, Liniers, CABA</div>
+          <div class="pv-foot__line"><i data-lucide="clock"></i> L-V 8:30 a 16:00 hs</div>
+          <div class="pv-foot__line"><i data-lucide="store"></i> Sábados a coordinar</div>
+        </div>
+        <div class="pv-foot__col">
+          <span class="pv-foot__cap">Categorías</span>
+          <a class="pv-foot__link" href="/collections/encendedores">Encendedores</a>
+          <a class="pv-foot__link" href="/collections/pilas">Pilas</a>
+          <a class="pv-foot__link" href="/collections/perfumeria">Perfumería</a>
+          <a class="pv-foot__link" href="/collections/golosinas">Golosinas</a>
+          <a class="pv-foot__link" href="/collections/all">Ver todas →</a>
+        </div>
+        <div class="pv-foot__col">
+          <span class="pv-foot__cap">Contacto</span>
+          <a class="pv-foot__line pv-foot__wa" href="https://wa.me/{{ wpp_phone }}" target="_blank" rel="noopener">
+            <i data-lucide="message-circle"></i> +54 9 11 4179-4592
+          </a>
+          <a class="pv-foot__line" href="https://mayoristaprovenzano.com" target="_blank" rel="noopener">
+            <i data-lucide="globe"></i> mayoristaprovenzano.com
+          </a>
+          <span class="pv-foot__line"><i data-lucide="file-check-2"></i> Factura A y B</span>
+        </div>
+        <div class="pv-foot__col">
+          <span class="pv-foot__cap">Pago</span>
+          <div class="pv-foot__pay">
+            <span class="pv-foot__chip">Transferencia</span>
+            <span class="pv-foot__chip">Depósito</span>
+            <span class="pv-foot__chip">Efectivo</span>
+          </div>
+          <div class="pv-foot__line" style="margin-top:8px"><i data-lucide="shield-check"></i> Comercio seguro</div>
+        </div>
       </div>
 
-      <div class="pv-footer__col">
-        <div class="pv-footer__caption">Sucursal</div>
-        <div class="pv-footer__line"><i data-lucide="map-pin"></i> Carhué 74, Liniers, CABA</div>
-        <div class="pv-footer__line"><i data-lucide="clock"></i> L-V 8:30 a 16:00 hs</div>
+      <div class="pv-foot__legal">
+        <div>© Provenzano Mayorista · Desde 2003</div>
+        <div class="pv-foot__legal-mono">v2.0 · home premium</div>
       </div>
-
-      <div class="pv-footer__col">
-        <div class="pv-footer__caption">Contacto</div>
-        <a class="pv-footer__line pv-footer__wa" href="https://wa.me/{{ wpp_phone }}" target="_blank" rel="noopener">
-          <i data-lucide="message-circle"></i> +54 9 11 4179-4592
-        </a>
-        <a class="pv-footer__line" href="https://mayoristaprovenzano.com" target="_blank" rel="noopener">
-          <i data-lucide="globe"></i> mayoristaprovenzano.com
-        </a>
-      </div>
-    </div>
-    <div class="pv-footer__legal">
-      <div>© Provenzano Mayorista · Desde 2003</div>
     </div>
   </footer>
   {%- comment -%} ============ WHATSAPP FAB ============ {%- endcomment -%}
   <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer un pedido' | url_encode }}" target="_blank" rel="noopener" class="pv-fab" aria-label="Pedir por WhatsApp">
     <span class="pv-fab__pulse" aria-hidden="true"></span>
+    <span class="pv-fab__pulse pv-fab__pulse--2" aria-hidden="true"></span>
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/>
     </svg>
@@ -879,50 +623,55 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
 
 <style>
 /* ============================================================
-   PROVENZANO HOME — STYLES
+   PROVENZANO HOME v2 — STYLES
    ============================================================ */
 
 /* Reset suave dentro del root */
 .pv-home-root, .pv-home-root *, .pv-home-root *::before, .pv-home-root *::after { box-sizing: border-box; }
-.pv-home-root [data-lucide] { width: 20px; height: 20px; stroke-width: 2; flex-shrink: 0; }
+.pv-home-root [data-lucide] { width: 20px; height: 20px; stroke-width: 1.8; flex-shrink: 0; }
 .pv-home-root img { max-width: 100%; }
 
 /* Variables globales */
 .pv-home-root {
-  --pv-bg: #0A1A2E;
-  --pv-bg-2: #0F2340;
+  --pv-bg: #050B17;
+  --pv-bg-2: #0A1628;
+  --pv-bg-3: #0F1F38;
   --pv-primary: #185FA5;
   --pv-primary-dk: #0C447C;
   --pv-accent: #93C5FD;
+  --pv-accent-2: #60A5FA;
   --pv-wa: #25D366;
   --pv-text: #fff;
-  --pv-text-mute: rgba(255,255,255,0.65);
+  --pv-text-mute: rgba(255,255,255,0.62);
   --pv-text-soft: rgba(255,255,255,0.92);
-  --pv-border: rgba(255,255,255,0.10);
+  --pv-border: rgba(255,255,255,0.08);
   --pv-border-2: rgba(255,255,255,0.14);
-  --pv-glass: rgba(255,255,255,0.06);
-  --pv-glass-2: rgba(255,255,255,0.04);
+  --pv-glass: rgba(255,255,255,0.04);
+  --pv-glass-2: rgba(255,255,255,0.06);
   --pv-font: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --pv-mono: 'SF Mono', 'Monaco', 'Roboto Mono', Consolas, monospace;
+  --pv-mono: 'JetBrains Mono', 'SF Mono', 'Roboto Mono', Consolas, monospace;
   --pv-ease: cubic-bezier(.2,.7,.3,1);
+  --pv-ease-out: cubic-bezier(.16,1,.3,1);
   font-family: var(--pv-font);
+  color: #fff;
+  background: var(--pv-bg);
 }
 
-/* ====== EYEBROWS comunes ====== */
-.pv-eyebrow--live, .pv-eyebrow--dark {
+/* Eyebrow / chip común */
+.pv-chip {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--pv-glass);
-  border: 1px solid var(--pv-border-2);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  color: var(--pv-text-soft);
+  color: rgba(255,255,255,0.92);
   padding: 7px 14px; border-radius: 9999px;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  white-space: nowrap;
   font-family: var(--pv-font);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  white-space: nowrap;
 }
-.pv-eyebrow__dot {
-  width: 7px; height: 7px; border-radius: 50%;
+.pv-chip__dot {
+  width: 6px; height: 6px; border-radius: 50%;
   background: #10B981;
   box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
   animation: pvPulseDot 1.8s var(--pv-ease) infinite;
@@ -933,245 +682,247 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
   50%      { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
 }
 
-/* ====== BOTONES ====== */
+/* Botones */
 .pv-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  gap: 10px; height: 44px; padding: 0 24px;
-  border-radius: 12px; border: none;
+  gap: 10px; height: 48px; padding: 0 24px;
+  border-radius: 14px; border: none;
   font-family: var(--pv-font);
   font-size: 15px; font-weight: 800;
   letter-spacing: -0.005em;
   text-decoration: none; cursor: pointer; white-space: nowrap;
-  transition: transform 120ms var(--pv-ease), background 200ms var(--pv-ease), box-shadow 200ms var(--pv-ease), filter 200ms var(--pv-ease);
+  transition: transform 120ms var(--pv-ease), background 200ms var(--pv-ease), box-shadow 200ms var(--pv-ease), filter 200ms var(--pv-ease), border-color 200ms var(--pv-ease);
 }
 .pv-btn:active { transform: translateY(1px) scale(.99); }
-.pv-btn--lg { height: 52px; padding: 0 28px; font-size: 16px; }
-@media (min-width: 720px) { .pv-btn--lg { height: 54px; padding: 0 32px; font-size: 17px; } }
-.pv-btn--primary { background: var(--pv-primary); color: #fff !important; box-shadow: 0 8px 24px rgba(24,95,165,.35); }
-.pv-btn--primary:hover { background: var(--pv-primary-dk); }
-.pv-btn--whatsapp { background: var(--pv-wa); color: #fff !important; box-shadow: 0 8px 24px rgba(37,211,102,.32); }
-.pv-btn--whatsapp:hover { filter: brightness(0.95); }
-.pv-btn--ghost.pv-btn--on-dark { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: #fff !important; }
-.pv-btn--ghost.pv-btn--on-dark:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.30); }
+.pv-btn--lg { height: 56px; padding: 0 28px; font-size: 16px; border-radius: 16px; }
+.pv-btn--xl { height: 64px; padding: 0 32px; font-size: 17px; border-radius: 18px; }
+@media (min-width: 720px) { .pv-btn--lg { font-size: 17px; } .pv-btn--xl { font-size: 18px; padding: 0 36px; } }
+
+.pv-btn--primary {
+  background: linear-gradient(135deg, #2B7BCF 0%, var(--pv-primary) 100%);
+  color: #fff !important;
+  box-shadow: 0 12px 32px -8px rgba(24,95,165,.55), inset 0 1px 0 rgba(255,255,255,0.18);
+  position: relative; overflow: hidden;
+}
+.pv-btn--primary::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+  transform: translateX(-100%); transition: transform 700ms var(--pv-ease-out);
+}
+.pv-btn--primary:hover::before { transform: translateX(100%); }
+.pv-btn--primary:hover { box-shadow: 0 18px 40px -8px rgba(24,95,165,.7), inset 0 1px 0 rgba(255,255,255,0.25); }
+.pv-btn--primary > * { position: relative; z-index: 1; }
+
+.pv-btn--whatsapp {
+  background: linear-gradient(135deg, #2EE07A 0%, var(--pv-wa) 100%);
+  color: #052E12 !important;
+  box-shadow: 0 12px 32px -8px rgba(37,211,102,.5), inset 0 1px 0 rgba(255,255,255,0.4);
+  font-weight: 900;
+}
+.pv-btn--whatsapp:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+.pv-btn--ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff !important;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.pv-btn--ghost:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.30); }
+
 .pv-btn [data-lucide] { width: 18px; height: 18px; }
 
-/* ====== HEADER ====== */
-.pv-header {
-  position: sticky; top: 0; z-index: 50;
-  background: rgba(10, 26, 46, 0.55);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  transition: background 240ms var(--pv-ease), border-color 240ms var(--pv-ease);
+/* Mesh gradient permanente reutilizable */
+@keyframes pvMeshDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -30px) scale(1.05); }
+  66%      { transform: translate(-30px, 40px) scale(0.97); }
 }
-.pv-header.is-scrolled {
-  background: rgba(10, 26, 46, 0.88);
-  border-bottom-color: rgba(255,255,255,0.14);
-}
-.pv-header__inner {
-  max-width: 1280px; margin: 0 auto;
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px; min-height: 60px;
-}
-.pv-header__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.pv-header__mark {
-  width: 36px; height: 36px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(180deg, #fff 0%, #F0F6FC 100%);
-  border-radius: 10px; padding: 6px;
-  box-shadow: 0 0 0 1px rgba(147,197,253,0.30), 0 6px 16px rgba(0,0,0,0.20);
-  flex-shrink: 0;
-}
-.pv-header__mark img { width: 100%; height: 100%; object-fit: contain; }
-.pv-header__wordmark { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
-.pv-header__brand { font-size: 16px; font-weight: 900; letter-spacing: -0.025em; color: #fff; }
-.pv-header__tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 9.5px; font-weight: 800;
-  letter-spacing: 0.10em; text-transform: uppercase;
-  color: rgba(147,197,253,0.85);
-}
-.pv-header__dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: #25D366;
-  box-shadow: 0 0 8px rgba(37,211,102,0.7);
-  animation: pvPulseDot 2s var(--pv-ease) infinite;
-}
-.pv-header__search {
-  flex: 1; min-width: 0;
-  display: flex; align-items: center; gap: 10px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 12px;
-  height: 40px; padding: 0 10px 0 14px;
-  color: rgba(255,255,255,0.55);
-  font-size: 13px; font-weight: 500;
-  text-decoration: none;
-  transition: background 180ms var(--pv-ease), border-color 180ms var(--pv-ease);
-}
-.pv-header__search:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
-.pv-header__search [data-lucide] { color: rgba(255,255,255,0.55); width: 16px; height: 16px; }
-.pv-header__search > span { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pv-header__kbd {
-  display: none;
-  font-family: var(--pv-mono); font-size: 10px; font-weight: 700;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 5px; padding: 3px 6px;
-  color: rgba(255,255,255,0.65);
-}
-@media (min-width: 720px) { .pv-header__kbd { display: inline-flex; } }
-.pv-header__cart {
-  position: relative; width: 40px; height: 40px; border-radius: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
-  color: #fff;
-  display: inline-flex; align-items: center; justify-content: center;
-  text-decoration: none; flex-shrink: 0;
-  transition: background 180ms var(--pv-ease);
-}
-.pv-header__cart:hover { background: rgba(255,255,255,0.10); }
-.pv-header__cart [data-lucide] { width: 18px; height: 18px; }
-.pv-header__cart-badge {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--pv-primary); color: #fff;
-  min-width: 18px; height: 18px; padding: 0 5px;
-  border-radius: 9999px;
-  font-size: 10px; font-weight: 800;
-  display: inline-flex; align-items: center; justify-content: center;
-  border: 2px solid #0A1A2E;
-}
-/* Beam tipo "scan line" sutil al final del header */
-.pv-header__beam {
-  height: 1px; width: 100%;
-  background: linear-gradient(90deg, transparent, rgba(147,197,253,0.5), transparent);
-  opacity: 0.5;
-  animation: pvHeaderBeam 6s ease-in-out infinite;
-}
-@keyframes pvHeaderBeam {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.7; }
-}
-@media (max-width: 600px) {
-  .pv-header__search > span { display: none; }
-  .pv-header__search { width: 40px; flex: 0 0 auto; padding: 0; justify-content: center; }
-  .pv-header__wordmark { display: none; }
-}
+
+/* Scroll-reveal helper */
+.pv-reveal { opacity: 0; transform: translateY(24px); transition: opacity 800ms var(--pv-ease-out), transform 800ms var(--pv-ease-out); }
+.pv-reveal.is-in { opacity: 1; transform: translateY(0); }
 
 /* ====== HERO ====== */
 .pv-hero {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  padding: 32px 16px 48px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  min-height: 92vh;
+  display: flex; flex-direction: column;
   background: var(--pv-bg);
   color: #fff;
 }
-.pv-hero__bg {
-  position: absolute; inset: 0; z-index: 0;
+@media (min-width: 720px) { .pv-hero { min-height: 100vh; } }
+@media (max-width: 480px) { .pv-hero { min-height: auto; padding-bottom: 32px; } }
+
+.pv-hero__atmos { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.pv-hero__mesh {
+  position: absolute; inset: -10%;
   background:
-    radial-gradient(900px 500px at 88% -10%, rgba(59,130,246,.35) 0%, rgba(10,26,46,0) 70%),
-    radial-gradient(700px 400px at -10% 110%, rgba(24,95,165,.30) 0%, rgba(10,26,46,0) 70%),
-    linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
+    radial-gradient(50% 50% at 20% 25%, rgba(24,95,165,0.55), transparent 60%),
+    radial-gradient(45% 45% at 80% 30%, rgba(96,165,250,0.30), transparent 60%),
+    radial-gradient(60% 60% at 60% 90%, rgba(12,68,124,0.55), transparent 65%),
+    radial-gradient(40% 40% at 10% 90%, rgba(147,197,253,0.20), transparent 70%);
+  filter: blur(40px); opacity: 0.9;
+  animation: pvMeshDrift 22s ease-in-out infinite;
 }
-.pv-hero__grid-bg {
+.pv-hero__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 100%);
+    linear-gradient(rgba(147,197,253,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147,197,253,0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
 }
-.pv-hero__orb {
-  position: absolute; border-radius: 50%;
-  filter: blur(80px); opacity: 0.45;
-  animation: pvHeroOrbFloat 18s ease-in-out infinite alternate;
+.pv-hero__noise {
+  position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
-.pv-hero__orb--a { width: 380px; height: 380px; background: #185FA5; top: -120px; right: -80px; }
-.pv-hero__orb--b { width: 320px; height: 320px; background: #0C447C; bottom: -100px; left: -60px; animation-duration: 22s; animation-direction: alternate-reverse; }
-@keyframes pvHeroOrbFloat {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(40px, 30px) scale(1.1); }
+.pv-hero__spotlight {
+  position: absolute; inset: 0;
+  background: radial-gradient(400px 400px at var(--mx, 50%) var(--my, 50%), rgba(147,197,253,0.10), transparent 70%);
+  opacity: 0; transition: opacity 200ms var(--pv-ease);
+  mix-blend-mode: screen;
+}
+.pv-hero:hover .pv-hero__spotlight { opacity: 1; }
+.pv-hero__scanline {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(147,197,253,0.5), transparent);
+  animation: pvScanline 8s linear infinite;
+  opacity: 0.6;
+}
+@keyframes pvScanline {
+  0%   { top: 0%; opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
 }
 
-.pv-hero__inner {
-  position: relative; z-index: 1;
-  max-width: 1280px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr; gap: 32px;
-  align-items: center;
+/* Nav top */
+.pv-hero__nav {
+  position: relative; z-index: 10;
+  max-width: 1280px; width: 100%; margin: 0 auto;
+  padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
-.pv-hero__copy { display: flex; flex-direction: column; align-items: flex-start; }
-.pv-hero__title {
-  font-size: clamp(30px, 8vw, 72px);
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 1.06;
-  margin: 20px 0 20px;
-  max-width: 18ch;
-  color: #fff; text-wrap: balance;
+.pv-hero__brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.pv-hero__brand-mark {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(180deg, #fff, #F0F6FC);
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px;
+  box-shadow: 0 0 0 1px rgba(147,197,253,0.30), 0 8px 20px rgba(0,0,0,0.30);
 }
-.pv-hero__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
+.pv-hero__brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+.pv-hero__brand-text { display: flex; flex-direction: column; line-height: 1.05; gap: 3px; }
+.pv-hero__brand-name { font-size: 16px; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+.pv-hero__brand-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(147,197,253,0.90);
 }
-.pv-hero__lead {
-  font-size: 15px; font-weight: 500;
-  color: rgba(255,255,255,0.72);
-  margin: 0 0 24px;
-  max-width: 50ch; line-height: 1.6;
+.pv-hero__brand-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pv-wa); box-shadow: 0 0 8px var(--pv-wa);
+  animation: pvPulseDot 2s var(--pv-ease) infinite;
 }
-.pv-hero__ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
-.pv-hero__ctas .pv-btn { flex: 1 1 auto; min-width: 0; }
-@media (min-width: 720px) {
-  .pv-hero__ctas { width: auto; }
-  .pv-hero__ctas .pv-btn { flex: 0 0 auto; }
-}
-.pv-hero__stats {
-  display: flex; align-items: stretch;
-  margin-top: 28px;
-  padding: 14px 16px;
+.pv-hero__nav-actions { display: flex; gap: 8px; }
+.pv-hero__nav-btn {
+  position: relative;
+  width: 42px; height: 42px; border-radius: 12px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.10);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: background 200ms var(--pv-ease), border-color 200ms var(--pv-ease), transform 120ms var(--pv-ease);
+}
+.pv-hero__nav-btn:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.20); transform: translateY(-1px); }
+.pv-hero__nav-btn [data-lucide] { width: 18px; height: 18px; }
+.pv-hero__nav-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--pv-primary); color: #fff;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: 9999px; font-size: 10px; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid var(--pv-bg);
+}
+
+/* Inner */
+.pv-hero__inner {
+  position: relative; z-index: 2; flex: 1;
+  max-width: 1280px; width: 100%; margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: grid; grid-template-columns: 1fr; gap: 28px;
+  align-items: center;
+}
+@media (min-width: 900px) { .pv-hero__inner { grid-template-columns: 1.1fr 1fr; padding: 40px 32px 60px; gap: 56px; } }
+
+.pv-hero__copy { display: flex; flex-direction: column; align-items: flex-start; }
+.pv-hero__chip { margin-bottom: 24px; }
+.pv-hero__title {
+  font-size: clamp(40px, 11vw, 92px);
+  font-weight: 900; letter-spacing: -0.04em;
+  line-height: 0.98;
+  margin: 0 0 22px;
+  color: #fff; text-wrap: balance;
+}
+.pv-hero__shine {
+  background: linear-gradient(90deg, #fff 0%, #93C5FD 50%, #fff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: pvShine 6s linear infinite;
+  font-style: italic;
+  font-weight: 800;
+}
+@keyframes pvShine { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+.pv-hero__lead {
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 500;
+  color: rgba(255,255,255,0.72);
+  margin: 0 0 32px;
+  max-width: 50ch; line-height: 1.6;
+}
+.pv-hero__lead b { color: #fff; font-weight: 800; }
+
+.pv-hero__ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; margin-bottom: 36px; }
+.pv-hero__cta-main { flex: 1 1 auto; min-width: 200px; }
+@media (min-width: 720px) { .pv-hero__cta-main { flex: 0 0 auto; } }
+
+.pv-hero__creds {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  width: 100%; max-width: 520px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
-  width: 100%; max-width: 560px;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
 }
-.pv-hero__stat { display: flex; flex-direction: column; padding: 4px 12px; flex: 1; min-width: 0; }
-.pv-hero__stat:first-child { padding-left: 0; }
-.pv-hero__stat:last-child  { padding-right: 0; }
-.pv-hero__stat-value {
-  font-size: clamp(20px, 5vw, 30px);
-  font-weight: 900; color: #fff;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums; line-height: 1;
+.pv-hero__cred { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.pv-hero__cred-num {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 900; color: #fff; letter-spacing: -0.025em;
+  line-height: 1; font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #fff, #93C5FD);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.pv-hero__stat-label {
+.pv-hero__cred-lab {
   font-size: 10px; font-weight: 700;
-  letter-spacing: 0.10em; text-transform: uppercase;
-  color: rgba(255,255,255,0.55); margin-top: 6px;
-}
-.pv-hero__stat-div { width: 1px; background: rgba(255,255,255,0.12); margin: 4px 0; align-self: stretch; }
-
-.pv-hero__visual { position: relative; min-height: 320px; }
-.pv-hero__stage {
-  position: relative; width: 100%;
-  aspect-ratio: 5/3;
-  max-width: 600px; margin: 0 auto;
-  --tilt-x: 0px; --tilt-y: 0px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
 }
 
-/* MAPA */
+/* Visual / mapa */
+.pv-hero__visual { position: relative; min-height: 280px; }
+@media (min-width: 720px) { .pv-hero__visual { min-height: 440px; } }
+.pv-hero__stage { position: relative; width: 100%; aspect-ratio: 5/3; max-width: 600px; margin: 0 auto; }
 .pv-map {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   padding: 12px;
-  transform: translate(var(--tilt-y, 0), var(--tilt-x, 0));
-  transition: transform 400ms var(--pv-ease);
 }
 .pv-map__svg { width: auto; height: 100%; max-width: 100%; filter: drop-shadow(0 24px 48px rgba(12,30,60,0.5)); }
-.pv-map__country path:first-child { filter: drop-shadow(0 0 12px rgba(147,197,253,0.15)); }
 .pv-map__line {
   stroke-dasharray: 200; stroke-dashoffset: 200;
   filter: drop-shadow(0 0 4px rgba(147,197,253,0.6));
@@ -1209,178 +960,127 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
 .pv-map__label {
   position: absolute; left: var(--x, 50%); top: var(--y, 50%);
   transform: translate(8px, -50%);
-  font-size: 9.5px; font-weight: 800;
+  font-family: var(--pv-mono);
+  font-size: 9.5px; font-weight: 600;
   color: rgba(255,255,255,0.78);
-  background: rgba(10,26,46,0.55);
+  background: rgba(10,22,40,0.55);
   border: 1px solid rgba(147,197,253,0.18);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   padding: 3px 7px; border-radius: 4px;
   white-space: nowrap; pointer-events: none; z-index: 3;
+  letter-spacing: 0.02em;
 }
 .pv-map__label--left { transform: translate(calc(-100% - 8px), -50%); }
 .pv-map__label--origin {
+  font-family: var(--pv-font);
   font-size: 10.5px; font-weight: 900; color: #fff;
-  background: rgba(24,95,165,0.40);
+  background: rgba(24,95,165,0.45);
   border-color: rgba(147,197,253,0.50);
-  padding: 5px 9px;
+  padding: 5px 10px;
   display: flex; flex-direction: column; line-height: 1.15; z-index: 4;
 }
 .pv-map__label-eyebrow {
-  font-size: 8px; font-weight: 800;
-  letter-spacing: 0.16em; text-transform: uppercase;
+  font-family: var(--pv-mono);
+  font-size: 8px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
   color: rgba(147,197,253,0.85); margin-bottom: 2px;
 }
 @media (max-width: 540px) {
-  .pv-map__label { font-size: 8px; padding: 2px 5px; }
-  .pv-map__label--origin { font-size: 9px; padding: 3px 6px; }
-  .pv-map__label-eyebrow { font-size: 7px; }
+  .pv-map__label { font-size: 8.5px; padding: 2px 5px; }
+  .pv-map__label--origin { font-size: 9.5px; padding: 3px 6px; }
 }
 
-/* HUD */
+/* HUDs */
 .pv-hero__hud {
   position: absolute; z-index: 5;
-  background: rgba(10,26,46,0.65);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(10,22,40,0.65);
+  border: 1px solid rgba(255,255,255,0.10);
   -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
   border-radius: 12px; padding: 8px 12px;
-  display: flex; flex-direction: column; gap: 4px;
-  font-size: 11px; pointer-events: none; min-width: 130px;
+  display: flex; flex-direction: column; gap: 3px;
 }
 .pv-hero__hud--tl { top: 8px; left: 8px; }
 .pv-hero__hud--br { bottom: 8px; right: 8px; }
-.pv-hero__hud-label { font-size: 8.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-.pv-hero__hud-value { font-size: 12px; font-weight: 800; color: #fff; }
-.pv-hero__hud-row { display: flex; align-items: center; gap: 8px; }
-.pv-hero__hud-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981; animation: pvPulseDot 2s var(--pv-ease) infinite; }
-.pv-hero__hud-text { font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,0.9); }
-.pv-hero__hud-text-mono { font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.65); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; font-family: var(--pv-mono); }
-
-@media (min-width: 720px) {
-  .pv-hero { padding: 56px 32px 80px; }
-  .pv-hero__inner { grid-template-columns: 1.05fr 1fr; gap: 56px; }
-  .pv-hero__lead { font-size: 17px; }
-  .pv-hero__visual { min-height: 460px; }
-  .pv-hero__hud { padding: 10px 14px; font-size: 12px; }
-  .pv-hero__hud-value { font-size: 13px; }
+.pv-hero__hud-lab {
+  font-family: var(--pv-mono); font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.55);
 }
-@media (min-width: 1000px) { .pv-hero { padding: 72px 32px 96px; } }
-
-/* ====== TRUST BAND ====== */
-.pv-trust {
-  position: relative; overflow: hidden;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg-2);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding: 28px 16px;
+.pv-hero__hud-val { font-size: 12px; font-weight: 800; color: #fff; }
+.pv-hero__hud-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800; color: #fff;
 }
-.pv-trust__bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(147,197,253,0.05) 50%, transparent);
-  pointer-events: none;
+.pv-hero__hud-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #10B981; box-shadow: 0 0 8px #10B981;
+  animation: pvPulseDot 2s var(--pv-ease) infinite;
 }
-.pv-trust__inner {
-  max-width: 1280px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-  position: relative; z-index: 1;
-}
-@media (min-width: 720px) { .pv-trust__inner { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
-.pv-trust__card {
-  display: flex; align-items: center; gap: 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 14px 14px;
-  transition: transform 240ms var(--pv-ease), border-color 240ms var(--pv-ease), background 240ms var(--pv-ease);
-  animation: pvTrustIn 600ms var(--pv-ease) backwards;
-  animation-delay: calc(var(--idx, 0) * 100ms);
-}
-@keyframes pvTrustIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.pv-trust__card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(147,197,253,0.35);
-  background: rgba(255,255,255,0.06);
-}
-.pv-trust__icon {
-  width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, rgba(147,197,253,0.18), rgba(24,95,165,0.25));
-  border: 1px solid rgba(147,197,253,0.30);
-  color: var(--pv-accent);
-  position: relative;
-}
-.pv-trust__icon::after {
-  content: ""; position: absolute; inset: -2px; border-radius: 13px;
-  background: radial-gradient(circle at 30% 30%, rgba(147,197,253,0.4), transparent 70%);
-  opacity: 0; transition: opacity 240ms var(--pv-ease);
-  z-index: -1; filter: blur(8px);
-}
-.pv-trust__card:hover .pv-trust__icon::after { opacity: 1; }
-.pv-trust__icon [data-lucide] { width: 22px; height: 22px; stroke-width: 2.2; }
-.pv-trust__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.pv-trust__title {
-  margin: 0; font-size: 14px; font-weight: 900;
-  color: #fff; letter-spacing: -0.01em; line-height: 1.2;
-}
-.pv-trust__text {
-  margin: 0; font-size: 12px; font-weight: 500;
-  color: rgba(255,255,255,0.62); line-height: 1.35;
-}
-@media (max-width: 380px) {
-  .pv-trust__card { flex-direction: column; align-items: flex-start; padding: 12px; gap: 8px; text-align: left; }
-  .pv-trust__icon { width: 36px; height: 36px; }
+.pv-hero__hud-mono {
+  font-family: var(--pv-mono); font-size: 10px; font-weight: 600;
+  color: rgba(255,255,255,0.65); letter-spacing: 0.04em;
 }
 
-/* ====== BRANDS WALL ====== */
+/* Scroll hint */
+.pv-hero__scroll {
+  position: relative; z-index: 2;
+  display: none;
+  align-items: center; gap: 10px;
+  padding: 16px 20px;
+  margin: 0 auto 16px;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-family: var(--pv-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+@media (min-width: 720px) { .pv-hero__scroll { display: inline-flex; } }
+.pv-hero__scroll-mouse {
+  width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 11px; position: relative;
+}
+.pv-hero__scroll-wheel {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 2px; height: 6px; border-radius: 2px; background: #fff;
+  animation: pvScrollWheel 1.8s var(--pv-ease) infinite;
+}
+@keyframes pvScrollWheel {
+  0%   { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 12px); opacity: 0; }
+}
+
+/* ====== BRANDS ====== */
 .pv-brands {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg);
-  padding: 56px 0 64px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: var(--pv-bg-2);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 20px 0;
 }
-.pv-brands__bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(700px 300px at 50% 0%, rgba(24,95,165,0.18), transparent 70%),
-    linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
+.pv-brands__inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 0 16px;
 }
-.pv-brands__inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
-.pv-brands__head {
-  text-align: center; padding: 0 16px;
-  display: flex; flex-direction: column; align-items: center;
-  margin-bottom: 36px;
+@media (min-width: 720px) {
+  .pv-brands__inner { flex-direction: row; align-items: center; gap: 28px; }
 }
 .pv-brands__title {
-  font-size: clamp(24px, 4.5vw, 36px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.15;
-  margin: 16px 0 10px; color: #fff; text-wrap: balance;
-  max-width: 22ch;
+  font-family: var(--pv-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  flex-shrink: 0;
 }
-.pv-brands__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-brands__lead {
-  font-size: 14px; font-weight: 500;
-  color: rgba(255,255,255,0.60);
-  margin: 0; max-width: 50ch;
-}
-
-/* Marquee infinita */
 .pv-brands__marquee {
-  position: relative; overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  flex: 1; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 .pv-brands__track {
   list-style: none; padding: 0; margin: 0;
-  display: flex; gap: 14px;
+  display: flex; align-items: center; gap: 28px;
   width: max-content;
-  animation: pvBrandsScroll 32s linear infinite;
+  animation: pvBrandsScroll 36s linear infinite;
 }
 .pv-brands__marquee:hover .pv-brands__track { animation-play-state: paused; }
 @keyframes pvBrandsScroll {
@@ -1388,1100 +1088,765 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
   to   { transform: translateX(-50%); }
 }
 .pv-brand {
-  position: relative;
   flex: 0 0 auto;
-  width: 200px; height: 110px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  padding: 18px 16px;
-  transition: transform 240ms var(--pv-ease), border-color 240ms var(--pv-ease), background 240ms var(--pv-ease);
-  overflow: hidden;
-}
-.pv-brand::before {
-  content: ""; position: absolute; inset: 0;
-  background: var(--pv-brand-glow, radial-gradient(circle at 50% 0%, rgba(147,197,253,0.25), transparent 60%));
-  opacity: 0; transition: opacity 280ms var(--pv-ease);
-}
-.pv-brand:hover { transform: translateY(-3px); border-color: rgba(147,197,253,0.30); background: rgba(255,255,255,0.07); }
-.pv-brand:hover::before { opacity: 1; }
-.pv-brand__name {
-  position: relative; z-index: 1;
-  font-size: 24px; font-weight: 900;
-  letter-spacing: -0.03em; line-height: 1;
-  color: #fff;
-}
-.pv-brand__cat {
-  position: relative; z-index: 1;
-  font-size: 10px; font-weight: 800;
-  letter-spacing: 0.16em; text-transform: uppercase;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 900; letter-spacing: -0.025em; line-height: 1;
   color: rgba(255,255,255,0.50);
+  transition: color 240ms var(--pv-ease), transform 240ms var(--pv-ease);
+  white-space: nowrap;
 }
-/* Identidad visual por marca (sin usar logos oficiales) */
-.pv-brand--energizer { --pv-brand-glow: radial-gradient(circle at 50% 0%, rgba(220,38,38,0.30), transparent 60%); }
-.pv-brand--energizer .pv-brand__name { font-style: italic; letter-spacing: -0.04em; color: #FCA5A5; }
-.pv-brand--duracell  { --pv-brand-glow: radial-gradient(circle at 50% 0%, rgba(234,88,12,0.30), transparent 60%); }
-.pv-brand--duracell  .pv-brand__name { color: #FDBA74; letter-spacing: -0.025em; }
-.pv-brand--gillette  { --pv-brand-glow: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.30), transparent 60%); }
-.pv-brand--gillette  .pv-brand__name { font-style: italic; color: #93C5FD; letter-spacing: -0.04em; font-weight: 800; }
-.pv-brand--candela   { --pv-brand-glow: radial-gradient(circle at 50% 0%, rgba(217,119,6,0.30), transparent 60%); }
-.pv-brand--candela   .pv-brand__name { color: #FCD34D; font-weight: 800; letter-spacing: 0.02em; }
-.pv-brand--bic       { --pv-brand-glow: radial-gradient(circle at 50% 0%, rgba(217,119,6,0.30), transparent 60%); }
-.pv-brand--bic       .pv-brand__name { color: #fff; background: linear-gradient(180deg, #fff 50%, #FB923C 50%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; }
+.pv-brand:hover { color: #fff; transform: translateY(-2px); }
+.pv-brand--energizer { font-style: italic; letter-spacing: -0.04em; }
+.pv-brand--duracell  { letter-spacing: -0.02em; }
+.pv-brand--gillette  { font-style: italic; font-weight: 800; letter-spacing: -0.04em; }
+.pv-brand--candela   { font-weight: 700; letter-spacing: 0.02em; }
+.pv-brand--bic       { font-weight: 900; letter-spacing: -0.04em; }
+.pv-brand:hover.pv-brand--energizer { color: #FCA5A5; }
+.pv-brand:hover.pv-brand--duracell  { color: #FDBA74; }
+.pv-brand:hover.pv-brand--gillette  { color: #93C5FD; }
+.pv-brand:hover.pv-brand--candela   { color: #FCD34D; }
+.pv-brand:hover.pv-brand--bic       { color: #FB923C; }
+.pv-brand-sep {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(147,197,253,0.30);
+  flex-shrink: 0;
+}
 
-@media (max-width: 540px) {
-  .pv-brand { width: 160px; height: 96px; }
-  .pv-brand__name { font-size: 20px; }
-  .pv-brand--bic .pv-brand__name { font-size: 24px; }
-}
-
-/* ====== ORBIT ====== */
-.pv-orbit {
-  position: relative;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg); color: #fff;
-  padding: 72px 16px 88px; overflow: hidden;
-}
-.pv-orbit__bg {
-  position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(800px 600px at 50% 50%, rgba(24,95,165,0.25) 0%, rgba(10,26,46,0) 60%), linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
-}
-.pv-orbit__grid {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
-}
-.pv-orbit__inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; }
-.pv-orbit__head { text-align: center; max-width: 56ch; margin: 0 auto 56px; display: flex; flex-direction: column; align-items: center; }
-.pv-orbit__title {
-  font-size: clamp(26px, 5vw, 44px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.15;
-  margin: 16px 0 14px; color: #fff; text-wrap: balance;
-}
-.pv-orbit__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-orbit__lead { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.62); margin: 0; line-height: 1.55; max-width: 50ch; }
-
-.pv-orbit__stage {
-  position: relative; width: 100%; max-width: 560px; aspect-ratio: 1; margin: 0 auto;
-  --orbit-radius: 120px; --orbit-pin-size: 48px;
-}
-@media (min-width: 380px) { .pv-orbit__stage { --orbit-radius: 138px; } }
-@media (min-width: 480px) { .pv-orbit__stage { --orbit-radius: 168px; --orbit-pin-size: 54px; } }
-@media (min-width: 640px) { .pv-orbit__stage { --orbit-radius: 205px; --orbit-pin-size: 60px; } }
-@media (min-width: 800px) { .pv-orbit__stage { --orbit-radius: 230px; --orbit-pin-size: 64px; } }
-.pv-orbit__rings { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-.pv-orbit__core {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 18%; aspect-ratio: 1;
-  display: flex; align-items: center; justify-content: center; z-index: 5;
-}
-.pv-orbit__core-mark {
-  position: relative; z-index: 3;
-  width: 100%; height: 100%;
-  background: linear-gradient(180deg, #fff 0%, #F0F6FC 100%);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 0 1px rgba(147,197,253,0.4), 0 0 40px rgba(147,197,253,0.3), 0 12px 40px rgba(12,68,124,0.5);
-  padding: 22%;
-}
-.pv-orbit__core-mark img { width: 100%; height: 100%; object-fit: contain; }
-.pv-orbit__core-ring { position: absolute; width: 130%; height: 130%; border: 1px solid rgba(147,197,253,0.4); border-radius: 50%; z-index: 2; }
-.pv-orbit__core-pulse { position: absolute; inset: 0; border-radius: 50%; background: rgba(147,197,253,0.20); z-index: 1; animation: pvOrbitPulse 3s ease-out infinite; }
-@keyframes pvOrbitPulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.2); opacity: 0; } }
-
-.pv-orbit__ring { position: absolute; inset: 0; animation: pvOrbitRotate 60s linear infinite; }
-.pv-orbit__stage.is-paused .pv-orbit__ring { animation-play-state: paused; }
-@keyframes pvOrbitRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-.pv-orbit__pin {
-  position: absolute; top: 50%; left: 50%;
-  width: var(--orbit-pin-size); height: var(--orbit-pin-size);
-  margin-top: calc(var(--orbit-pin-size) / -2);
-  margin-left: calc(var(--orbit-pin-size) / -2);
-  text-decoration: none;
-  transform: rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius))) rotate(calc(-1 * var(--angle)));
-}
-.pv-orbit__pin-core {
-  position: relative; display: flex; align-items: center; justify-content: center;
-  width: 100%; height: 100%; border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.16);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  color: var(--pv-accent);
-  transition: background 200ms var(--pv-ease), border-color 200ms var(--pv-ease), box-shadow 200ms var(--pv-ease), color 200ms var(--pv-ease);
-}
-.pv-orbit__pin-core [data-lucide] { width: 22px; height: 22px; stroke-width: 2.2; }
-.pv-orbit__pin:hover .pv-orbit__pin-core, .pv-orbit__pin.is-active .pv-orbit__pin-core {
-  background: var(--pv-primary);
-  border-color: rgba(147,197,253,0.6); color: #fff;
-  box-shadow: 0 0 0 4px rgba(147,197,253,0.20), 0 8px 24px rgba(24,95,165,0.45);
-}
-.pv-orbit__pin-label {
-  position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #fff;
-  border: 1px solid rgba(147,197,253,0.4);
-  border-radius: 9999px; padding: 6px 10px 6px 12px;
-  font-size: 11px; font-weight: 800; color: var(--pv-primary-dk);
-  white-space: nowrap; opacity: 0; pointer-events: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  transition: opacity 200ms var(--pv-ease), bottom 200ms var(--pv-ease);
-}
-.pv-orbit__pin:hover .pv-orbit__pin-label, .pv-orbit__pin.is-active .pv-orbit__pin-label { opacity: 1; bottom: calc(100% + 14px); }
-.pv-orbit__pin-arrow { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: var(--pv-primary); color: #fff; }
-.pv-orbit__pin-arrow [data-lucide] { width: 10px; height: 10px; stroke-width: 3; }
-
-.pv-orbit__hud {
-  position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
-  background: rgba(10,26,46,0.75);
-  border: 1px solid rgba(255,255,255,0.14);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-  border-radius: 12px; padding: 9px 16px;
-  display: flex; align-items: center; gap: 12px;
-  font-size: 12px; z-index: 4;
-}
-.pv-orbit__hud-label { font-size: 9px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-.pv-orbit__hud-value { font-size: 12px; font-weight: 800; color: #fff; min-width: 11ch; }
-@media (min-width: 720px) { .pv-orbit { padding: 100px 32px 120px; } }
-
-/* ====== SHELF ====== */
-.pv-shelf {
+/* ====== CATALOG ====== */
+.pv-cat {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg); color: #fff;
-  padding: 72px 16px 88px;
+  background: var(--pv-bg);
+  padding: 80px 16px 96px;
+  color: #fff;
 }
-.pv-shelf__bg {
-  position: absolute; inset: 0; z-index: 0;
+.pv-cat__atmos { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.pv-cat__mesh {
+  position: absolute; inset: -10%;
   background:
-    radial-gradient(900px 500px at 20% -10%, rgba(59,130,246,.30) 0%, rgba(10,26,46,0) 70%),
-    radial-gradient(700px 400px at 100% 110%, rgba(24,95,165,.25) 0%, rgba(10,26,46,0) 70%),
-    linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
+    radial-gradient(50% 50% at 80% 20%, rgba(96,165,250,0.18), transparent 60%),
+    radial-gradient(45% 45% at 20% 80%, rgba(24,95,165,0.30), transparent 60%);
+  filter: blur(60px);
+  animation: pvMeshDrift 28s ease-in-out infinite;
 }
-.pv-shelf__grid {
+.pv-cat__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 100%);
+    linear-gradient(rgba(147,197,253,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147,197,253,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 100%);
 }
-.pv-shelf__beam {
-  position: absolute; top: 56px; left: 8%; right: 8%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(147,197,253,0.4) 20%, rgba(147,197,253,0.9) 50%, rgba(147,197,253,0.4) 80%, transparent 100%);
-  box-shadow: 0 0 24px rgba(147,197,253,0.8), 0 0 48px rgba(147,197,253,0.4);
-  z-index: 1;
+.pv-cat__spotlight {
+  position: absolute; inset: 0;
+  background: radial-gradient(500px 500px at var(--mx, 50%) var(--my, 50%), rgba(147,197,253,0.08), transparent 70%);
+  opacity: 0; transition: opacity 200ms var(--pv-ease);
+  mix-blend-mode: screen;
 }
-.pv-shelf__inner { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
+.pv-cat:hover .pv-cat__spotlight { opacity: 1; }
+.pv-cat__inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; }
 
-.pv-shelf__head {
-  display: flex; flex-direction: column; gap: 20px;
-  align-items: flex-start;
-  margin-bottom: 40px;
+.pv-cat__head {
+  display: flex; flex-direction: column; gap: 22px;
+  margin-bottom: 28px;
 }
-@media (min-width: 720px) {
-  .pv-shelf__head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+@media (min-width: 900px) {
+  .pv-cat__head { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 36px; }
 }
-.pv-shelf__head-left { display: flex; flex-direction: column; align-items: flex-start; max-width: 56ch; }
-.pv-shelf__title {
-  font-size: clamp(26px, 4.5vw, 40px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.1;
-  margin: 14px 0 10px; color: #fff; text-wrap: balance;
+.pv-cat__head-left { display: flex; flex-direction: column; align-items: flex-start; max-width: 56ch; }
+.pv-cat__title {
+  font-size: clamp(34px, 7vw, 64px);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.0;
+  margin: 18px 0 14px; color: #fff; text-wrap: balance;
 }
-.pv-shelf__title-accent {
+.pv-cat__title-accent {
   color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
+  background: linear-gradient(90deg, #93C5FD, #60A5FA);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  font-style: italic; font-weight: 800;
 }
-.pv-shelf__lead { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.62); margin: 0; line-height: 1.55; max-width: 50ch; }
+.pv-cat__lead {
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 500; color: rgba(255,255,255,0.65);
+  margin: 0; line-height: 1.6; max-width: 50ch;
+}
+.pv-cat__lead b { color: #fff; font-weight: 800; }
+.pv-cat__head-cta { flex-shrink: 0; align-self: flex-start; }
+@media (min-width: 900px) { .pv-cat__head-cta { align-self: flex-end; } }
 
-.pv-shelf__counter {
-  display: inline-flex; align-items: baseline; gap: 6px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-  border-radius: 14px; padding: 12px 18px;
+/* Feature bar */
+.pv-cat__featbar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; margin-bottom: 32px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.pv-cat__feat {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.78);
+  padding: 4px 10px;
+}
+.pv-cat__feat [data-lucide] { width: 14px; height: 14px; color: var(--pv-accent); stroke-width: 2.4; }
+
+/* Rail header */
+.pv-cat__rail-head {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 18px;
+}
+.pv-cat__rail-eye {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+}
+.pv-cat__rail-mono {
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 600;
+  color: rgba(147,197,253,0.85);
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
 }
-.pv-shelf__counter-value { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -0.02em; line-height: 1; }
-.pv-shelf__counter-divider { font-size: 22px; font-weight: 800; color: rgba(255,255,255,0.30); margin: 0 2px; }
-.pv-shelf__counter-total { font-size: 22px; font-weight: 800; color: rgba(147,197,253,0.85); letter-spacing: -0.02em; line-height: 1; }
-.pv-shelf__counter-label { font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-left: 10px; line-height: 1.3; align-self: center; }
 
-.pv-shelf__grid-wrap {
+/* Product grid */
+.pv-cat__grid-products {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
-@media (min-width: 540px) { .pv-shelf__grid-wrap { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
-@media (min-width: 900px) { .pv-shelf__grid-wrap { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+@media (min-width: 540px) { .pv-cat__grid-products { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+@media (min-width: 900px) { .pv-cat__grid-products { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
 
-.pv-shelf-card {
-  position: relative;
-  background: linear-gradient(180deg, #fff 0%, #FAFCFE 100%);
-  border: 1px solid rgba(147,197,253,0.14);
-  border-radius: 14px; padding: 12px 12px 14px;
+/* Product card */
+.pv-pcard {
+  position: relative; overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 12px 12px 14px;
   display: flex; flex-direction: column; gap: 10px;
   text-decoration: none; color: inherit;
-  box-shadow: 0 1px 0 0 rgba(255,255,255,0.6) inset, 0 12px 32px -12px rgba(12,30,60,0.55), 0 4px 12px -4px rgba(12,30,60,0.4);
-  transition: transform 240ms var(--pv-ease), box-shadow 240ms var(--pv-ease), border-color 240ms var(--pv-ease);
-  animation: pvShelfPop 600ms var(--pv-ease) backwards;
-  animation-delay: var(--delay, 0ms);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: transform 320ms var(--pv-ease-out), border-color 320ms var(--pv-ease), background 320ms var(--pv-ease);
+  transition-delay: 0ms;
 }
-@keyframes pvShelfPop { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.pv-shelf-card:hover {
+.pv-pcard.pv-reveal { transition-delay: var(--delay, 0ms); }
+.pv-pcard:hover {
   transform: translateY(-4px);
-  border-color: rgba(147,197,253,0.6);
-  box-shadow: 0 1px 0 0 rgba(255,255,255,0.6) inset, 0 0 0 4px rgba(147,197,253,0.10), 0 22px 44px -14px rgba(12,30,60,0.65), 0 8px 16px -4px rgba(24,95,165,0.4);
+  border-color: rgba(147,197,253,0.40);
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
 }
-.pv-shelf-card:hover .pv-shelf-card__add { background: var(--pv-primary); color: #fff; transform: translateX(2px); }
+.pv-pcard:hover .pv-pcard__add { transform: translateX(2px); background: var(--pv-accent); color: var(--pv-bg); }
+.pv-pcard:hover .pv-pcard__shine { transform: translate(120%, -120%) rotate(45deg); }
 
-.pv-shelf-card__sku {
-  position: absolute; top: 8px; left: 8px; z-index: 3;
+.pv-pcard__sku {
+  position: absolute; top: 10px; left: 10px; z-index: 3;
   font-family: var(--pv-mono);
-  font-size: 9px; font-weight: 700; letter-spacing: 0.10em;
-  color: rgba(12,68,124,0.6);
-  background: rgba(230,241,251,0.85);
-  border: 1px solid rgba(24,95,165,0.20);
-  padding: 3px 7px; border-radius: 4px;
+  font-size: 9px; font-weight: 600;
+  color: rgba(147,197,253,0.65);
+  letter-spacing: 0.10em;
+}
+.pv-pcard__live {
+  position: absolute; top: 10px; right: 10px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.35);
+  padding: 3px 8px; border-radius: 9999px;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: #6EE7B7;
+}
+.pv-pcard__live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #10B981; box-shadow: 0 0 6px #10B981;
+  animation: pvPulseDot 1.8s var(--pv-ease) infinite;
 }
 
-.pv-shelf-card__img {
-  position: relative; aspect-ratio: 1; border-radius: 10px;
-  background: radial-gradient(circle at 30% 30%, #fff 0%, #E6F1FB 70%, #DCEBFA 100%);
+.pv-pcard__img {
+  position: relative; aspect-ratio: 1; border-radius: 12px;
+  background: radial-gradient(circle at 30% 30%, rgba(147,197,253,0.18) 0%, rgba(24,95,165,0.10) 50%, rgba(10,22,40,0.40) 100%);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  border: 1px solid rgba(24,95,165,0.06);
+  border: 1px solid rgba(147,197,253,0.10);
 }
-.pv-shelf-card__img img {
-  width: 100%; height: 100%; object-fit: contain; padding: 12px;
-  filter: drop-shadow(0 8px 14px rgba(12,68,124,.18));
-  transition: transform 240ms var(--pv-ease);
+.pv-pcard__img img {
+  width: 100%; height: 100%; object-fit: contain;
+  padding: 14px;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.45));
+  transition: transform 360ms var(--pv-ease-out);
 }
-.pv-shelf-card:hover .pv-shelf-card__img img { transform: scale(1.05); }
+.pv-pcard:hover .pv-pcard__img img { transform: scale(1.06); }
+.pv-pcard__shine {
+  position: absolute; top: -100%; left: -100%;
+  width: 200%; height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(147,197,253,0.25) 50%, transparent 60%);
+  transform: translate(0, 0) rotate(45deg);
+  transition: transform 700ms var(--pv-ease-out);
+  pointer-events: none;
+}
 
-.pv-shelf-card__body { display: flex; flex-direction: column; gap: 4px; padding: 0 2px; }
-.pv-shelf-card__cat { font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #71717A; }
-.pv-shelf-card__name {
-  font-size: 13px; font-weight: 800; color: #0A0A0A; line-height: 1.25;
+.pv-pcard__body { display: flex; flex-direction: column; gap: 4px; padding: 0 2px; }
+.pv-pcard__cat {
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(147,197,253,0.70);
+}
+.pv-pcard__name {
+  font-size: 13px; font-weight: 800;
+  color: #fff; line-height: 1.25; letter-spacing: -0.005em;
   margin: 0;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden; min-height: 2.5em;
 }
-.pv-shelf-card__bulk {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;
-  background: #E6F1FB; border-radius: 6px; padding: 4px 8px;
-  font-size: 11px; font-weight: 800; color: var(--pv-primary-dk); align-self: flex-start;
+.pv-pcard__bulk {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 2px;
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.65); align-self: flex-start;
 }
-.pv-shelf-card__bulk [data-lucide] { width: 12px; height: 12px; color: var(--pv-primary); stroke-width: 2.5; }
+.pv-pcard__bulk [data-lucide] { width: 12px; height: 12px; color: var(--pv-accent); stroke-width: 2.4; }
+.pv-pcard__bulk b { color: #fff; font-weight: 900; }
 
-.pv-shelf-card__bottom {
+.pv-pcard__bottom {
   display: flex; align-items: flex-end; justify-content: space-between;
   gap: 8px; margin-top: auto; padding-top: 10px;
-  border-top: 1px dashed rgba(24,95,165,0.18);
+  border-top: 1px dashed rgba(147,197,253,0.18);
 }
-.pv-shelf-card__price-block { display: flex; flex-direction: column; line-height: 1; }
-.pv-shelf-card__price-label { font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #71717A; margin-bottom: 3px; }
-.pv-shelf-card__price { font-size: 18px; font-weight: 900; letter-spacing: -0.02em; color: var(--pv-primary-dk); font-variant-numeric: tabular-nums; }
-.pv-shelf-card__price-unit { font-size: 10px; font-weight: 700; color: #71717A; margin-top: 2px; }
-.pv-shelf-card__add {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: rgba(24,95,165,0.10); color: var(--pv-primary);
+.pv-pcard__price-block { display: flex; flex-direction: column; line-height: 1; gap: 4px; }
+.pv-pcard__price-lab {
+  font-family: var(--pv-mono);
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(147,197,253,0.70);
+}
+.pv-pcard__price {
+  font-size: 18px; font-weight: 900;
+  color: #fff; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.pv-pcard__add {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: rgba(147,197,253,0.10);
+  border: 1px solid rgba(147,197,253,0.20);
+  color: var(--pv-accent);
   display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: transform 200ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease);
+  transition: transform 200ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease), border-color 200ms var(--pv-ease);
 }
-.pv-shelf-card__add [data-lucide] { width: 18px; height: 18px; stroke-width: 2.5; }
-.pv-shelf-card__avisame { font-size: 11px; font-weight: 800; color: #DC2626; display: inline-flex; align-items: center; gap: 4px; }
+.pv-pcard__add [data-lucide] { width: 16px; height: 16px; stroke-width: 2.5; }
 
-.pv-shelf-card__shelf-line {
-  position: absolute; left: 10%; right: 10%; bottom: -10px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(147,197,253,0.4) 50%, transparent 100%);
-  opacity: 0.5;
+/* CTA bar inferior */
+.pv-cat__cta {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+  padding: 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
-.pv-shelf__foot { display: flex; justify-content: center; }
+.pv-cat__cta-num {
+  display: flex; flex-direction: column; align-items: flex-start;
+  margin-right: auto;
+}
+.pv-cat__cta-num-val {
+  font-size: clamp(28px, 5vw, 38px);
+  font-weight: 900; color: #fff;
+  letter-spacing: -0.03em; line-height: 1;
+  background: linear-gradient(180deg, #fff, #93C5FD);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.pv-cat__cta-num-lab {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px; line-height: 1.3;
+}
+@media (max-width: 540px) {
+  .pv-cat__cta { flex-direction: column; }
+  .pv-cat__cta-num { margin-right: 0; align-items: center; text-align: center; }
+  .pv-cat__cta .pv-btn { width: 100%; }
+}
 
-/* ====== WHY PROVENZANO ====== */
-.pv-why {
+/* ====== SHIPPING ====== */
+.pv-ship {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
   background: var(--pv-bg-2);
-  padding: 72px 16px 88px; color: #fff;
+  padding: 80px 16px 96px; color: #fff;
 }
-.pv-why__bg {
-  position: absolute; inset: 0; pointer-events: none;
+.pv-ship__atmos { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.pv-ship__mesh {
+  position: absolute; inset: -10%;
   background:
-    radial-gradient(700px 400px at 100% 0%, rgba(24,95,165,0.20), transparent 60%),
-    radial-gradient(500px 300px at 0% 100%, rgba(147,197,253,0.10), transparent 60%);
+    radial-gradient(45% 45% at 30% 20%, rgba(96,165,250,0.18), transparent 60%),
+    radial-gradient(45% 45% at 80% 80%, rgba(24,95,165,0.30), transparent 60%);
+  filter: blur(70px);
+  animation: pvMeshDrift 26s ease-in-out infinite;
 }
-.pv-why__inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
-.pv-why__head {
-  text-align: center; max-width: 56ch; margin: 0 auto 48px;
-  display: flex; flex-direction: column; align-items: center;
-}
-.pv-why__title {
-  font-size: clamp(26px, 4.8vw, 42px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.12;
-  margin: 16px 0 12px; color: #fff; text-wrap: balance;
-}
-.pv-why__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-why__lead {
-  font-size: 14px; font-weight: 500;
-  color: rgba(255,255,255,0.62);
-  margin: 0; max-width: 50ch; line-height: 1.55;
-}
-
-.pv-why__grid {
-  display: grid; gap: 12px;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "hero"
-    "catalog"
-    "store"
-    "ship"
-    "invoice";
-}
-@media (min-width: 640px) {
-  .pv-why__grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "hero hero"
-      "catalog store"
-      "ship invoice";
-    gap: 14px;
-  }
-}
-@media (min-width: 960px) {
-  .pv-why__grid {
-    grid-template-columns: 1.4fr 1fr 1fr;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "hero catalog store"
-      "hero ship invoice";
-    gap: 16px;
-  }
-}
-
-.pv-why__card {
-  position: relative; overflow: hidden;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 18px;
-  padding: 22px;
-  display: flex; flex-direction: column; gap: 12px;
-  min-height: 160px;
-  transition: transform 280ms var(--pv-ease), border-color 280ms var(--pv-ease), background 280ms var(--pv-ease);
-}
-.pv-why__card::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(400px 200px at 100% 0%, rgba(147,197,253,0.08), transparent 60%);
-  opacity: 0; transition: opacity 280ms var(--pv-ease);
-}
-.pv-why__card:hover { transform: translateY(-3px); border-color: rgba(147,197,253,0.3); background: rgba(255,255,255,0.06); }
-.pv-why__card:hover::after { opacity: 1; }
-.pv-why__card--hero { grid-area: hero; min-height: 260px; padding: 28px; }
-.pv-why__card--catalog { grid-area: catalog; }
-.pv-why__card--store { grid-area: store; }
-.pv-why__card--ship { grid-area: ship; }
-.pv-why__card--invoice { grid-area: invoice; }
-
-.pv-why__card-bg {
+.pv-ship__grid {
   position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 80% 20%, rgba(24,95,165,0.30), transparent 60%),
-    linear-gradient(135deg, rgba(147,197,253,0.05), rgba(255,255,255,0));
+  background-image:
+    linear-gradient(rgba(147,197,253,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147,197,253,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 100%);
 }
-.pv-why__card-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 10px; }
-.pv-why__card-eyebrow {
-  font-size: 10px; font-weight: 800;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(147,197,253,0.85);
+.pv-ship__inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+
+.pv-ship__head { text-align: center; max-width: 56ch; margin: 0 auto 36px; display: flex; flex-direction: column; align-items: center; }
+.pv-ship__title {
+  font-size: clamp(30px, 6vw, 52px);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.05;
+  margin: 18px 0 12px; color: #fff; text-wrap: balance;
 }
-.pv-why__big { display: flex; align-items: baseline; gap: 10px; line-height: 0.9; }
-.pv-why__big-num {
-  font-size: clamp(64px, 14vw, 120px);
-  font-weight: 900; letter-spacing: -0.04em;
-  color: #fff; font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #fff 0%, #93C5FD 100%);
+.pv-ship__title-accent {
+  background: linear-gradient(90deg, #93C5FD, #60A5FA);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  font-style: italic; font-weight: 800;
 }
-.pv-why__big-label {
-  font-size: 22px; font-weight: 800;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: -0.01em;
+.pv-ship__lead { font-size: clamp(14px, 1.5vw, 16px); font-weight: 500; color: rgba(255,255,255,0.65); margin: 0; max-width: 50ch; line-height: 1.55; }
+
+.pv-ship__widget {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 14px;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
 }
-.pv-why__card-icon {
-  position: relative; z-index: 2;
-  width: 44px; height: 44px; border-radius: 12px;
+@media (min-width: 720px) { .pv-ship__widget { padding: 22px; } }
+
+/* Tab nav */
+.pv-ship__tabs {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  background: rgba(0,0,0,0.20);
+  border-radius: 16px;
+  padding: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.pv-ship__tab {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  padding: 12px 6px;
+  background: transparent; border: none;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  font-family: var(--pv-font);
+  border-radius: 12px;
+  transition: color 240ms var(--pv-ease), background 240ms var(--pv-ease);
+}
+.pv-ship__tab:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.03); }
+.pv-ship__tab.is-active {
+  background: linear-gradient(135deg, rgba(24,95,165,0.55), rgba(12,68,124,0.55));
+  color: #fff;
+  box-shadow: 0 4px 16px -4px rgba(24,95,165,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.pv-ship__tab.is-active::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border: 1px solid rgba(147,197,253,0.30); border-radius: 12px;
+}
+.pv-ship__tab-num {
+  font-family: var(--pv-mono);
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.10em;
+  color: currentColor; opacity: 0.55;
+}
+.pv-ship__tab-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(255,255,255,0.06);
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, rgba(147,197,253,0.18), rgba(24,95,165,0.25));
-  border: 1px solid rgba(147,197,253,0.30);
-  color: var(--pv-accent);
-  align-self: flex-start;
+  margin: 2px 0;
 }
-.pv-why__card-icon [data-lucide] { width: 22px; height: 22px; stroke-width: 2.2; }
-.pv-why__card-title {
-  margin: 0; font-size: 22px; font-weight: 900;
-  color: #fff; letter-spacing: -0.02em; line-height: 1.1;
-  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px;
+.pv-ship__tab.is-active .pv-ship__tab-icon { background: rgba(255,255,255,0.16); }
+.pv-ship__tab-icon [data-lucide] { width: 16px; height: 16px; stroke-width: 2; }
+.pv-ship__tab-label {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: -0.005em;
+  color: currentColor;
+  text-align: center;
 }
-.pv-why__card-title-sub {
-  font-size: 14px; font-weight: 700;
-  color: rgba(255,255,255,0.65); letter-spacing: 0;
+.pv-ship__tab-sub {
+  display: none;
+  font-family: var(--pv-mono);
+  font-size: 9px; font-weight: 600;
+  color: currentColor; opacity: 0.65;
+  letter-spacing: 0.04em;
 }
-.pv-why__card-text {
-  margin: 0; font-size: 13px; font-weight: 500;
-  color: rgba(255,255,255,0.62); line-height: 1.5;
+@media (min-width: 540px) {
+  .pv-ship__tab { padding: 14px 10px; gap: 6px; }
+  .pv-ship__tab-label { font-size: 13px; }
+  .pv-ship__tab-sub { display: inline; }
 }
-.pv-why__card-link {
-  position: relative; z-index: 2; align-self: flex-start;
-  display: inline-flex; align-items: center; gap: 4px; margin-top: 4px;
-  font-size: 12px; font-weight: 800;
-  color: var(--pv-accent); text-decoration: none;
+@media (min-width: 720px) {
+  .pv-ship__tab { flex-direction: row; gap: 12px; padding: 14px 18px; justify-content: flex-start; text-align: left; }
+  .pv-ship__tab-num { position: absolute; top: 8px; right: 10px; }
+  .pv-ship__tab-icon { width: 38px; height: 38px; margin: 0; }
+  .pv-ship__tab-label, .pv-ship__tab-sub { display: block; text-align: left; }
+}
+
+/* Panels (crossfade) */
+.pv-ship__panels {
+  position: relative;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 380px;
+}
+.pv-ship__panel {
+  display: none;
+  padding: 18px;
+  grid-template-columns: 1fr; gap: 20px;
+  animation: pvShipFadeIn 480ms var(--pv-ease-out);
+}
+@media (min-width: 760px) {
+  .pv-ship__panel { grid-template-columns: 0.85fr 1fr; padding: 26px; gap: 32px; align-items: center; }
+}
+.pv-ship__panel.is-active { display: grid; }
+@keyframes pvShipFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pv-ship__panel-side {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 180px;
+}
+.pv-ship__panel-body { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+
+/* Eyebrow del panel */
+.pv-ship__panel-eye {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(16,185,129,0.10);
+  border: 1px solid rgba(16,185,129,0.30);
+  color: #6EE7B7;
+  padding: 6px 12px; border-radius: 9999px;
+  font-size: 11px; font-weight: 800;
   letter-spacing: 0.02em;
 }
-.pv-why__card-link:hover { color: #fff; }
-.pv-why__card-link [data-lucide] { width: 14px; height: 14px; stroke-width: 2.5; }
-.pv-why__card-deco {
-  position: absolute; right: -40px; bottom: -40px;
-  width: 200px; height: 200px;
-  opacity: 0.4; pointer-events: none;
-  animation: pvWhyDecoSpin 60s linear infinite;
+.pv-ship__panel-eye [data-lucide] { width: 14px; height: 14px; stroke-width: 2.5; }
+.pv-ship__panel-eye--accent {
+  background: rgba(147,197,253,0.10);
+  border-color: rgba(147,197,253,0.35);
+  color: var(--pv-accent);
 }
-@keyframes pvWhyDecoSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.pv-ship__panel-title {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900; letter-spacing: -0.025em; line-height: 1.1;
+  margin: 0; color: #fff;
+}
+.pv-ship__panel-text {
+  font-size: 14px; font-weight: 500; line-height: 1.55;
+  color: rgba(255,255,255,0.72); margin: 0; max-width: 50ch;
+}
 
-/* ====== CALCULADORA DE BULTO ====== */
-.pv-calc {
+/* Facts grid */
+.pv-ship__facts {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  width: 100%; margin-top: 4px;
+}
+.pv-ship__fact {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+}
+.pv-ship__fact-lab {
+  font-family: var(--pv-mono);
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(147,197,253,0.70);
+}
+.pv-ship__fact-val {
+  font-size: 14px; font-weight: 800;
+  color: #fff; letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.pv-ship__fact-val--free { color: #4ADE80; letter-spacing: 0.04em; }
+
+/* Visual: store / handshake */
+.pv-ship__visual {
+  position: relative;
+  width: 100%; max-width: 320px; aspect-ratio: 4/3;
+  background: linear-gradient(135deg, rgba(147,197,253,0.05), rgba(24,95,165,0.10));
+  border: 1px solid rgba(147,197,253,0.20);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.pv-ship__visual-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(147,197,253,0.30), transparent 60%);
+  animation: pvShipGlow 4s ease-in-out infinite;
+}
+@keyframes pvShipGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+.pv-ship__visual-icon {
+  width: 64px !important; height: 64px !important;
+  color: var(--pv-accent); stroke-width: 1.5;
+  filter: drop-shadow(0 4px 16px rgba(147,197,253,0.5));
+  position: relative; z-index: 1;
+}
+.pv-ship__pin {
+  position: absolute; bottom: 18px; right: 18px;
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 4px;
+  background: rgba(10,22,40,0.75);
+  border: 1px solid rgba(147,197,253,0.30);
+  border-radius: 8px; padding: 6px 10px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.pv-ship__pin-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #25D366; box-shadow: 0 0 10px #25D366;
+  animation: pvPulseDot 2s var(--pv-ease) infinite;
+}
+.pv-ship__pin-label {
+  font-size: 10px; font-weight: 800; color: #fff; line-height: 1.3; text-align: right;
+}
+
+.pv-ship__chips {
+  position: absolute; bottom: 14px; left: 14px; right: 14px;
+  display: flex; flex-wrap: wrap; gap: 6px; z-index: 2;
+}
+.pv-ship__chip-mini {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(10,22,40,0.65);
+  border: 1px solid rgba(147,197,253,0.25);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  padding: 4px 8px; border-radius: 9999px;
+  font-size: 10px; font-weight: 800; color: #fff;
+}
+.pv-ship__chip-mini [data-lucide] { width: 11px; height: 11px; color: var(--pv-accent); stroke-width: 2.5; }
+
+/* Mapa interior con rutas */
+.pv-ship__visual--country svg { width: 100%; height: 100%; max-height: 280px; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.4)); }
+.pv-ship__visual--country { padding: 14px; }
+.pv-ship__route {
+  stroke-dasharray: 200; stroke-dashoffset: 200;
+  filter: drop-shadow(0 0 4px rgba(147,197,253,0.6));
+  animation: pvMapLineDraw 4.5s cubic-bezier(.4,0,.2,1) infinite;
+  animation-delay: var(--rd, 0s);
+}
+.pv-ship__route-ping {
+  transform-origin: center; transform-box: fill-box;
+  animation: pvMapPing 2s ease-out infinite;
+}
+.pv-ship__route-pin {
+  filter: drop-shadow(0 0 4px rgba(147,197,253,0.8));
+}
+.pv-ship__visual-cap {
+  position: absolute; bottom: 14px; left: 14px;
+  font-family: var(--pv-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(147,197,253,0.80);
+  background: rgba(10,22,40,0.65);
+  border: 1px solid rgba(147,197,253,0.25);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  padding: 4px 10px; border-radius: 8px;
+}
+
+/* Zonas CABA/GBA */
+.pv-ship__zones {
+  width: 100%;
+  display: grid; grid-template-columns: 1fr; gap: 8px;
+}
+.pv-ship__zone {
+  display: grid; grid-template-columns: auto auto 1fr; align-items: center;
+  gap: 8px 14px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--zone-color, var(--pv-accent));
+  border-radius: 10px;
+  transition: background 240ms var(--pv-ease), border-color 240ms var(--pv-ease), transform 240ms var(--pv-ease);
+  cursor: default;
+  --zone-color: #93C5FD;
+}
+.pv-ship__zone:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.15);
+  border-left-color: var(--zone-color);
+  transform: translateX(4px);
+}
+.pv-ship__zone--caba { --zone-color: #4ADE80; }
+.pv-ship__zone--g1   { --zone-color: #93C5FD; }
+.pv-ship__zone--g2   { --zone-color: #FBBF24; }
+.pv-ship__zone--g3   { --zone-color: #FB923C; }
+.pv-ship__zone-name {
+  font-size: 13px; font-weight: 900;
+  color: var(--zone-color); letter-spacing: -0.005em;
+  white-space: nowrap;
+}
+.pv-ship__zone-name b { font-weight: 900; opacity: 0.7; }
+.pv-ship__zone-price {
+  font-size: 16px; font-weight: 900;
+  color: #fff; font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.pv-ship__zone-info {
+  grid-column: 1 / -1;
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.4;
+}
+@media (min-width: 540px) {
+  .pv-ship__zone { grid-template-columns: 80px auto 1fr; }
+  .pv-ship__zone-info { grid-column: auto; font-size: 11.5px; }
+}
+
+/* CTA inferior */
+.pv-ship__cta {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 18px;
+  margin-top: 16px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.20);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.pv-ship__cta-text { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.78); }
+@media (min-width: 540px) {
+  .pv-ship__cta { flex-direction: row; justify-content: space-between; padding: 14px 22px; }
+}
+
+/* ====== FOOTER ====== */
+.pv-foot {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
   background: var(--pv-bg);
-  padding: 72px 16px 88px; color: #fff;
+  padding: 48px 16px 32px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
 }
-.pv-calc__bg {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background: linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
+.pv-foot__atmos { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.pv-foot__mesh {
+  position: absolute; inset: -10%;
+  background:
+    radial-gradient(50% 50% at 50% 0%, rgba(24,95,165,0.25), transparent 60%);
+  filter: blur(60px);
 }
-.pv-calc__grid {
+.pv-foot__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 100%);
-}
-.pv-calc__orb {
-  position: absolute; width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(37,211,102,0.12), transparent 70%);
-  bottom: -200px; right: -100px; filter: blur(60px);
-  animation: pvCalcOrb 14s ease-in-out infinite alternate;
-}
-@keyframes pvCalcOrb {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(-40px, -30px); }
-}
-.pv-calc__inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
-.pv-calc__head {
-  text-align: center; max-width: 56ch; margin: 0 auto 40px;
-  display: flex; flex-direction: column; align-items: center;
-}
-.pv-calc__title {
-  font-size: clamp(24px, 4.5vw, 38px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.15;
-  margin: 16px 0 10px; color: #fff; text-wrap: balance;
-}
-.pv-calc__title-accent {
-  color: #4ADE80;
-  background-image: linear-gradient(180deg, transparent 70%, rgba(74,222,128,.30) 70%, rgba(74,222,128,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-calc__lead {
-  font-size: 14px; font-weight: 500;
-  color: rgba(255,255,255,0.62);
-  margin: 0; max-width: 50ch; line-height: 1.55;
-}
-
-.pv-calc__widget {
-  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 22px;
-  padding: 18px;
-  display: grid; gap: 18px;
-  grid-template-columns: 1fr;
-  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
-  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
-}
-@media (min-width: 760px) {
-  .pv-calc__widget { padding: 26px; gap: 24px; grid-template-columns: 1.1fr 1fr; grid-template-rows: auto 1fr; }
-  .pv-calc__product { grid-column: 1 / 2; }
-  .pv-calc__control { grid-column: 1 / 2; }
-  .pv-calc__output  { grid-column: 2 / 3; grid-row: 1 / 3; }
-}
-
-/* Producto */
-.pv-calc__product {
-  display: flex; align-items: center; gap: 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 14px; padding: 14px;
-}
-.pv-calc__product-icon {
-  position: relative;
-  width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
-  background: linear-gradient(135deg, rgba(147,197,253,0.18), rgba(24,95,165,0.30));
-  border: 1px solid rgba(147,197,253,0.35);
-  color: var(--pv-accent);
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.pv-calc__product-icon [data-lucide] { width: 24px; height: 24px; stroke-width: 2.2; position: relative; z-index: 2; }
-.pv-calc__product-icon-pulse {
-  position: absolute; inset: -2px; border-radius: 14px;
-  border: 1px solid rgba(147,197,253,0.5);
-  animation: pvCalcPulse 2.5s ease-out infinite;
-}
-@keyframes pvCalcPulse {
-  0%   { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-.pv-calc__product-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.pv-calc__product-tag {
-  font-size: 9px; font-weight: 800;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(147,197,253,0.85);
-}
-.pv-calc__product-name {
-  margin: 0; font-size: 16px; font-weight: 900;
-  color: #fff; letter-spacing: -0.01em; line-height: 1.2;
-}
-.pv-calc__product-spec {
-  margin: 0; font-size: 12px; font-weight: 600;
-  color: rgba(255,255,255,0.65); line-height: 1.4;
-}
-.pv-calc__product-spec b { color: #fff; font-weight: 800; }
-.pv-calc__product-price { color: var(--pv-accent); font-weight: 800; font-variant-numeric: tabular-nums; }
-
-/* Control */
-.pv-calc__control { display: flex; flex-direction: column; gap: 10px; }
-.pv-calc__control-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.pv-calc__control-label {
-  font-size: 12px; font-weight: 800;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-}
-.pv-calc__bultos { display: inline-flex; align-items: center; gap: 6px; }
-.pv-calc__step {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.16);
-  color: #fff;
-  font-size: 18px; font-weight: 800; line-height: 1;
-  display: inline-flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: background 160ms var(--pv-ease), transform 100ms var(--pv-ease);
-}
-.pv-calc__step:hover { background: rgba(255,255,255,0.12); }
-.pv-calc__step:active { transform: scale(0.92); }
-.pv-calc__bultos-val {
-  min-width: 36px; text-align: center;
-  font-size: 22px; font-weight: 900; color: #fff;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Slider custom */
-.pv-calc__slider {
-  -webkit-appearance: none; appearance: none;
-  width: 100%; height: 6px; border-radius: 6px;
-  background: linear-gradient(90deg, var(--pv-accent) 0%, var(--pv-accent) var(--pv-calc-pct, 15%), rgba(255,255,255,0.10) var(--pv-calc-pct, 15%), rgba(255,255,255,0.10) 100%);
-  outline: none;
-  cursor: pointer;
-}
-.pv-calc__slider::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--pv-accent);
-  box-shadow: 0 4px 12px rgba(147,197,253,0.4), 0 0 0 6px rgba(147,197,253,0.12);
-  cursor: grab;
-  transition: transform 160ms var(--pv-ease), box-shadow 160ms var(--pv-ease);
-}
-.pv-calc__slider::-webkit-slider-thumb:active { transform: scale(1.15); cursor: grabbing; }
-.pv-calc__slider::-moz-range-thumb {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--pv-accent);
-  box-shadow: 0 4px 12px rgba(147,197,253,0.4);
-  cursor: grab;
-}
-.pv-calc__scale {
-  display: flex; justify-content: space-between;
-  font-family: var(--pv-mono);
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.40);
-  padding: 0 4px;
-}
-
-/* Output */
-.pv-calc__output {
-  background: rgba(0,0,0,0.20);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  padding: 16px;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.pv-calc__row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; padding: 8px 4px;
-  border-bottom: 1px dashed rgba(255,255,255,0.08);
-}
-.pv-calc__row:last-of-type { border-bottom: none; }
-.pv-calc__row-label {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.62);
-}
-.pv-calc__row-value {
-  font-size: 16px; font-weight: 900;
-  color: #fff; font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-}
-.pv-calc__row--total { padding: 12px 4px 14px; border-bottom: 2px solid rgba(147,197,253,0.18); border-top: 1px solid rgba(147,197,253,0.10); margin: 4px 0; }
-.pv-calc__row--total .pv-calc__row-label { color: var(--pv-accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; font-weight: 800; }
-.pv-calc__row--total .pv-calc__row-value { font-size: 26px; }
-
-.pv-calc__savings {
-  display: flex; align-items: center; gap: 12px;
-  background: linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.06));
-  border: 1px solid rgba(37,211,102,0.35);
-  border-radius: 12px; padding: 12px 14px;
-  margin-top: 4px;
-}
-.pv-calc__savings-icon {
-  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(37,211,102,0.25);
-  color: #4ADE80;
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.pv-calc__savings-icon [data-lucide] { width: 20px; height: 20px; stroke-width: 2.5; }
-.pv-calc__savings-copy { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.pv-calc__savings-label { font-size: 10px; font-weight: 800; letter-spacing: 0.10em; text-transform: uppercase; color: rgba(74,222,128,0.95); }
-.pv-calc__savings-value { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-
-.pv-calc__cta { width: 100%; margin-top: 8px; }
-
-/* ====== HOW TO BUY ====== */
-/* Mobile-first: stacked, normal scroll. Desktop: scroll-jacked horizontal */
-.pv-htb {
-  position: relative;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg); color: #fff;
-}
-.pv-htb__sticky {
-  position: relative;
-  padding: 56px 16px 48px;
-  overflow: hidden;
-}
-.pv-htb__sticky::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(800px 500px at 80% 20%, rgba(24,95,165,0.30) 0%, rgba(10,26,46,0) 60%),
-    radial-gradient(600px 400px at 20% 90%, rgba(217,119,6,0.10) 0%, rgba(10,26,46,0) 60%),
-    linear-gradient(180deg, var(--pv-bg) 0%, var(--pv-bg-2) 100%);
-}
-.pv-htb__sticky::after {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(rgba(147,197,253,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147,197,253,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 100%);
   mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 100%);
 }
-.pv-htb__sticky > * { position: relative; z-index: 1; }
+.pv-foot__inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; }
 
-.pv-htb__head { text-align: center; max-width: 56ch; margin: 0 auto 28px; display: flex; flex-direction: column; align-items: center; }
-.pv-htb__title {
-  font-size: clamp(26px, 4.5vw, 40px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.1;
-  margin: 14px 0 10px; color: #fff; text-wrap: balance;
+.pv-foot__top {
+  display: flex; flex-direction: column; gap: 18px;
+  align-items: flex-start; margin-bottom: 36px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.pv-htb__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-htb__lead { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.62); margin: 0; max-width: 50ch; line-height: 1.55; }
-
-.pv-htb__progress { display: none; }
-
-/* Mobile: stack panels vertically */
-.pv-htb__viewport { width: 100%; }
-.pv-htb__track { display: flex; flex-direction: column; gap: 14px; max-width: 720px; margin: 0 auto 28px; }
-.pv-htb__panel {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  padding: 18px 18px 20px;
-  display: flex; flex-direction: column; gap: 10px;
-  transition: border-color 240ms var(--pv-ease), background 240ms var(--pv-ease);
-}
-.pv-htb__panel:hover { border-color: rgba(147,197,253,0.30); background: rgba(255,255,255,0.06); }
-.pv-htb__panel-meta { display: flex; align-items: center; gap: 12px; }
-.pv-htb__panel-num {
-  font-size: 36px; font-weight: 900; line-height: 0.9;
-  color: rgba(147,197,253,0.30);
-  font-variant-numeric: tabular-nums; letter-spacing: -0.04em;
-}
-.pv-htb__panel-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(147,197,253,0.30);
-  padding: 5px 12px; border-radius: 9999px;
-  font-size: 11px; font-weight: 800; color: var(--pv-accent); letter-spacing: 0.04em;
-}
-.pv-htb__panel-tag [data-lucide] { width: 13px; height: 13px; stroke-width: 2.5; }
-.pv-htb__panel-title {
-  font-size: clamp(20px, 3.5vw, 30px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.1;
-  margin: 0; color: #fff; text-wrap: balance; max-width: 22ch;
-}
-.pv-htb__panel-body {
-  font-size: 14px; font-weight: 500; line-height: 1.55;
-  color: rgba(255,255,255,0.78); margin: 0; max-width: 50ch;
-}
-.pv-htb__panel-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.pv-htb__panel-list li {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 5px 10px 5px 8px; border-radius: 9999px;
-  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85);
-}
-.pv-htb__panel-list [data-lucide] { width: 12px; height: 12px; stroke-width: 3; color: var(--pv-accent); }
-
-.pv-htb__cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 880px; margin: 0 auto; }
-.pv-htb__cta .pv-btn { flex: 1 1 auto; min-width: 0; }
-@media (min-width: 480px) { .pv-htb__cta .pv-btn { flex: 0 0 auto; } }
-
-/* Desktop: scroll-jacked horizontal */
-@media (min-width: 960px) {
-  .pv-htb { height: 400vh; }
-  .pv-htb__sticky {
-    position: sticky; top: 0; height: 100vh;
-    display: flex; flex-direction: column;
-    padding: clamp(40px, 7vh, 72px) 16px clamp(32px, 5vh, 48px);
-  }
-  .pv-htb__progress { display: block; max-width: 880px; width: 100%; margin: 0 auto clamp(24px, 4vh, 40px); padding: 0 24px; }
-  .pv-htb__progress-track { position: relative; height: 2px; background: rgba(255,255,255,0.14); border-radius: 2px; }
-  .pv-htb__progress-fill {
-    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--pv-accent) 0%, var(--pv-primary) 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 12px rgba(147,197,253,0.6);
-    transition: width 80ms linear;
-  }
-  .pv-htb__node { position: absolute; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; }
-  .pv-htb__node-dot {
-    width: 12px; height: 12px;
-    background: var(--pv-bg);
-    border: 2px solid rgba(255,255,255,0.35);
-    border-radius: 50%;
-    transition: all 200ms var(--pv-ease);
-  }
-  .pv-htb__node.is-reached .pv-htb__node-dot { background: var(--pv-accent); border-color: var(--pv-accent); }
-  .pv-htb__node.is-active .pv-htb__node-dot {
-    background: #fff; border-color: #fff;
-    width: 16px; height: 16px;
-    box-shadow: 0 0 0 6px rgba(147,197,253,0.25), 0 0 20px rgba(147,197,253,0.6);
-  }
-  .pv-htb__node-label {
-    position: absolute; top: 22px;
-    font-size: 10px; font-weight: 800;
-    letter-spacing: 0.10em; text-transform: uppercase;
-    color: rgba(255,255,255,0.45); white-space: nowrap;
-    transition: color 200ms var(--pv-ease);
-  }
-  .pv-htb__node.is-active .pv-htb__node-label { color: var(--pv-accent); }
-
-  .pv-htb__viewport {
-    flex: 1; width: 100%; overflow: hidden;
-    position: relative; display: flex; align-items: center;
-    margin-bottom: clamp(20px, 3vh, 32px);
-  }
-  .pv-htb__track {
-    flex-direction: row; gap: 0;
-    display: flex; width: 400%;
-    transform: translateX(0%);
-    transition: transform 400ms cubic-bezier(.22,.61,.36,1);
-    will-change: transform; max-width: none; margin: 0;
-  }
-  .pv-htb__panel {
-    flex: 0 0 25%; max-width: 100%;
-    background: transparent; border: none; padding: 0 clamp(16px, 4vw, 56px);
-    opacity: 0.25; transition: opacity 400ms var(--pv-ease);
-    justify-content: center;
-  }
-  .pv-htb__panel:hover { background: transparent; }
-  .pv-htb__panel.is-active { opacity: 1; }
-  .pv-htb__panel-num { font-size: clamp(48px, 8vw, 88px); }
-  .pv-htb__panel-meta { margin-bottom: 8px; }
-}
-
-/* ====== FAQ ====== */
-.pv-faq {
-  position: relative; overflow: hidden;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg-2);
-  padding: 72px 16px 88px; color: #fff;
-}
-.pv-faq__bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(700px 400px at 50% 100%, rgba(24,95,165,0.18), transparent 60%);
-}
-.pv-faq__inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
-.pv-faq__head {
-  text-align: center; max-width: 56ch; margin: 0 auto 36px;
-  display: flex; flex-direction: column; align-items: center;
-}
-.pv-faq__title {
-  font-size: clamp(26px, 4.8vw, 40px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.12;
-  margin: 16px 0 10px; color: #fff; text-wrap: balance;
-}
-.pv-faq__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-faq__lead {
-  font-size: 14px; font-weight: 500;
-  color: rgba(255,255,255,0.62); margin: 0; max-width: 50ch; line-height: 1.55;
-}
-
-.pv-faq__list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
-.pv-faq__item {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: background 240ms var(--pv-ease), border-color 240ms var(--pv-ease);
-}
-.pv-faq__item[open] { background: rgba(255,255,255,0.06); border-color: rgba(147,197,253,0.25); }
-.pv-faq__item:hover { border-color: rgba(147,197,253,0.20); }
-.pv-faq__item summary { list-style: none; }
-.pv-faq__item summary::-webkit-details-marker { display: none; }
-.pv-faq__q {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; padding: 16px 18px;
-  cursor: pointer; user-select: none;
-  font-size: 15px; font-weight: 800;
-  color: #fff; letter-spacing: -0.005em; line-height: 1.35;
-}
-.pv-faq__q-text { flex: 1; }
-.pv-faq__q-icon {
-  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(147,197,253,0.10);
-  border: 1px solid rgba(147,197,253,0.22);
-  color: var(--pv-accent);
+@media (min-width: 720px) { .pv-foot__top { flex-direction: row; justify-content: space-between; align-items: center; } }
+.pv-foot__brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.pv-foot__brand-mark {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(180deg, #fff, #F0F6FC);
   display: inline-flex; align-items: center; justify-content: center;
-  transition: transform 280ms var(--pv-ease), background 240ms var(--pv-ease);
+  padding: 8px;
+  box-shadow: 0 0 0 1px rgba(147,197,253,0.20), 0 8px 20px rgba(0,0,0,0.30);
 }
-.pv-faq__q-icon [data-lucide] { width: 16px; height: 16px; stroke-width: 2.5; }
-.pv-faq__item[open] .pv-faq__q-icon { transform: rotate(45deg); background: rgba(147,197,253,0.20); }
-.pv-faq__a {
-  padding: 0 18px 18px;
-  border-top: 1px dashed rgba(255,255,255,0.10);
-  margin-top: -2px; padding-top: 14px;
-  animation: pvFaqOpen 320ms var(--pv-ease);
+.pv-foot__brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+.pv-foot__brand-text { display: flex; flex-direction: column; line-height: 1.05; gap: 4px; }
+.pv-foot__brand-name { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+.pv-foot__brand-tag { font-family: var(--pv-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(147,197,253,0.85); }
+
+.pv-foot__top-actions { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
+@media (min-width: 720px) { .pv-foot__top-actions { width: auto; } }
+.pv-foot__top-actions .pv-btn { flex: 1 1 auto; min-width: 0; }
+@media (min-width: 480px) { .pv-foot__top-actions .pv-btn { flex: 0 0 auto; } }
+
+.pv-foot__cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-bottom: 32px;
 }
-@keyframes pvFaqOpen {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@media (min-width: 720px) { .pv-foot__cols { grid-template-columns: repeat(4, 1fr); gap: 32px; } }
+
+.pv-foot__col { display: flex; flex-direction: column; }
+.pv-foot__cap {
+  font-family: var(--pv-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(147,197,253,0.70);
+  margin-bottom: 14px;
 }
-.pv-faq__a p {
-  margin: 0; font-size: 14px; font-weight: 500;
-  line-height: 1.65; color: rgba(255,255,255,0.78);
+.pv-foot__line {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.82);
+  text-decoration: none; padding: 4px 0;
+  transition: color 160ms var(--pv-ease);
+}
+.pv-foot__line:not(span):hover { color: #fff; }
+.pv-foot__line [data-lucide] { width: 14px; height: 14px; color: rgba(147,197,253,0.65); stroke-width: 2; }
+.pv-foot__wa [data-lucide] { color: var(--pv-wa); }
+.pv-foot__link {
+  display: block;
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.70);
+  text-decoration: none; padding: 4px 0;
+  transition: color 160ms var(--pv-ease), padding-left 160ms var(--pv-ease);
+}
+.pv-foot__link:hover { color: #fff; padding-left: 4px; }
+
+.pv-foot__pay { display: flex; flex-wrap: wrap; gap: 5px; }
+.pv-foot__chip {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  padding: 4px 10px; border-radius: 9999px;
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.10);
 }
 
-.pv-faq__cta {
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
-  padding: 24px 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
+.pv-foot__legal {
+  padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; flex-direction: column; gap: 8px;
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,.50);
+  align-items: center; text-align: center;
 }
-.pv-faq__cta-text { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.78); }
-@media (min-width: 540px) {
-  .pv-faq__cta { flex-direction: row; justify-content: space-between; padding: 16px 22px; }
+@media (min-width: 720px) { .pv-foot__legal { flex-direction: row; justify-content: space-between; } }
+.pv-foot__legal-mono {
+  font-family: var(--pv-mono);
+  letter-spacing: 0.10em;
+  color: rgba(147,197,253,0.45);
 }
 
-/* ====== NEWSLETTER ====== */
-.pv-news {
-  position: relative; overflow: hidden;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg);
-  padding: 64px 16px 80px; color: #fff;
-}
-.pv-news__bg { position: absolute; inset: 0; pointer-events: none; }
-.pv-news__orb {
-  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
-  animation: pvNewsOrb 16s ease-in-out infinite alternate;
-}
-.pv-news__orb--a { width: 400px; height: 400px; background: var(--pv-primary); top: -150px; right: -100px; }
-.pv-news__orb--b { width: 320px; height: 320px; background: var(--pv-accent); bottom: -120px; left: -80px; animation-delay: -8s; opacity: 0.18; }
-@keyframes pvNewsOrb {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(40px, 30px); }
-}
-.pv-news__inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
-
-.pv-news__card {
-  position: relative;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 24px;
-  padding: 28px 24px;
-  display: grid; grid-template-columns: 1fr; gap: 24px;
-  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
-  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.5);
-  overflow: hidden;
-}
-.pv-news__card::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 24px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(147,197,253,0.5), rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(147,197,253,0.3));
-  -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
-  mask-composite: exclude;
-}
-@media (min-width: 760px) {
-  .pv-news__card { grid-template-columns: 1.2fr 1fr; align-items: center; padding: 36px 36px; gap: 36px; }
-}
-.pv-news__copy { display: flex; flex-direction: column; align-items: flex-start; }
-.pv-news__title {
-  font-size: clamp(24px, 4.5vw, 36px); font-weight: 900;
-  letter-spacing: -0.025em; line-height: 1.1;
-  margin: 14px 0 10px; color: #fff; text-wrap: balance;
-}
-.pv-news__title-accent {
-  color: var(--pv-accent);
-  background-image: linear-gradient(180deg, transparent 70%, rgba(147,197,253,.30) 70%, rgba(147,197,253,.30) 92%, transparent 92%);
-  background-repeat: no-repeat; padding: 0 4px;
-}
-.pv-news__lead {
-  font-size: 13.5px; font-weight: 500;
-  color: rgba(255,255,255,0.65);
-  margin: 0 0 16px; line-height: 1.55; max-width: 50ch;
-}
-.pv-news__feats {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.pv-news__feats li {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 5px 10px 5px 8px; border-radius: 9999px;
-  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85);
-}
-.pv-news__feats [data-lucide] { width: 12px; height: 12px; stroke-width: 2.5; color: var(--pv-accent); }
-
-.pv-news__form { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-.pv-news__field {
-  position: relative;
-  display: flex; align-items: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 12px;
-  transition: border-color 200ms var(--pv-ease), background 200ms var(--pv-ease);
-}
-.pv-news__field:focus-within { border-color: rgba(147,197,253,0.6); background: rgba(255,255,255,0.10); box-shadow: 0 0 0 4px rgba(147,197,253,0.15); }
-.pv-news__field-icon {
-  width: 18px !important; height: 18px !important;
-  margin-left: 14px; color: rgba(255,255,255,0.55);
-  flex-shrink: 0;
-}
-.pv-news__input {
-  flex: 1; min-width: 0;
-  background: transparent; border: none; outline: none;
-  height: 50px; padding: 0 14px;
-  font-family: var(--pv-font);
-  font-size: 15px; font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.005em;
-}
-.pv-news__input::placeholder { color: rgba(255,255,255,0.40); font-weight: 500; }
-.pv-news__submit { width: 100%; }
-.pv-news__msg {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 700;
-  padding: 10px 14px; border-radius: 10px;
-}
-.pv-news__msg--ok { background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.30); color: #4ADE80; }
-.pv-news__msg--err { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.30); color: #FCA5A5; }
-.pv-news__msg [data-lucide] { width: 16px; height: 16px; stroke-width: 2.5; }
-
-/* ====== FOOTER ====== */
-.pv-footer {
-  background: var(--pv-primary-dk); color: #fff;
-  padding: 48px 16px 24px;
-  width: 100vw; margin-left: calc(-50vw + 50%);
-}
-.pv-footer__inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 28px; }
-@media (min-width: 720px) { .pv-footer__inner { grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 32px; } }
-.pv-footer__col--brand { max-width: 36ch; }
-.pv-footer__logo { width: 56px; filter: brightness(0) invert(1); margin-bottom: 12px; }
-.pv-footer__about { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.75); line-height: 1.5; margin: 0 0 14px; }
-.pv-footer__pay { display: flex; gap: 6px; flex-wrap: wrap; }
-.pv-footer__pay-chip { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 9999px; background: rgba(255,255,255,.10); color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.14); }
-.pv-footer__caption { font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 12px; }
-.pv-footer__line { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.92); text-decoration: none; padding: 4px 0; }
-.pv-footer__link { display: block; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.78); text-decoration: none; padding: 4px 0; transition: color 120ms; }
-.pv-footer__link:hover { color: #fff; }
-.pv-footer__line [data-lucide] { width: 16px; height: 16px; color: rgba(255,255,255,.55); }
-.pv-footer__wa [data-lucide] { color: var(--pv-wa); }
-.pv-footer__legal { margin-top: 32px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; }
-
-/* ====== WHATSAPP FAB ====== */
+/* ====== FAB WHATSAPP ====== */
 .pv-fab {
   position: fixed; right: 16px; bottom: 16px; z-index: 60;
   height: 56px; padding: 0 22px 0 18px;
   border-radius: 9999px;
-  background: var(--pv-wa); color: #fff !important;
+  background: linear-gradient(135deg, #2EE07A, var(--pv-wa));
+  color: #052E12 !important;
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--pv-font);
-  font-weight: 800; font-size: 15px;
+  font-weight: 900; font-size: 15px;
   text-decoration: none;
-  box-shadow: 0 12px 32px rgba(37,211,102,.45);
+  box-shadow: 0 12px 32px rgba(37,211,102,.5), inset 0 1px 0 rgba(255,255,255,0.4);
   transition: transform 120ms var(--pv-ease), box-shadow 200ms var(--pv-ease);
 }
-.pv-fab:hover { transform: translateY(-2px); }
+.pv-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(37,211,102,.6), inset 0 1px 0 rgba(255,255,255,0.5); }
 .pv-fab__pulse {
   position: absolute; inset: 0; border-radius: 9999px;
   border: 2px solid rgba(37,211,102,0.6);
   animation: pvFabPulse 2.4s ease-out infinite;
   pointer-events: none;
 }
+.pv-fab__pulse--2 { animation-delay: 1.2s; }
 @keyframes pvFabPulse {
   0%   { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 .pv-fab__label { white-space: nowrap; position: relative; z-index: 1; }
 .pv-fab svg { position: relative; z-index: 1; }
@@ -2490,13 +1855,14 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
   .pv-fab { padding: 0; width: 56px; justify-content: center; }
 }
 
-/* ====== ACCESIBILIDAD ====== */
+/* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .pv-home-root *, .pv-home-root *::before, .pv-home-root *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .pv-reveal { opacity: 1; transform: none; }
 }
 </style>
 
@@ -2504,100 +1870,59 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
 (function () {
   'use strict';
 
-  // === Counter animado ===
+  // === Counter animado, dispara al ver ===
   function animateCounter(el, target, duration, suffix) {
     var start = null;
     function tick(t) {
       if (!start) start = t;
-      var progress = Math.min((t - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var current = Math.round(target * eased);
-      el.textContent = current + (suffix || '');
-      if (progress < 1) requestAnimationFrame(tick);
+      var p = Math.min((t - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + (suffix || '');
+      if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
   }
-
   function initCounters() {
-    var counters = document.querySelectorAll('.pv-home-root [data-counter]');
+    var els = document.querySelectorAll('.pv-home-root [data-counter]');
     if (!('IntersectionObserver' in window)) {
-      counters.forEach(function (el) {
-        var t = parseInt(el.dataset.counter, 10) || 0;
-        animateCounter(el, t, 1800, el.dataset.suffix || '');
-      });
+      els.forEach(function (el) { animateCounter(el, parseInt(el.dataset.counter, 10) || 0, 1600, el.dataset.suffix || ''); });
       return;
     }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) {
           var el = e.target;
-          var t = parseInt(el.dataset.counter, 10) || 0;
-          animateCounter(el, t, 1600, el.dataset.suffix || '');
+          animateCounter(el, parseInt(el.dataset.counter, 10) || 0, 1600, el.dataset.suffix || '');
           io.unobserve(el);
         }
       });
     }, { threshold: 0.4 });
-    counters.forEach(function (el) { io.observe(el); });
+    els.forEach(function (el) { io.observe(el); });
   }
 
-  // === Header scroll-aware ===
-  function initHeaderScroll() {
-    var header = document.getElementById('provHeader');
-    if (!header) return;
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        if (window.scrollY > 8) header.classList.add('is-scrolled');
-        else header.classList.remove('is-scrolled');
-        ticking = false;
+  // === Scroll-reveal ===
+  function initReveal() {
+    var els = document.querySelectorAll('.pv-home-root .pv-reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(function (el) { el.classList.add('is-in'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
       });
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    els.forEach(function (el) { io.observe(el); });
   }
 
-  // === Hero parallax sutil con mouse (solo desktop, sin reduced-motion) ===
-  function initHeroTilt() {
-    var stage = document.getElementById('provHeroStage');
-    if (!stage) return;
+  // === Cursor spotlight (desktop) ===
+  function initSpotlight() {
     if (window.matchMedia('(max-width: 720px)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    stage.addEventListener('mousemove', function (e) {
-      var rect = stage.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width  - 0.5;
-      var y = (e.clientY - rect.top)  / rect.height - 0.5;
-      stage.style.setProperty('--tilt-x', (y * -6) + 'px');
-      stage.style.setProperty('--tilt-y', (x *  10) + 'px');
-    });
-    stage.addEventListener('mouseleave', function () {
-      stage.style.setProperty('--tilt-x', '0px');
-      stage.style.setProperty('--tilt-y', '0px');
-    });
-  }
-
-  // === Orbit pause on hover + HUD update ===
-  function initOrbit() {
-    var stage = document.getElementById('provOrbitStage');
-    var ring  = document.getElementById('provOrbitRing');
-    var hud   = document.getElementById('provOrbitHudValue');
-    if (!stage || !ring || !hud) return;
-    var defaultText = hud.textContent;
-    var pins = ring.querySelectorAll('.pv-orbit__pin');
-    function setActive(pin) {
-      pins.forEach(function (p) { p.classList.remove('is-active'); });
-      if (!pin) { hud.textContent = defaultText; return; }
-      pin.classList.add('is-active');
-      var name = pin.querySelector('.pv-orbit__pin-name');
-      if (name) hud.textContent = name.textContent;
-    }
-    stage.addEventListener('mouseenter', function () { stage.classList.add('is-paused'); });
-    stage.addEventListener('mouseleave', function () { stage.classList.remove('is-paused'); setActive(null); });
-    pins.forEach(function (pin) {
-      pin.addEventListener('mouseenter', function () { setActive(pin); });
-      pin.addEventListener('focus', function () { setActive(pin); stage.classList.add('is-paused'); });
-      pin.addEventListener('blur', function () { stage.classList.remove('is-paused'); setActive(null); });
+    var els = document.querySelectorAll('.pv-home-root [data-spotlight]');
+    els.forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        el.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+      });
     });
   }
 
@@ -2615,121 +1940,47 @@ Mobile-first: 90% del tráfico viene de mobile. Todo testeado < 360px.
     }).catch(function () {});
   }
 
-  // === How To Buy: scroll-jacked solo en desktop (>= 960px) ===
-  function initHtbScroll() {
-    var section = document.getElementById('provHtb');
-    var track   = document.getElementById('provHtbTrack');
-    var fill    = document.getElementById('provHtbFill');
-    if (!section || !track || !fill) return;
-
-    var nodes  = section.querySelectorAll('.pv-htb__node');
-    var panels = section.querySelectorAll('.pv-htb__panel');
-    var ticking = false;
-    var mql = window.matchMedia('(min-width: 960px)');
-
-    function reset() {
-      track.style.transform = '';
-      fill.style.width = '';
-      nodes.forEach(function (n) { n.classList.remove('is-reached', 'is-active'); });
-      panels.forEach(function (p) { p.classList.remove('is-active'); });
-    }
-
-    function update() {
-      ticking = false;
-      if (!mql.matches) { reset(); return; }
-      var rect = section.getBoundingClientRect();
-      var total = section.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
-      var raw = (-rect.top) / total;
-      var progress = Math.max(0, Math.min(1, raw));
-      track.style.transform = 'translateX(' + (-progress * 75) + '%)';
-      fill.style.width = (progress * 100) + '%';
-      var idx = Math.min(3, Math.floor(progress * 4));
-      nodes.forEach(function (n, i) {
-        n.classList.toggle('is-reached', i <= idx);
-        n.classList.toggle('is-active',  i === idx);
+  // === Shipping tabs ===
+  function initShipTabs() {
+    var section = document.getElementById('provShip');
+    if (!section) return;
+    var tabs   = section.querySelectorAll('.pv-ship__tab');
+    var panels = section.querySelectorAll('.pv-ship__panel');
+    function activate(name) {
+      tabs.forEach(function (t) {
+        var on = t.dataset.tab === name;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
       });
-      panels.forEach(function (p, i) {
-        p.classList.toggle('is-active', i === idx);
+      panels.forEach(function (p) {
+        p.classList.toggle('is-active', p.dataset.panel === name);
       });
     }
-
-    function onScroll() {
-      if (!ticking) { requestAnimationFrame(update); ticking = true; }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    if (mql.addEventListener) mql.addEventListener('change', onScroll);
-    update();
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { activate(t.dataset.tab); });
+    });
   }
 
-  // === Calculadora de bulto ===
-  function initCalc() {
-    var root = document.getElementById('provCalc');
-    if (!root) return;
-    var slider   = document.getElementById('provCalcSlider');
-    var bultosEl = document.getElementById('provCalcBultos');
-    var unitsEl  = document.getElementById('provCalcUnidades');
-    var punitEl  = document.getElementById('provCalcPunit');
-    var totalEl  = document.getElementById('provCalcTotal');
-    var savEl    = document.getElementById('provCalcAhorro');
-    if (!slider) return;
-
-    var unitsPerBulto = parseInt(root.dataset.units, 10) || 50;
-    var pmay          = parseFloat(root.dataset.pmay)   || 0;
-    var pmin          = parseFloat(root.dataset.pmin)   || 0;
-
-    var fmtMoney = (function () {
-      try {
-        var f = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
-        return function (n) { return f.format(n); };
-      } catch (e) {
-        return function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
-      }
-    })();
-
-    function pct(v) {
-      var min = parseFloat(slider.min) || 1;
-      var max = parseFloat(slider.max) || 20;
-      return ((v - min) / (max - min)) * 100;
-    }
-
-    function render() {
-      var bultos = parseInt(slider.value, 10) || 1;
-      var units  = bultos * unitsPerBulto;
-      var total  = units * pmay;
-      var minTot = units * pmin;
-      var sav    = Math.max(0, minTot - total);
-      bultosEl.textContent = bultos;
-      unitsEl.textContent  = units.toLocaleString('es-AR');
-      punitEl.textContent  = fmtMoney(pmay);
-      totalEl.textContent  = fmtMoney(total);
-      savEl.textContent    = fmtMoney(sav);
-      slider.style.setProperty('--pv-calc-pct', pct(bultos) + '%');
-    }
-
-    slider.addEventListener('input', render);
-    root.querySelectorAll('.pv-calc__step').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var step = parseInt(btn.dataset.step, 10) || 0;
-        var min = parseFloat(slider.min) || 1;
-        var max = parseFloat(slider.max) || 20;
-        var v = Math.max(min, Math.min(max, (parseInt(slider.value, 10) || 1) + step));
-        slider.value = v;
-        render();
+  // === Smooth scroll para anchors internos ===
+  function initSmoothScroll() {
+    document.querySelectorAll('.pv-home-root a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
-    render();
   }
 
   function init() {
     initCounters();
-    initHeaderScroll();
-    initHeroTilt();
-    initOrbit();
+    initReveal();
+    initSpotlight();
     updateCartBadge();
-    initHtbScroll();
-    initCalc();
+    initShipTabs();
+    initSmoothScroll();
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
       window.lucide.createIcons();
     }
