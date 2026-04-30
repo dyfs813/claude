@@ -65,8 +65,16 @@ Secciones:
       </div>
 
       <h1 class="pv-hero__title pv-rev" data-delay="80">
-        Tu mayorista de<br>
-        <em>toda la vida.</em>
+        <span class="pv-hero__line">
+          <span class="pv-hero__word">Tu</span>
+          <span class="pv-hero__word">mayorista</span>
+          <span class="pv-hero__word">de</span>
+        </span>
+        <span class="pv-hero__line">
+          <span class="pv-hero__word pv-hero__word--em">toda</span>
+          <span class="pv-hero__word pv-hero__word--em">la</span>
+          <span class="pv-hero__word pv-hero__word--em">vida.</span>
+        </span>
       </h1>
 
       <p class="pv-hero__lead pv-rev" data-delay="160">
@@ -87,17 +95,17 @@ Secciones:
       <div class="pv-hero__stats pv-rev" data-delay="320">
         <div class="pv-stat pv-stat--blue">
           <span class="pv-stat__icon">📅</span>
-          <span class="pv-stat__num">20<i>+</i></span>
+          <span class="pv-stat__num"><span data-counter="20">0</span><i>+</i></span>
           <span class="pv-stat__lab">años en Liniers</span>
         </div>
         <div class="pv-stat pv-stat--success">
           <span class="pv-stat__icon">📦</span>
-          <span class="pv-stat__num">216<i>+</i></span>
+          <span class="pv-stat__num"><span data-counter="216">0</span><i>+</i></span>
           <span class="pv-stat__lab">productos en stock</span>
         </div>
         <div class="pv-stat pv-stat--warning">
           <span class="pv-stat__icon">🚚</span>
-          <span class="pv-stat__num">24</span>
+          <span class="pv-stat__num"><span data-counter="24">0</span></span>
           <span class="pv-stat__lab">provincias</span>
         </div>
         <div class="pv-stat pv-stat--danger">
@@ -725,7 +733,17 @@ Secciones:
   margin: 0 0 22px;
   color: var(--pv-black); text-wrap: balance; max-width: 14ch;
 }
-.pv-hero__title em {
+.pv-hero__line {
+  display: block; overflow: hidden;
+  padding: 0.06em 0;
+}
+.pv-hero__word {
+  display: inline-block;
+  will-change: transform, opacity;
+  margin-right: 0.18em;
+}
+.pv-hero__word:last-child { margin-right: 0; }
+.pv-hero__word--em {
   font-style: italic;
   color: var(--pv-primary);
 }
@@ -941,7 +959,7 @@ Secciones:
   border-bottom-width: 6px;
   border-radius: var(--pv-r-lg);
   opacity: 0; transform: translateY(12px) scale(0.98); pointer-events: none;
-  transition: opacity 320ms var(--pv-ease), transform 320ms var(--pv-ease);
+  /* anime.js maneja la transición; CSS solo es fallback estático */
 }
 @media (min-width: 900px) { .pv-marca__panel { padding: 36px 32px; } }
 .pv-marca__panel.is-active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
@@ -1289,7 +1307,7 @@ Secciones:
   display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
   padding: 20px 8px 8px;
   opacity: 0; transform: translateX(20px); pointer-events: none;
-  transition: opacity 320ms var(--pv-ease), transform 320ms var(--pv-ease-out);
+  /* anime.js maneja la transición */
 }
 .pv-htb__panel.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
 .pv-htb__panel.is-prev { transform: translateX(-20px); }
@@ -1450,6 +1468,7 @@ Secciones:
 }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/animejs@4.4.1/dist/bundles/anime.umd.min.js" defer></script>
 <script defer>
 (function () {
   'use strict';
@@ -1539,7 +1558,7 @@ Secciones:
     });
   }
 
-  // === MARCAS: tap activa panel ===
+  // === MARCAS: tap activa panel (con anime.js si está disponible) ===
   function initBrands() {
     var sec = document.getElementById('provMarca');
     if (!sec) return;
@@ -1547,7 +1566,27 @@ Secciones:
     var panels = sec.querySelectorAll('.pv-marca__panel');
     function activate(name) {
       btns.forEach(function (b) { b.classList.toggle('is-active', b.dataset.brand === name); });
-      panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.panel === name); });
+      panels.forEach(function (p) {
+        var on = p.dataset.panel === name;
+        p.classList.toggle('is-active', on);
+        if (on && window.anime) {
+          window.anime.animate(p, {
+            opacity: [0, 1],
+            scale: [0.94, 1],
+            translateY: [16, 0],
+            duration: 520,
+            ease: 'outBack(1.7)'
+          });
+          var inner = p.querySelectorAll('.pv-marca__panel-emoji, .pv-marca__panel-h, .pv-marca__panel-eye, .pv-marca__panel-p, .pv-marca__tags span');
+          window.anime.animate(inner, {
+            opacity: [0, 1],
+            translateY: [12, 0],
+            duration: 460,
+            delay: window.anime.stagger(40, { start: 80 }),
+            ease: 'outExpo'
+          });
+        }
+      });
     }
     btns.forEach(function (b) {
       b.addEventListener('click', function () { activate(b.dataset.brand); });
@@ -1606,16 +1645,48 @@ Secciones:
 
     function go(n) {
       n = Math.max(0, Math.min(total - 1, n));
+      var dir = n > idx ? 1 : -1;
+      var prevIdx = idx;
       idx = n;
       dots.forEach(function (d, i) { d.classList.toggle('is-active', i === n); });
       panels.forEach(function (p, i) {
         p.classList.toggle('is-active', i === n);
         p.classList.toggle('is-prev', i < n);
       });
-      if (fill) fill.style.width = ((n + 1) / total * 100) + '%';
       if (cur) cur.textContent = '0' + (n + 1);
       if (prev) prev.disabled = (n === 0);
       if (next) next.disabled = (n === total - 1);
+
+      if (window.anime) {
+        // Progress fill animado
+        if (fill) {
+          window.anime.animate(fill, {
+            width: ((n + 1) / total * 100) + '%',
+            duration: 520,
+            ease: 'outExpo'
+          });
+        }
+        // Panel activo entrando
+        var active = panels[n];
+        if (active) {
+          window.anime.animate(active, {
+            opacity: [0, 1],
+            translateX: [dir * 36, 0],
+            duration: 480,
+            ease: 'outExpo'
+          });
+          var inner = active.querySelectorAll('.pv-htb__panel-emoji, .pv-htb__panel-num, .pv-htb__panel-h, .pv-htb__panel-p, .pv-htb__chips li');
+          window.anime.animate(inner, {
+            opacity: [0, 1],
+            translateY: [16, 0],
+            duration: 460,
+            delay: window.anime.stagger(45, { start: 100 }),
+            ease: 'outExpo'
+          });
+        }
+      } else {
+        if (fill) fill.style.width = ((n + 1) / total * 100) + '%';
+      }
     }
     dots.forEach(function (d) { d.addEventListener('click', function () { go(parseInt(d.dataset.step, 10)); }); });
     if (prev) prev.addEventListener('click', function () { go(idx - 1); });
@@ -1641,6 +1712,102 @@ Secciones:
     go(0);
   }
 
+  // === HERO entrance timeline (anime.js) ===
+  function initHeroAnime() {
+    if (typeof window.anime === 'undefined') return;
+    var A = window.anime;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Quitar .pv-rev del hero para que IntersectionObserver no interfiera
+    document.querySelectorAll('.pv-hero .pv-rev').forEach(function (el) {
+      el.classList.remove('pv-rev');
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+    });
+    document.querySelectorAll('.pv-hero__word').forEach(function (w) {
+      w.style.opacity = '0';
+      w.style.transform = 'translateY(110%)';
+    });
+    document.querySelectorAll('.pv-nav__brand, .pv-nav__actions').forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-16px)';
+    });
+
+    var tl = A.createTimeline({ defaults: { duration: 700, ease: 'outExpo' } });
+    tl
+      .add('.pv-nav__brand', { opacity: [0, 1], translateY: [-16, 0], duration: 600 })
+      .add('.pv-nav__actions', { opacity: [0, 1], translateY: [-16, 0], duration: 600 }, '-=550')
+      .add('.pv-hero__chip', { opacity: [0, 1], translateY: [12, 0] }, '-=350')
+      .add('.pv-hero__word', {
+        translateY: ['110%', '0%'],
+        opacity: [0, 1],
+        duration: 900,
+        delay: A.stagger(60)
+      }, '-=400')
+      .add('.pv-hero__lead', { opacity: [0, 1], translateY: [16, 0] }, '-=600')
+      .add('.pv-hero__ctas > *', {
+        opacity: [0, 1], translateY: [16, 0], scale: [0.95, 1],
+        delay: A.stagger(80), ease: 'outBack(1.4)'
+      }, '-=400')
+      .add('.pv-stat', {
+        opacity: [0, 1], translateY: [24, 0], scale: [0.92, 1],
+        delay: A.stagger(80), ease: 'outBack(1.7)'
+      }, '-=350');
+  }
+
+  // === COUNTERS animados con anime.js ===
+  function initCounters() {
+    var els = document.querySelectorAll('.pv [data-counter]');
+    if (!els.length) return;
+    if (typeof window.anime === 'undefined' || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.textContent = el.dataset.counter; });
+      return;
+    }
+    var A = window.anime;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var el = e.target;
+          var target = parseInt(el.dataset.counter, 10) || 0;
+          var obj = { v: 0 };
+          A.animate(obj, {
+            v: target,
+            duration: 1800,
+            ease: 'outExpo',
+            onUpdate: function () { el.textContent = Math.round(obj.v); }
+          });
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  // === MAP: pins entran con stagger al ver el mapa ===
+  function initMapAnime() {
+    if (typeof window.anime === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var map = document.getElementById('provMap');
+    if (!map) return;
+    var pins = map.querySelectorAll('.pv-map__pin');
+    if (!pins.length || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          pins.forEach(function (p) { p.style.opacity = '0'; });
+          window.anime.animate(pins, {
+            opacity: [0, 1],
+            duration: 600,
+            delay: window.anime.stagger(180, { start: 400 }),
+            ease: 'outExpo'
+          });
+          io.unobserve(map);
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(map);
+  }
+
   ready(function () {
     initLucide();
     updateCartBadge();
@@ -1650,6 +1817,9 @@ Secciones:
     initBrands();
     initMap();
     initHtb();
+    initHeroAnime();
+    initCounters();
+    initMapAnime();
   });
 })();
 </script>
