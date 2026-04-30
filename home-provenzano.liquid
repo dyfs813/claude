@@ -185,6 +185,61 @@ sin smooth scroll forzado (ya viene smooth nativo iOS/Android).
 
     </div>
   </section>
+  {%- comment -%} ============ ORBIT CATEGORIAS ============ {%- endcomment -%}
+  <section class="pv-orb" id="provOrb">
+    <div class="pv-wrap pv-orb__head">
+      <span class="pv-label">02.5 — Categorías</span>
+      <h2 class="pv-orb__title">
+        <span class="pv-orb__line"><span class="pv-orb__word">Lo</span> <span class="pv-orb__word">que</span> <span class="pv-orb__word pv-orb__word--ital">más</span></span>
+        <span class="pv-orb__line"><span class="pv-orb__word pv-orb__word--ital">rota</span><span class="pv-orb__period">.</span></span>
+      </h2>
+      <p class="pv-orb__lead pv-rev">8 rubros que mueven el 80% de los kioscos. Tocá cualquiera para ver todos los productos.</p>
+    </div>
+
+    <div class="pv-orb__stage" id="provOrbStage">
+      <svg class="pv-orb__rings" viewBox="0 0 600 600" aria-hidden="true">
+        <defs>
+          <radialGradient id="pv-orb-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(59,130,246,0.30)"/>
+            <stop offset="100%" stop-color="rgba(59,130,246,0)"/>
+          </radialGradient>
+        </defs>
+        <circle cx="300" cy="300" r="290" fill="none" stroke="rgba(242,239,231,0.06)" stroke-width="1" stroke-dasharray="2 6"/>
+        <circle cx="300" cy="300" r="220" fill="none" stroke="rgba(242,239,231,0.12)" stroke-width="1"/>
+        <circle cx="300" cy="300" r="150" fill="none" stroke="rgba(59,130,246,0.20)" stroke-width="1" stroke-dasharray="4 4"/>
+        <circle cx="300" cy="300" r="90" fill="url(#pv-orb-glow)" opacity="0.6"/>
+      </svg>
+
+      <div class="pv-orb__core">
+        <div class="pv-orb__core-pulse"></div>
+        <div class="pv-orb__core-ring"></div>
+        <div class="pv-orb__core-mark"><img src="{{ logo_url }}" alt="Provenzano"></div>
+      </div>
+
+      <div class="pv-orb__ring" id="provOrbRing">
+        {% assign cats = 'encendedores|flame|Encendedores,pilas|battery|Pilas,pegamentos|paperclip|Pegamentos,afeitado|scissors|Afeitado,perfumeria|sparkles|Perfumería,repelentes|bug|Repelentes,golosinas|candy|Golosinas,farmacia|cross|Farmacia' | split: ',' %}
+        {% for cat in cats %}
+          {% assign parts = cat | split: '|' %}
+          {% assign idx = forloop.index0 %}
+          {% assign angle = idx | times: 45 %}
+          <a href="/collections/{{ parts[0] }}" class="pv-orb__pin" style="--angle:{{ angle }}deg;--idx:{{ idx }}" aria-label="{{ parts[2] }}" data-cursor="link">
+            <span class="pv-orb__pin-core">
+              <i data-lucide="{{ parts[1] }}"></i>
+            </span>
+            <span class="pv-orb__pin-label">
+              {{ parts[2] }} <i data-lucide="arrow-right"></i>
+            </span>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="pv-orb__hud">
+        <span class="pv-orb__hud-lab">Rubro</span>
+        <span class="pv-orb__hud-val" id="provOrbHudVal">Tocá un pin</span>
+      </div>
+    </div>
+  </section>
+
   {%- comment -%} ============ CATALOG (horizontal scroll pinned) ============ {%- endcomment -%}
   <section class="pv-cat" id="provCatalog">
 
@@ -258,22 +313,61 @@ sin smooth scroll forzado (ya viene smooth nativo iOS/Android).
     </div>
 
   </section>
-  {%- comment -%} ============ BRANDS ============ {%- endcomment -%}
-  <section class="pv-brands" aria-label="Marcas oficiales">
-    <span class="pv-brands__lab">Trabajamos con marcas oficiales</span>
-    <div class="pv-brands__marquee">
-      <ul class="pv-brands__track">
-        <li>Energizer</li><li class="pv-brands__sep">✱</li>
-        <li>Duracell</li><li class="pv-brands__sep">✱</li>
-        <li>Gillette</li><li class="pv-brands__sep">✱</li>
-        <li>Candela</li><li class="pv-brands__sep">✱</li>
-        <li>BIC</li><li class="pv-brands__sep">✱</li>
-        <li aria-hidden="true">Energizer</li><li class="pv-brands__sep" aria-hidden="true">✱</li>
-        <li aria-hidden="true">Duracell</li><li class="pv-brands__sep" aria-hidden="true">✱</li>
-        <li aria-hidden="true">Gillette</li><li class="pv-brands__sep" aria-hidden="true">✱</li>
-        <li aria-hidden="true">Candela</li><li class="pv-brands__sep" aria-hidden="true">✱</li>
-        <li aria-hidden="true">BIC</li><li class="pv-brands__sep" aria-hidden="true">✱</li>
-      </ul>
+  {%- comment -%} ============ MARCAS interactivas ============ {%- endcomment -%}
+  <section class="pv-marca" id="provMarca" aria-label="Marcas oficiales">
+    <div class="pv-marca__bg" id="provMarcaBg" aria-hidden="true"></div>
+    <div class="pv-wrap pv-marca__inner">
+      <header class="pv-marca__head">
+        <span class="pv-label">03.5 — Marcas oficiales</span>
+        <h2 class="pv-marca__title">
+          <span class="pv-marca__line"><span class="pv-marca__word">Las</span> <span class="pv-marca__word">marcas</span></span>
+          <span class="pv-marca__line"><span class="pv-marca__word">que</span> <span class="pv-marca__word pv-marca__word--ital">tus</span> <span class="pv-marca__word pv-marca__word--ital">clientes</span></span>
+          <span class="pv-marca__line"><span class="pv-marca__word pv-marca__word--ital">ya</span> <span class="pv-marca__word pv-marca__word--ital">conocen</span><span class="pv-marca__period">.</span></span>
+        </h2>
+      </header>
+
+      <div class="pv-marca__stage">
+        <ul class="pv-marca__list" role="tablist">
+          <li><button class="pv-marca__btn is-active" type="button" data-brand="energizer" data-cursor="link"><span class="pv-marca__num">01</span><span class="pv-marca__name">Energizer</span></button></li>
+          <li><button class="pv-marca__btn" type="button" data-brand="duracell" data-cursor="link"><span class="pv-marca__num">02</span><span class="pv-marca__name">Duracell</span></button></li>
+          <li><button class="pv-marca__btn" type="button" data-brand="gillette" data-cursor="link"><span class="pv-marca__num">03</span><span class="pv-marca__name">Gillette</span></button></li>
+          <li><button class="pv-marca__btn" type="button" data-brand="candela" data-cursor="link"><span class="pv-marca__num">04</span><span class="pv-marca__name">Candela</span></button></li>
+          <li><button class="pv-marca__btn" type="button" data-brand="bic" data-cursor="link"><span class="pv-marca__num">05</span><span class="pv-marca__name">BIC</span></button></li>
+        </ul>
+
+        <div class="pv-marca__panels">
+          <article class="pv-marca__panel is-active" data-panel="energizer" style="--brand:#E11D48;">
+            <span class="pv-marca__panel-eye">Pilas alcalinas</span>
+            <h3 class="pv-marca__panel-h">Las pilas<br><em>que rotan.</em></h3>
+            <p class="pv-marca__panel-p">AA, AAA, C, D y especiales. Stock permanente, los formatos que más mueve un kiosco.</p>
+            <span class="pv-marca__panel-tags"><span>AA</span><span>AAA</span><span>9V</span><span>D</span></span>
+          </article>
+          <article class="pv-marca__panel" data-panel="duracell" style="--brand:#EA580C;">
+            <span class="pv-marca__panel-eye">Pilas premium</span>
+            <h3 class="pv-marca__panel-h">El conejito<br><em>que no para.</em></h3>
+            <p class="pv-marca__panel-p">Línea premium para quien busca duración real. Las que tu cliente pide por nombre.</p>
+            <span class="pv-marca__panel-tags"><span>AA</span><span>AAA</span><span>9V</span><span>Botón</span></span>
+          </article>
+          <article class="pv-marca__panel" data-panel="gillette" style="--brand:#3B82F6;">
+            <span class="pv-marca__panel-eye">Afeitado</span>
+            <h3 class="pv-marca__panel-h">Lo mejor que<br><em>un hombre quiere.</em></h3>
+            <p class="pv-marca__panel-p">Máquinas, repuestos y desechables. La marca que se vende sola en el mostrador.</p>
+            <span class="pv-marca__panel-tags"><span>Prestobarba</span><span>Mach3</span><span>Fusion</span><span>Repuestos</span></span>
+          </article>
+          <article class="pv-marca__panel" data-panel="candela" style="--brand:#F59E0B;">
+            <span class="pv-marca__panel-eye">Hogar e iluminación</span>
+            <h3 class="pv-marca__panel-h">Velas, fósforos<br><em>y mucho más.</em></h3>
+            <p class="pv-marca__panel-p">Catálogo completo de iluminación, velas y artículos de hogar para el almacén de barrio.</p>
+            <span class="pv-marca__panel-tags"><span>Velas</span><span>Fósforos</span><span>Hogar</span></span>
+          </article>
+          <article class="pv-marca__panel" data-panel="bic" style="--brand:#1E40AF;">
+            <span class="pv-marca__panel-eye">Encendedores y librería</span>
+            <h3 class="pv-marca__panel-h">El encendedor<br><em>de toda la vida.</em></h3>
+            <p class="pv-marca__panel-p">Mini, Maxi, J5. Lapiceras y artículos de librería. Las marcas que nunca fallan en rotación.</p>
+            <span class="pv-marca__panel-tags"><span>Mini</span><span>Maxi</span><span>J5</span><span>Lapiceras</span></span>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
   {%- comment -%} ============ SHIPPING ============ {%- endcomment -%}
@@ -286,8 +380,91 @@ sin smooth scroll forzado (ya viene smooth nativo iOS/Android).
           <span class="pv-ship__line"><span class="pv-ship__word">Llegamos</span></span>
           <span class="pv-ship__line"><span class="pv-ship__word">donde</span> <span class="pv-ship__word pv-ship__word--ital">estés</span><span class="pv-ship__period">.</span></span>
         </h2>
-        <p class="pv-ship__lead pv-rev">Cuatro formas de recibir tu pedido. Todas claras, sin letra chica.</p>
+        <p class="pv-ship__lead pv-rev">A todo el país. Pasá el mouse por el mapa o tocá cada destino.</p>
       </header>
+
+      {%- comment -%} ===== MAPA INTERACTIVO ===== {%- endcomment -%}
+      <div class="pv-map" id="provMap">
+        <div class="pv-map__hud pv-map__hud--tl">
+          <span class="pv-map__hud-eye">Origen</span>
+          <span class="pv-map__hud-val">CABA · Liniers</span>
+        </div>
+        <div class="pv-map__hud pv-map__hud--tr">
+          <span class="pv-map__hud-eye"><span class="pv-map__hud-dot"></span>Despachando</span>
+          <span class="pv-map__hud-mono">24 provincias</span>
+        </div>
+        <div class="pv-map__tooltip" id="provMapTip" aria-hidden="true">
+          <span class="pv-map__tip-eye"></span>
+          <span class="pv-map__tip-name"></span>
+          <span class="pv-map__tip-meta"></span>
+        </div>
+
+        <svg class="pv-map__svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="pv-map-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(59,130,246,0.55)"/>
+              <stop offset="100%" stop-color="rgba(59,130,246,0)"/>
+            </radialGradient>
+            <linearGradient id="pv-map-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(59,130,246,0.10)"/>
+              <stop offset="100%" stop-color="rgba(59,130,246,0.04)"/>
+            </linearGradient>
+          </defs>
+
+          <g class="pv-map__country">
+            <path d="M 220,40 L 235,55 L 240,75 L 248,95 L 256,115 L 268,140 L 274,165 L 282,195 L 290,225 L 296,255 L 298,290 L 290,325 L 280,360 L 268,395 L 252,425 L 234,450 L 215,470 L 195,485 L 178,495 L 165,505 L 158,520 L 162,533 L 175,530 L 175,512 L 188,508 L 192,495 L 178,488 L 198,470 L 215,455 L 220,470 L 215,488 L 218,500 L 232,492 L 230,478 L 240,460 L 252,440 L 230,425 L 215,395 L 200,370 L 185,345 L 170,335 L 155,330 L 148,320 L 152,300 L 168,285 L 180,272 L 186,250 L 178,225 L 168,200 L 155,180 L 148,158 L 152,135 L 162,115 L 175,95 L 188,72 L 200,55 L 210,42 Z"
+              fill="url(#pv-map-fill)" stroke="rgba(242,239,231,0.32)" stroke-width="1.2" stroke-linejoin="round"/>
+          </g>
+
+          <g class="pv-map__lines" stroke-linecap="round" fill="none">
+            <path class="pv-map__line" style="--delay:0s"   d="M 260,295 Q 270,325 255,360" stroke="#3B82F6" stroke-width="1.5"/>
+            <path class="pv-map__line" style="--delay:0.5s" d="M 260,295 Q 240,260 230,225" stroke="#3B82F6" stroke-width="1.5"/>
+            <path class="pv-map__line" style="--delay:1.0s" d="M 260,295 Q 230,255 215,200" stroke="#3B82F6" stroke-width="1.5"/>
+            <path class="pv-map__line" style="--delay:1.5s" d="M 260,295 Q 220,260 195,225" stroke="#3B82F6" stroke-width="1.5"/>
+            <path class="pv-map__line" style="--delay:2.0s" d="M 260,295 Q 215,295 170,278" stroke="#3B82F6" stroke-width="1.5"/>
+            <path class="pv-map__line" style="--delay:2.5s" d="M 260,295 Q 220,225 195,158" stroke="#3B82F6" stroke-width="1.5"/>
+          </g>
+
+          <g class="pv-map__origin" transform="translate(260,295)">
+            <circle r="26" fill="url(#pv-map-glow)"/>
+            <circle class="pv-map__ping" r="8" fill="none" stroke="#3B82F6" stroke-width="2" opacity="0.7"/>
+            <circle class="pv-map__ping" r="8" fill="none" stroke="#3B82F6" stroke-width="2" opacity="0.7" style="animation-delay:1s"/>
+            <circle r="9" fill="#3B82F6" stroke="#F2EFE7" stroke-width="2"/>
+            <circle r="3" fill="#F2EFE7"/>
+          </g>
+
+          <g class="pv-map__pin" data-name="Mar del Plata" data-meta="GBA / Interior · 1-2 días" transform="translate(255,360)" tabindex="0" role="button" aria-label="Mar del Plata">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin" data-name="Rosario" data-meta="Vía cargo · 24-48 hs" transform="translate(230,225)" tabindex="0" role="button" aria-label="Rosario">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin" data-name="Santa Fe" data-meta="Vía cargo · 2 días" transform="translate(215,200)" tabindex="0" role="button" aria-label="Santa Fe">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin" data-name="Córdoba" data-meta="Vía cargo · 2-3 días" transform="translate(195,225)" tabindex="0" role="button" aria-label="Córdoba">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin" data-name="Mendoza" data-meta="Vía cargo · 3-4 días" transform="translate(170,278)" tabindex="0" role="button" aria-label="Mendoza">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin" data-name="Salta · NOA" data-meta="Vía cargo · 4-6 días" transform="translate(195,158)" tabindex="0" role="button" aria-label="Salta y NOA">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+          <g class="pv-map__pin pv-map__pin--south" data-name="Patagonia" data-meta="Vía cargo · 5-7 días" transform="translate(190,470)" tabindex="0" role="button" aria-label="Patagonia">
+            <circle r="14" fill="rgba(59,130,246,0.0)" class="pv-map__hit"/>
+            <circle r="4" fill="#3B82F6"/><circle r="4" fill="#3B82F6" class="pv-map__pin-pulse"/>
+          </g>
+        </svg>
+
+        <span class="pv-map__cap">Pasá / tocá cualquier destino</span>
+      </div>
 
       <div class="pv-ship__cards">
         <article class="pv-ship__card pv-rev">
@@ -391,6 +568,96 @@ sin smooth scroll forzado (ya viene smooth nativo iOS/Android).
 
     </div>
   </section>
+  {%- comment -%} ============ COMO COMPRAR (scroll-jacked) ============ {%- endcomment -%}
+  <section class="pv-htb" id="provHtb">
+    <div class="pv-htb__sticky">
+      <div class="pv-htb__bg" id="provHtbBg" aria-hidden="true"></div>
+      <div class="pv-wrap pv-htb__head">
+        <span class="pv-label">04.5 — Cómo comprar</span>
+        <h2 class="pv-htb__title">
+          <span class="pv-htb__line"><span class="pv-htb__word">De</span> <span class="pv-htb__word">la</span> <span class="pv-htb__word">web</span></span>
+          <span class="pv-htb__line"><span class="pv-htb__word">a</span> <span class="pv-htb__word pv-htb__word--ital">tu</span> <span class="pv-htb__word pv-htb__word--ital">negocio</span><span class="pv-htb__period">.</span></span>
+        </h2>
+      </div>
+
+      <div class="pv-htb__progress" role="progressbar" aria-valuenow="0">
+        <div class="pv-htb__progress-track">
+          <div class="pv-htb__progress-fill" id="provHtbFill"></div>
+          <div class="pv-htb__node" data-idx="0" style="left:0%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-lab">Web</span></div>
+          <div class="pv-htb__node" data-idx="1" style="left:33.33%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-lab">WhatsApp</span></div>
+          <div class="pv-htb__node" data-idx="2" style="left:66.66%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-lab">Bodega</span></div>
+          <div class="pv-htb__node" data-idx="3" style="left:100%"><span class="pv-htb__node-dot"></span><span class="pv-htb__node-lab">Entrega</span></div>
+        </div>
+      </div>
+
+      <div class="pv-htb__viewport">
+        <div class="pv-htb__track" id="provHtbTrack">
+
+          <article class="pv-htb__panel" data-idx="0" style="--pc:#3B82F6;">
+            <div class="pv-htb__num">01</div>
+            <div class="pv-htb__panel-body">
+              <span class="pv-htb__panel-tag"><i data-lucide="search"></i> WEB</span>
+              <h3 class="pv-htb__panel-h">Armás tu pedido<br><em>en la web.</em></h3>
+              <p class="pv-htb__panel-p">Navegás el catálogo de 216+ productos, agregás al carrito por bulto o caja cerrada. Sin formularios largos.</p>
+              <ul class="pv-htb__panel-list">
+                <li><i data-lucide="check"></i> Catálogo en vivo</li>
+                <li><i data-lucide="check"></i> Bultos cerrados</li>
+                <li><i data-lucide="check"></i> Sin mínimos rígidos</li>
+              </ul>
+            </div>
+            <div class="pv-htb__panel-icon"><i data-lucide="laptop"></i></div>
+          </article>
+
+          <article class="pv-htb__panel" data-idx="1" style="--pc:#25D366;">
+            <div class="pv-htb__num">02</div>
+            <div class="pv-htb__panel-body">
+              <span class="pv-htb__panel-tag"><i data-lucide="message-circle"></i> WHATSAPP</span>
+              <h3 class="pv-htb__panel-h">Lo enviás<br><em>por WhatsApp.</em></h3>
+              <p class="pv-htb__panel-p">Elegís modalidad de entrega, completás tus datos. El pedido pre-armado nos llega listo para confirmar.</p>
+              <ul class="pv-htb__panel-list">
+                <li><i data-lucide="check"></i> 1 click → WhatsApp</li>
+                <li><i data-lucide="check"></i> Sin perder tiempo</li>
+                <li><i data-lucide="check"></i> Asesor humano real</li>
+              </ul>
+            </div>
+            <div class="pv-htb__panel-icon"><i data-lucide="message-square-text"></i></div>
+          </article>
+
+          <article class="pv-htb__panel" data-idx="2" style="--pc:#F59E0B;">
+            <div class="pv-htb__num">03</div>
+            <div class="pv-htb__panel-body">
+              <span class="pv-htb__panel-tag"><i data-lucide="package"></i> BODEGA</span>
+              <h3 class="pv-htb__panel-h">Confirmamos<br><em>y embalamos.</em></h3>
+              <p class="pv-htb__panel-p">Validamos stock real, preparamos los bultos según tu modalidad y te avisamos el total + tiempo estimado.</p>
+              <ul class="pv-htb__panel-list">
+                <li><i data-lucide="check"></i> Stock real, sí o sí</li>
+                <li><i data-lucide="check"></i> Embalaje cuidado</li>
+                <li><i data-lucide="check"></i> Aviso por WhatsApp</li>
+              </ul>
+            </div>
+            <div class="pv-htb__panel-icon"><i data-lucide="boxes"></i></div>
+          </article>
+
+          <article class="pv-htb__panel" data-idx="3" style="--pc:#A855F7;">
+            <div class="pv-htb__num">04</div>
+            <div class="pv-htb__panel-body">
+              <span class="pv-htb__panel-tag"><i data-lucide="truck"></i> ENTREGA</span>
+              <h3 class="pv-htb__panel-h">Llega<br><em>a tu negocio.</em></h3>
+              <p class="pv-htb__panel-p">CABA y GBA: misma jornada si entra antes del corte. Vía cargo a 24 provincias en 2-7 días hábiles.</p>
+              <ul class="pv-htb__panel-list">
+                <li><i data-lucide="check"></i> CABA mismo día</li>
+                <li><i data-lucide="check"></i> GBA mismo día</li>
+                <li><i data-lucide="check"></i> 24 provincias</li>
+              </ul>
+            </div>
+            <div class="pv-htb__panel-icon"><i data-lucide="truck"></i></div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   {%- comment -%} ============ CONTACT ============ {%- endcomment -%}
   <section class="pv-contact" id="provContact">
     <div class="pv-wrap">
@@ -982,6 +1249,8 @@ html.lenis, html.lenis body { height: auto; }
 .pv-cat__pin {
   position: relative;
   padding-bottom: 80px;
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
 }
 .pv-cat__track {
   display: flex; gap: 16px;
@@ -990,11 +1259,22 @@ html.lenis, html.lenis body { height: auto; }
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  transform-style: preserve-3d;
 }
 .pv-cat__track::-webkit-scrollbar { display: none; }
 @media (min-width: 760px) { .pv-cat__track { padding: 0 32px 40px; gap: 20px; } }
 @media (min-width: 1100px) {
-  .pv-cat__track { padding: 0 56px 56px; gap: 24px; overflow: visible; }
+  .pv-cat__track { padding: 0 56px 56px; gap: 32px; overflow: visible; }
+}
+
+/* 3D depth para cards en el shelf (desktop) */
+@media (min-width: 1100px) {
+  .pv-prod, .pv-cat__card {
+    transform: rotateY(var(--cy, 0deg)) scale(var(--sc, 1));
+    transform-origin: center center;
+    transition: filter 240ms var(--pv-ease);
+    filter: brightness(var(--br, 1));
+  }
 }
 .pv-cat__card {
   flex: 0 0 auto;
@@ -1062,7 +1342,8 @@ html.lenis, html.lenis body { height: auto; }
   overflow: hidden;
   transition: transform 320ms var(--pv-ease-out), border-color 320ms var(--pv-ease), background 320ms var(--pv-ease);
 }
-.pv-prod:hover { transform: translateY(-4px); border-color: var(--pv-blue); background: var(--pv-bg-2); }
+.pv-prod:hover { border-color: var(--pv-blue); background: var(--pv-bg-2); }
+@media (max-width: 1099px) { .pv-prod:hover { transform: translateY(-4px); } }
 .pv-prod:hover .pv-prod__arrow { background: var(--pv-blue); color: var(--pv-cream); transform: translate(2px, -2px); }
 .pv-prod:hover .pv-prod__img img { transform: scale(1.06); }
 
@@ -1187,7 +1468,111 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-cat__cta-arrow [data-lucide] { width: 20px; height: 20px; stroke-width: 1.8; }
 
-/* ====== BRANDS ====== */
+/* ====== MARCAS interactivas ====== */
+.pv-marca {
+  position: relative; overflow: hidden;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-bg-2);
+  padding: 80px 0 96px;
+  border-bottom: 1px solid var(--pv-line);
+}
+@media (min-width: 900px) { .pv-marca { padding: 120px 0 140px; } }
+.pv-marca__bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(800px 600px at var(--bx, 50%) var(--by, 50%), var(--bgGlow, rgba(225,29,72,0.25)) 0%, transparent 60%);
+  transition: background 600ms var(--pv-ease);
+  opacity: 0.7;
+}
+.pv-marca__inner { position: relative; z-index: 1; }
+.pv-marca__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px; }
+.pv-marca__title {
+  font-size: clamp(40px, 8vw, 110px);
+  font-weight: 900; letter-spacing: -0.045em; line-height: 0.92;
+  margin: 8px 0 0; color: var(--pv-cream); text-wrap: balance;
+}
+.pv-marca__line { display: block; overflow: hidden; padding: 0.04em 0; }
+.pv-marca__word { display: inline-block; will-change: transform; }
+.pv-marca__word--ital { font-style: italic; font-weight: 800; color: var(--pv-blue); }
+.pv-marca__period { color: var(--pv-blue); }
+
+.pv-marca__stage {
+  display: grid; grid-template-columns: 1fr; gap: 24px;
+}
+@media (min-width: 900px) { .pv-marca__stage { grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; } }
+
+.pv-marca__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.pv-marca__list li { border-bottom: 1px solid var(--pv-line); }
+.pv-marca__list li:first-child { border-top: 1px solid var(--pv-line); }
+.pv-marca__btn {
+  display: flex; align-items: baseline; gap: 24px;
+  width: 100%;
+  padding: 18px 0;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--pv-cream-3);
+  font-family: var(--pv-font);
+  text-align: left;
+  transition: color 300ms var(--pv-ease), padding-left 300ms var(--pv-ease);
+}
+.pv-marca__btn:hover { color: var(--pv-cream); padding-left: 12px; }
+.pv-marca__btn.is-active { color: var(--pv-cream); padding-left: 16px; }
+.pv-marca__num {
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em;
+  color: currentColor; opacity: 0.55;
+  flex-shrink: 0; align-self: center;
+}
+.pv-marca__name {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1;
+  color: currentColor;
+  transition: font-style 200ms;
+}
+.pv-marca__btn.is-active .pv-marca__name { font-style: italic; font-weight: 800; }
+
+.pv-marca__panels { position: relative; min-height: 320px; }
+@media (min-width: 900px) { .pv-marca__panels { min-height: 420px; } }
+.pv-marca__panel {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; gap: 16px; justify-content: center;
+  padding: 28px 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border: 1px solid var(--pv-line);
+  border-left: 4px solid var(--brand, var(--pv-blue));
+  border-radius: 24px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(20px) scale(0.97);
+  transition: opacity 380ms var(--pv-ease), transform 380ms var(--pv-ease-out);
+}
+@media (min-width: 900px) { .pv-marca__panel { padding: 40px 36px; } }
+.pv-marca__panel.is-active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+.pv-marca__panel-eye {
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--brand, var(--pv-blue));
+  filter: brightness(1.4) saturate(1.3);
+}
+.pv-marca__panel-h {
+  margin: 0; font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900; letter-spacing: -0.035em; line-height: 0.95;
+  color: var(--pv-cream);
+}
+.pv-marca__panel-h em { font-style: italic; font-weight: 800; color: var(--brand, var(--pv-blue)); filter: brightness(1.4) saturate(1.3); }
+.pv-marca__panel-p { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.6; color: var(--pv-cream-2); max-width: 50ch; }
+.pv-marca__panel-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.pv-marca__panel-tags span {
+  display: inline-flex; align-items: center;
+  background: rgba(242,239,231,0.05);
+  border: 1px solid var(--pv-line-2);
+  padding: 6px 12px; border-radius: 9999px;
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.10em;
+  color: var(--pv-cream-2);
+}
+
+/* ====== BRANDS (legacy CSS, kept just in case) ====== */
 .pv-brands {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(-50vw + 50%);
@@ -1250,6 +1635,103 @@ html.lenis, html.lenis body { height: auto; }
 .pv-ship__word--ital { font-style: italic; font-weight: 800; color: var(--pv-blue); }
 .pv-ship__period { color: var(--pv-blue); }
 .pv-ship__lead { font-size: clamp(15px, 1.7vw, 19px); font-weight: 500; line-height: 1.55; color: var(--pv-cream-2); margin: 0; max-width: 50ch; }
+
+/* Mapa Argentina interactivo */
+.pv-map {
+  position: relative;
+  width: 100%;
+  max-width: 720px; margin: 0 auto 64px;
+  aspect-ratio: 1 / 1.1;
+}
+@media (min-width: 720px) { .pv-map { aspect-ratio: 4/3; max-width: 920px; } }
+.pv-map__svg { width: 100%; height: 100%; filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5)); }
+.pv-map__country path:first-child { filter: drop-shadow(0 0 16px rgba(59,130,246,0.20)); }
+.pv-map__line {
+  stroke-dasharray: 200; stroke-dashoffset: 200;
+  filter: drop-shadow(0 0 6px rgba(59,130,246,0.7));
+  animation: pvMapDraw 5s cubic-bezier(.4,0,.2,1) infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes pvMapDraw {
+  0%   { stroke-dashoffset: 200; opacity: 0; }
+  10%  { opacity: 1; }
+  60%  { stroke-dashoffset: 0; opacity: 1; }
+  85%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.pv-map__origin { filter: drop-shadow(0 0 12px rgba(59,130,246,0.7)); }
+.pv-map__ping {
+  transform-origin: center; transform-box: fill-box;
+  animation: pvMapPing 2.4s ease-out infinite;
+}
+@keyframes pvMapPing {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(4); opacity: 0; }
+}
+.pv-map__pin { cursor: pointer; outline: none; }
+.pv-map__pin circle:nth-child(2) { filter: drop-shadow(0 0 6px rgba(59,130,246,0.9)); transition: r 240ms var(--pv-ease); }
+.pv-map__pin:hover circle:nth-child(2), .pv-map__pin:focus circle:nth-child(2) { r: 7; }
+.pv-map__pin-pulse {
+  transform-origin: center; transform-box: fill-box;
+  animation: pvMapPinPulse 4s ease-out infinite;
+  animation-delay: var(--delay, 0s); opacity: 0;
+}
+@keyframes pvMapPinPulse {
+  0%, 30% { transform: scale(1); opacity: 0; }
+  40%     { transform: scale(1); opacity: 0.8; }
+  70%     { transform: scale(3); opacity: 0; }
+  100%    { transform: scale(3); opacity: 0; }
+}
+
+/* HUDs */
+.pv-map__hud {
+  position: absolute; z-index: 5;
+  background: rgba(10,10,15,0.65);
+  border: 1px solid var(--pv-line-2);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-radius: 12px; padding: 8px 12px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.pv-map__hud--tl { top: 12px; left: 12px; }
+.pv-map__hud--tr { top: 12px; right: 12px; }
+.pv-map__hud-eye { font-family: var(--pv-mono); font-size: 9px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pv-cream-3); display: inline-flex; align-items: center; gap: 6px; }
+.pv-map__hud-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pv-lime); box-shadow: 0 0 8px var(--pv-lime);
+  animation: pvLive 1.8s var(--pv-ease) infinite;
+}
+.pv-map__hud-val { font-size: 12px; font-weight: 800; color: var(--pv-cream); }
+.pv-map__hud-mono { font-family: var(--pv-mono); font-size: 10.5px; font-weight: 600; color: var(--pv-cream-2); letter-spacing: 0.04em; }
+
+/* Tooltip */
+.pv-map__tooltip {
+  position: absolute; z-index: 6; pointer-events: none;
+  background: var(--pv-cream); color: var(--pv-bg);
+  border-radius: 10px; padding: 10px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+  opacity: 0; transform: translate(-50%, calc(-100% - 16px)) scale(0.95);
+  transition: opacity 200ms var(--pv-ease), transform 200ms var(--pv-ease);
+  white-space: nowrap;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+.pv-map__tooltip.is-visible { opacity: 1; transform: translate(-50%, calc(-100% - 22px)) scale(1); }
+.pv-map__tooltip::after {
+  content: ""; position: absolute; bottom: -6px; left: 50%;
+  width: 12px; height: 12px; transform: translateX(-50%) rotate(45deg);
+  background: var(--pv-cream);
+}
+.pv-map__tip-eye { font-family: var(--pv-mono); font-size: 9px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(5,5,7,0.55); }
+.pv-map__tip-name { font-size: 14px; font-weight: 900; letter-spacing: -0.015em; }
+.pv-map__tip-meta { font-family: var(--pv-mono); font-size: 10.5px; font-weight: 500; color: rgba(5,5,7,0.65); letter-spacing: 0.04em; }
+
+.pv-map__cap {
+  display: block;
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  font-family: var(--pv-mono);
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--pv-cream-3);
+}
 
 .pv-ship__cards {
   display: grid; grid-template-columns: 1fr; gap: 14px;
@@ -1390,6 +1872,148 @@ html.lenis, html.lenis body { height: auto; }
 .pv-zone__partidos { display: block; font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--pv-cream-2); }
 .pv-zones__note { font-size: 13px; font-weight: 500; color: var(--pv-cream-3); margin: 0; }
 .pv-zones__note a { color: var(--pv-cream); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ====== HTB scroll-jacked ====== */
+.pv-htb {
+  position: relative;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-bg);
+  border-bottom: 1px solid var(--pv-line);
+}
+.pv-htb__sticky {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 56px 0 40px;
+  overflow: hidden;
+  min-height: auto;
+}
+@media (min-width: 1100px) {
+  .pv-htb { height: 380vh; }
+  .pv-htb__sticky { position: sticky; top: 0; height: 100vh; padding: clamp(40px, 6vh, 64px) 0 clamp(32px, 5vh, 48px); }
+}
+.pv-htb__bg {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(700px 500px at 50% 50%, var(--htbGlow, rgba(59,130,246,0.15)) 0%, transparent 60%);
+  transition: background 600ms var(--pv-ease);
+}
+.pv-htb__sticky > * { position: relative; z-index: 1; }
+.pv-htb__head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; align-items: flex-start; }
+.pv-htb__title {
+  font-size: clamp(36px, 6vw, 84px);
+  font-weight: 900; letter-spacing: -0.045em; line-height: 0.92;
+  margin: 0; color: var(--pv-cream);
+}
+.pv-htb__line { display: block; overflow: hidden; padding: 0.04em 0; }
+.pv-htb__word { display: inline-block; will-change: transform; }
+.pv-htb__word--ital { font-style: italic; font-weight: 800; color: var(--pv-blue); }
+.pv-htb__period { color: var(--pv-blue); }
+
+.pv-htb__progress { display: none; }
+@media (min-width: 1100px) {
+  .pv-htb__progress { display: block; max-width: 880px; width: calc(100% - 96px); margin: 0 auto clamp(24px, 4vh, 40px); padding: 0 24px; }
+}
+.pv-htb__progress-track { position: relative; height: 2px; background: var(--pv-line-2); border-radius: 2px; }
+.pv-htb__progress-fill {
+  position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--pv-blue), #A855F7, var(--pv-blue));
+  background-size: 200% 100%; border-radius: 2px;
+  box-shadow: 0 0 16px rgba(59,130,246,0.6);
+}
+.pv-htb__node { position: absolute; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; }
+.pv-htb__node-dot { width: 12px; height: 12px; background: var(--pv-bg); border: 2px solid var(--pv-cream-3); border-radius: 50%; transition: all 240ms var(--pv-ease); }
+.pv-htb__node.is-reached .pv-htb__node-dot { background: var(--pv-blue); border-color: var(--pv-blue); }
+.pv-htb__node.is-active .pv-htb__node-dot { background: var(--pv-cream); border-color: var(--pv-cream); width: 16px; height: 16px; box-shadow: 0 0 0 6px rgba(59,130,246,0.25), 0 0 20px rgba(59,130,246,0.6); }
+.pv-htb__node-lab {
+  position: absolute; top: 22px;
+  font-family: var(--pv-mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--pv-cream-3); white-space: nowrap;
+  transition: color 240ms var(--pv-ease);
+}
+.pv-htb__node.is-active .pv-htb__node-lab { color: var(--pv-cream); }
+
+.pv-htb__viewport { width: 100%; flex: 1; display: flex; align-items: stretch; }
+.pv-htb__track { display: flex; flex-direction: column; gap: 14px; max-width: 880px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 1100px) {
+  .pv-htb__viewport { overflow: hidden; }
+  .pv-htb__track { flex-direction: row; gap: 0; width: 400%; max-width: none; padding: 0; transform: translateX(0%); will-change: transform; }
+}
+
+.pv-htb__panel {
+  position: relative;
+  background: var(--pv-bg-3);
+  border: 1px solid var(--pv-line);
+  border-radius: 24px;
+  padding: 24px 22px 28px;
+  display: grid; grid-template-columns: 1fr;
+  gap: 18px; overflow: hidden;
+}
+@media (min-width: 1100px) {
+  .pv-htb__panel {
+    flex: 0 0 25%; max-width: 100%;
+    background: transparent; border: none; border-radius: 0;
+    padding: 0 clamp(32px, 4vw, 56px);
+    grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: center;
+    opacity: 0.25; transition: opacity 400ms var(--pv-ease);
+    justify-content: center;
+  }
+  .pv-htb__panel.is-active { opacity: 1; }
+}
+.pv-htb__num {
+  font-size: clamp(80px, 14vw, 200px);
+  font-weight: 900; letter-spacing: -0.06em; line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+  color: var(--pc, var(--pv-blue));
+  filter: brightness(1.2);
+  align-self: start;
+}
+.pv-htb__panel-body { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.pv-htb__panel-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(242,239,231,0.06);
+  border: 1px solid var(--pc, var(--pv-blue));
+  padding: 6px 12px; border-radius: 9999px;
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--pc, var(--pv-blue));
+  filter: brightness(1.3);
+}
+.pv-htb__panel-tag [data-lucide] { width: 13px; height: 13px; stroke-width: 2; }
+.pv-htb__panel-h {
+  margin: 0; font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 900; letter-spacing: -0.035em; line-height: 0.95;
+  color: var(--pv-cream);
+}
+.pv-htb__panel-h em { font-style: italic; font-weight: 800; color: var(--pc, var(--pv-blue)); filter: brightness(1.3); }
+.pv-htb__panel-p { margin: 0; font-size: clamp(14px, 1.5vw, 17px); font-weight: 500; line-height: 1.55; color: var(--pv-cream-2); max-width: 50ch; }
+.pv-htb__panel-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pv-htb__panel-list li {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(242,239,231,0.05);
+  border: 1px solid var(--pv-line-2);
+  padding: 7px 12px 7px 10px; border-radius: 9999px;
+  font-size: 12px; font-weight: 700; color: var(--pv-cream-2);
+}
+.pv-htb__panel-list [data-lucide] { width: 13px; height: 13px; stroke-width: 3; color: var(--pc, var(--pv-blue)); filter: brightness(1.3); }
+.pv-htb__panel-icon {
+  display: none; align-items: center; justify-content: center;
+  width: 100%; aspect-ratio: 1;
+  max-width: 380px;
+}
+@media (min-width: 1100px) { .pv-htb__panel-icon { display: flex; } }
+.pv-htb__panel-icon::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--pc) 30%, transparent), transparent 60%);
+  filter: blur(20px);
+}
+.pv-htb__panel-icon [data-lucide] {
+  position: relative;
+  width: 200px !important; height: 200px !important;
+  color: var(--pc, var(--pv-blue));
+  stroke-width: 1; filter: drop-shadow(0 12px 32px rgba(0,0,0,0.5));
+}
 
 /* ====== CONTACT ====== */
 .pv-contact {
@@ -1585,6 +2209,120 @@ html.lenis, html.lenis body { height: auto; }
   100% { transform: scale(1.6); opacity: 0; }
 }
 .pv-fab svg { position: relative; z-index: 1; }
+
+/* ====== ORBIT ====== */
+.pv-orb {
+  position: relative; overflow: hidden;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-bg);
+  padding: 80px 0 80px;
+  border-bottom: 1px solid var(--pv-line);
+}
+@media (min-width: 900px) { .pv-orb { padding: 120px 0 100px; } }
+.pv-orb__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; align-items: flex-start; }
+.pv-orb__title {
+  font-size: clamp(40px, 7vw, 92px);
+  font-weight: 900; letter-spacing: -0.045em; line-height: 0.92;
+  margin: 8px 0 0; color: var(--pv-cream);
+}
+.pv-orb__line { display: block; overflow: hidden; padding: 0.04em 0; }
+.pv-orb__word { display: inline-block; will-change: transform; }
+.pv-orb__word--ital { font-style: italic; font-weight: 800; color: var(--pv-blue); }
+.pv-orb__period { color: var(--pv-blue); }
+.pv-orb__lead { font-size: clamp(15px, 1.6vw, 18px); color: var(--pv-cream-2); margin: 0; max-width: 50ch; }
+
+.pv-orb__stage {
+  position: relative; width: 100%; max-width: 600px; aspect-ratio: 1;
+  margin: 32px auto 0;
+  --orb-radius: 130px; --orb-pin: 56px;
+}
+@media (min-width: 420px) { .pv-orb__stage { --orb-radius: 158px; } }
+@media (min-width: 540px) { .pv-orb__stage { --orb-radius: 195px; --orb-pin: 64px; } }
+@media (min-width: 720px) { .pv-orb__stage { --orb-radius: 220px; } }
+@media (min-width: 900px) { .pv-orb__stage { --orb-radius: 240px; --orb-pin: 72px; } }
+.pv-orb__rings { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.pv-orb__core {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 18%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center; z-index: 5;
+}
+.pv-orb__core-mark {
+  position: relative; z-index: 3;
+  width: 100%; height: 100%;
+  background: var(--pv-cream); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 22%;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 0 50px rgba(59,130,246,0.35), 0 16px 40px rgba(0,0,0,0.6);
+}
+.pv-orb__core-mark img { width: 100%; height: 100%; object-fit: contain; }
+.pv-orb__core-ring {
+  position: absolute; width: 130%; height: 130%; border-radius: 50%;
+  border: 1px solid rgba(59,130,246,0.45); z-index: 2;
+}
+.pv-orb__core-pulse {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(59,130,246,0.25); z-index: 1;
+  animation: pvOrbPulse 3s ease-out infinite;
+}
+@keyframes pvOrbPulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.4); opacity: 0; } }
+
+.pv-orb__ring {
+  position: absolute; inset: 0;
+  animation: pvOrbRotate 80s linear infinite;
+}
+.pv-orb__stage.is-paused .pv-orb__ring { animation-play-state: paused; }
+@keyframes pvOrbRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.pv-orb__pin {
+  position: absolute; top: 50%; left: 50%;
+  width: var(--orb-pin); height: var(--orb-pin);
+  margin-top: calc(var(--orb-pin) / -2);
+  margin-left: calc(var(--orb-pin) / -2);
+  text-decoration: none;
+  transform: rotate(var(--angle)) translateY(calc(-1 * var(--orb-radius))) rotate(calc(-1 * var(--angle)));
+}
+.pv-orb__pin-core {
+  position: relative;
+  width: 100%; height: 100%; border-radius: 50%;
+  background: rgba(242,239,231,0.04);
+  border: 1px solid var(--pv-line-2);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: var(--pv-cream);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 220ms var(--pv-ease), border-color 220ms var(--pv-ease), color 220ms var(--pv-ease), box-shadow 220ms var(--pv-ease);
+}
+.pv-orb__pin-core [data-lucide] { width: 22px; height: 22px; stroke-width: 1.6; }
+.pv-orb__pin:hover .pv-orb__pin-core, .pv-orb__pin.is-active .pv-orb__pin-core {
+  background: var(--pv-blue);
+  border-color: var(--pv-blue);
+  box-shadow: 0 0 0 6px rgba(59,130,246,0.18), 0 12px 32px rgba(59,130,246,0.5);
+}
+.pv-orb__pin-label {
+  position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--pv-cream); color: var(--pv-bg);
+  padding: 8px 12px 8px 14px;
+  border-radius: 9999px;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: -0.005em;
+  white-space: nowrap; opacity: 0; pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  transition: opacity 220ms var(--pv-ease), bottom 220ms var(--pv-ease);
+}
+.pv-orb__pin-label [data-lucide] { width: 12px; height: 12px; stroke-width: 2.5; color: var(--pv-blue); }
+.pv-orb__pin:hover .pv-orb__pin-label, .pv-orb__pin.is-active .pv-orb__pin-label { opacity: 1; bottom: calc(100% + 16px); }
+
+.pv-orb__hud {
+  position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+  background: var(--pv-bg-3);
+  border: 1px solid var(--pv-line-2);
+  border-radius: 12px; padding: 10px 18px;
+  display: flex; align-items: center; gap: 14px;
+  z-index: 4;
+}
+.pv-orb__hud-lab { font-family: var(--pv-mono); font-size: 9.5px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pv-cream-3); }
+.pv-orb__hud-val { font-size: 13px; font-weight: 800; color: var(--pv-cream); min-width: 12ch; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -1856,10 +2594,10 @@ html.lenis, html.lenis body { height: auto; }
       });
 
       // Word reveals por sección
-      ['.pv-intro__title', '.pv-cat__title', '.pv-ship__title', '.pv-contact__title', '.pv-foot__big-text'].forEach(function (sel) {
+      ['.pv-intro__title', '.pv-orb__title', '.pv-cat__title', '.pv-marca__title', '.pv-ship__title', '.pv-htb__title', '.pv-contact__title', '.pv-foot__big-text'].forEach(function (sel) {
         var el = document.querySelector(sel);
         if (!el) return;
-        var words = el.querySelectorAll('.pv-intro__word, .pv-cat__word, .pv-ship__word, .pv-contact__word, .pv-foot__big-line');
+        var words = el.querySelectorAll('.pv-intro__word, .pv-orb__word, .pv-cat__word, .pv-marca__word, .pv-ship__word, .pv-htb__word, .pv-contact__word, .pv-foot__big-line');
         if (!words.length) return;
         gsap.from(words, {
           yPercent: 110, duration: 1.1, stagger: 0.07, ease: 'expo.out',
@@ -1894,13 +2632,30 @@ html.lenis, html.lenis body { height: auto; }
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     });
 
-    // ===== HORIZONTAL SCROLL CATALOG (desktop) =====
+    // ===== HORIZONTAL SCROLL CATALOG (desktop) con efecto 3D shelf =====
     mm.add('(min-width: 1100px) and (prefers-reduced-motion: no-preference)', function () {
       var pin = document.getElementById('provCatPin');
       var track = document.getElementById('provCatTrack');
       if (!pin || !track) return;
+      var cards = track.querySelectorAll('.pv-prod, .pv-cat__card');
 
       var getDistance = function () { return track.scrollWidth - window.innerWidth + 56; };
+
+      function update3D() {
+        var screenCenter = window.innerWidth / 2;
+        cards.forEach(function (card) {
+          var r = card.getBoundingClientRect();
+          var cardCenter = r.left + r.width / 2;
+          var dist = (cardCenter - screenCenter) / window.innerWidth; // -1..1 roughly
+          var clamped = Math.max(-1, Math.min(1, dist));
+          var rotY = clamped * -28;
+          var sc = 1 - Math.abs(clamped) * 0.12;
+          var br = 1 - Math.abs(clamped) * 0.35;
+          card.style.setProperty('--cy', rotY + 'deg');
+          card.style.setProperty('--sc', sc.toFixed(3));
+          card.style.setProperty('--br', br.toFixed(3));
+        });
+      }
 
       var st = gsap.to(track, {
         x: function () { return -getDistance(); },
@@ -1912,7 +2667,47 @@ html.lenis, html.lenis body { height: auto; }
           end: function () { return '+=' + getDistance(); },
           scrub: 0.8,
           invalidateOnRefresh: true,
-          anticipatePin: 1
+          anticipatePin: 1,
+          onUpdate: update3D,
+          onRefresh: update3D
+        }
+      });
+      update3D();
+      return function () {
+        st.kill();
+        cards.forEach(function (c) { c.style.removeProperty('--cy'); c.style.removeProperty('--sc'); c.style.removeProperty('--br'); });
+      };
+    });
+
+    // ===== HTB scroll-jacked (desktop) =====
+    mm.add('(min-width: 1100px) and (prefers-reduced-motion: no-preference)', function () {
+      var sec = document.getElementById('provHtb');
+      var track = document.getElementById('provHtbTrack');
+      var fill = document.getElementById('provHtbFill');
+      var bg = document.getElementById('provHtbBg');
+      if (!sec || !track || !fill) return;
+      var nodes  = sec.querySelectorAll('.pv-htb__node');
+      var panels = sec.querySelectorAll('.pv-htb__panel');
+      var glows = ['rgba(59,130,246,0.18)', 'rgba(37,211,102,0.18)', 'rgba(245,158,11,0.18)', 'rgba(168,85,247,0.18)'];
+
+      var st = ScrollTrigger.create({
+        trigger: sec,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.6,
+        onUpdate: function (self) {
+          var p = self.progress;
+          track.style.transform = 'translate3d(' + (-p * 75) + '%, 0, 0)';
+          fill.style.width = (p * 100) + '%';
+          var idx = Math.min(3, Math.floor(p * 4));
+          nodes.forEach(function (n, i) {
+            n.classList.toggle('is-reached', i <= idx);
+            n.classList.toggle('is-active',  i === idx);
+          });
+          panels.forEach(function (panel, i) {
+            panel.classList.toggle('is-active', i === idx);
+          });
+          if (bg) bg.style.setProperty('--htbGlow', glows[idx] || glows[0]);
         }
       });
       return function () { st.kill(); };
@@ -1921,13 +2716,104 @@ html.lenis, html.lenis body { height: auto; }
     // ===== REDUCED MOTION =====
     mm.add('(prefers-reduced-motion: reduce)', function () {
       gsap.set('.pv-rev', { autoAlpha: 1, y: 0 });
-      gsap.set('.pv-hero__word, .pv-intro__word, .pv-cat__word, .pv-ship__word, .pv-contact__word, .pv-foot__big-line', { yPercent: 0, autoAlpha: 1 });
+      gsap.set('.pv-hero__word, .pv-intro__word, .pv-orb__word, .pv-cat__word, .pv-marca__word, .pv-ship__word, .pv-htb__word, .pv-contact__word, .pv-foot__big-line', { yPercent: 0, autoAlpha: 1 });
       document.querySelectorAll('.pv [data-counter]').forEach(function (el) {
         el.textContent = parseInt(el.dataset.counter, 10) || 0;
       });
     });
 
     return true;
+  }
+
+  // === ORBIT: pause + label + HUD on hover/tap ===
+  function initOrbit() {
+    var stage = document.getElementById('provOrbStage');
+    var ring  = document.getElementById('provOrbRing');
+    var hud   = document.getElementById('provOrbHudVal');
+    if (!stage || !ring || !hud) return;
+    var defaultText = hud.textContent;
+    var pins = ring.querySelectorAll('.pv-orb__pin');
+    function setActive(pin) {
+      pins.forEach(function (p) { p.classList.remove('is-active'); });
+      if (!pin) { hud.textContent = defaultText; return; }
+      pin.classList.add('is-active');
+      var lab = pin.getAttribute('aria-label');
+      if (lab) hud.textContent = lab;
+    }
+    stage.addEventListener('mouseenter', function () { stage.classList.add('is-paused'); });
+    stage.addEventListener('mouseleave', function () { stage.classList.remove('is-paused'); setActive(null); });
+    pins.forEach(function (pin) {
+      pin.addEventListener('mouseenter', function () { setActive(pin); });
+      pin.addEventListener('focus', function () { setActive(pin); stage.classList.add('is-paused'); });
+      pin.addEventListener('blur', function () { setActive(null); stage.classList.remove('is-paused'); });
+    });
+  }
+
+  // === MARCAS: tab switching with bg morph ===
+  function initMarca() {
+    var sec = document.getElementById('provMarca');
+    if (!sec) return;
+    var bg = document.getElementById('provMarcaBg');
+    var btns = sec.querySelectorAll('.pv-marca__btn');
+    var panels = sec.querySelectorAll('.pv-marca__panel');
+    function colorFor(name) {
+      return ({
+        energizer: 'rgba(225,29,72,0.30)',
+        duracell:  'rgba(234,88,12,0.30)',
+        gillette:  'rgba(59,130,246,0.30)',
+        candela:   'rgba(245,158,11,0.30)',
+        bic:       'rgba(30,64,175,0.40)'
+      })[name] || 'rgba(59,130,246,0.30)';
+    }
+    function activate(name, x, y) {
+      btns.forEach(function (b) { b.classList.toggle('is-active', b.dataset.brand === name); });
+      panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.panel === name); });
+      if (bg) {
+        if (typeof x === 'number') {
+          bg.style.setProperty('--bx', x + 'px');
+          bg.style.setProperty('--by', y + 'px');
+        }
+        bg.style.setProperty('--bgGlow', colorFor(name));
+      }
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('mouseenter', function (e) {
+        var r = sec.getBoundingClientRect();
+        activate(b.dataset.brand, e.clientX - r.left, e.clientY - r.top);
+      });
+      b.addEventListener('focus', function () { activate(b.dataset.brand); });
+      b.addEventListener('click', function () { activate(b.dataset.brand); });
+    });
+  }
+
+  // === MAP: tooltip on hover/focus ===
+  function initMap() {
+    var map = document.getElementById('provMap');
+    var tip = document.getElementById('provMapTip');
+    if (!map || !tip) return;
+    var tipEye  = tip.querySelector('.pv-map__tip-eye');
+    var tipName = tip.querySelector('.pv-map__tip-name');
+    var tipMeta = tip.querySelector('.pv-map__tip-meta');
+    var pins = map.querySelectorAll('.pv-map__pin');
+    function show(pin) {
+      var rect = map.getBoundingClientRect();
+      var pinRect = pin.getBoundingClientRect();
+      var x = pinRect.left - rect.left + pinRect.width / 2;
+      var y = pinRect.top  - rect.top + pinRect.height / 2;
+      tip.style.left = x + 'px';
+      tip.style.top  = y + 'px';
+      tipEye.textContent = 'Destino';
+      tipName.textContent = pin.dataset.name || '';
+      tipMeta.textContent = pin.dataset.meta || '';
+      tip.classList.add('is-visible');
+    }
+    function hide() { tip.classList.remove('is-visible'); }
+    pins.forEach(function (pin) {
+      pin.addEventListener('mouseenter', function () { show(pin); });
+      pin.addEventListener('mouseleave', hide);
+      pin.addEventListener('focus', function () { show(pin); });
+      pin.addEventListener('blur', hide);
+    });
   }
 
   // === Smooth scroll para anchors (compatible con Lenis) ===
@@ -1962,6 +2848,9 @@ html.lenis, html.lenis body { height: auto; }
     initCursor();
     initShader();
     initAnchors();
+    initOrbit();
+    initMarca();
+    initMap();
     var hasGsap = initGsap();
     if (!hasGsap) initFallback();
   });
