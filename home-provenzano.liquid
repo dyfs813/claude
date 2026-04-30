@@ -1,14 +1,20 @@
 {% comment %}
 ========================================================================
-PROVENZANO HOME v5 — claymorphism (1 archivo)
+PROVENZANO HOME v6 — LINGO style + paleta Provenzano
 ========================================================================
-Estructura ultra-focalizada:
-  1. Hero (quiénes somos + qué vendemos + CTA al catálogo)
-  2. Envíos (toda la info)
-  3. Mini footer
+Estética Duolingo:
+- Bordes inferiores 3D tactiles (border-b-4 + active translateY)
+- Tipografía Nunito redondeada
+- Colores brillantes y planos
+- Cards con bottom-shadow para depth
+- Todo interactivo en mobile y PC
 
-Estética: claymorphism (puffy, redondo, light, playful pero serio).
-Sin video, sin WebGL, sin smooth-scroll — load liviano.
+Secciones:
+1. Hero (presentación + CTA catálogo + WhatsApp)
+2. Categorías (orbit rotando, tap pausa + label)
+3. Catálogo (CTA gigante + marcas hover)
+4. Envíos (mapa Argentina + 4 cards + zonas GBA + cómo comprar)
+5. Footer mini + FAB
 ========================================================================
 {% endcomment %}
 
@@ -29,48 +35,38 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <div class="pv">
   {%- comment -%} ============ HERO ============ {%- endcomment -%}
   <header class="pv-hero">
 
-    {%- comment -%} Decorative blobs {%- endcomment -%}
-    <div class="pv-hero__deco" aria-hidden="true">
-      <div class="pv-blob pv-blob--1"></div>
-      <div class="pv-blob pv-blob--2"></div>
-      <div class="pv-blob pv-blob--3"></div>
-      <div class="pv-blob pv-blob--4"></div>
-      <div class="pv-blob pv-blob--5"></div>
-    </div>
-
     <nav class="pv-nav pv-wrap">
-      <a href="/" class="pv-nav__brand" aria-label="Provenzano">
+      <a href="/" class="pv-nav__brand">
         <span class="pv-nav__mark"><img src="{{ logo_url }}" alt=""></span>
-        <span class="pv-nav__text">
+        <span class="pv-nav__txt">
           <span class="pv-nav__name">Provenzano</span>
-          <span class="pv-nav__tag"><span class="pv-nav__live"></span>Liniers · Mayorista</span>
+          <span class="pv-nav__tag"><span class="pv-nav__live"></span>Mayorista · Liniers</span>
         </span>
       </a>
       <div class="pv-nav__actions">
-        <a href="/search" class="pv-nav__btn" aria-label="Buscar"><i data-lucide="search"></i></a>
-        <a href="/cart" class="pv-nav__btn" aria-label="Carrito">
+        <a href="/search" class="pv-icon-btn" aria-label="Buscar"><i data-lucide="search"></i></a>
+        <a href="/cart" class="pv-icon-btn" aria-label="Carrito">
           <i data-lucide="shopping-cart"></i>
-          <span class="pv-nav__badge" id="provCartBadge" style="display:none">0</span>
+          <span class="pv-icon-btn__badge" id="provCartBadge" style="display:none">0</span>
         </a>
       </div>
     </nav>
 
     <div class="pv-hero__inner pv-wrap">
-
       <div class="pv-hero__chip pv-rev">
-        <span class="pv-hero__chip-dot"></span>
-        <span class="pv-hero__chip-text">Mayorista de kiosko · desde 2003</span>
+        <span class="pv-hero__chip-icon">🏪</span>
+        <span>Mayorista de kiosko · desde 2003</span>
       </div>
 
       <h1 class="pv-hero__title pv-rev" data-delay="80">
         Tu mayorista de<br>
-        <span class="pv-hero__title-em">toda la vida.</span>
+        <em>toda la vida.</em>
       </h1>
 
       <p class="pv-hero__lead pv-rev" data-delay="160">
@@ -78,192 +74,387 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
       </p>
 
       <div class="pv-hero__ctas pv-rev" data-delay="240">
-        <a href="/collections/all" class="pv-cta">
-          <span class="pv-cta__main">
-            <span class="pv-cta__lab">Catálogo en vivo</span>
-            <span class="pv-cta__title">Armá tu pedido <i data-lucide="arrow-right"></i></span>
-          </span>
-          <span class="pv-cta__chip">→</span>
+        <a href="/collections/all" class="pv-btn pv-btn--xl">
+          Armá tu pedido
+          <i data-lucide="arrow-right"></i>
         </a>
-        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-wa-btn">
-          <span class="pv-wa-btn__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
-          </span>
-          <span class="pv-wa-btn__text">
-            <span class="pv-wa-btn__lab">o consultanos</span>
-            <span class="pv-wa-btn__num">+54 9 11 4179-4592</span>
-          </span>
+        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer una consulta' | url_encode }}" target="_blank" rel="noopener" class="pv-btn pv-btn--lg pv-btn--wa">
+          <i data-lucide="message-circle"></i>
+          WhatsApp
         </a>
       </div>
 
       <div class="pv-hero__stats pv-rev" data-delay="320">
         <div class="pv-stat pv-stat--blue">
+          <span class="pv-stat__icon">📅</span>
           <span class="pv-stat__num">20<i>+</i></span>
           <span class="pv-stat__lab">años en Liniers</span>
         </div>
-        <div class="pv-stat pv-stat--purple">
+        <div class="pv-stat pv-stat--success">
+          <span class="pv-stat__icon">📦</span>
           <span class="pv-stat__num">216<i>+</i></span>
           <span class="pv-stat__lab">productos en stock</span>
         </div>
-        <div class="pv-stat pv-stat--pink">
+        <div class="pv-stat pv-stat--warning">
+          <span class="pv-stat__icon">🚚</span>
           <span class="pv-stat__num">24</span>
           <span class="pv-stat__lab">provincias</span>
         </div>
-        <div class="pv-stat pv-stat--yellow">
+        <div class="pv-stat pv-stat--danger">
+          <span class="pv-stat__icon">🧾</span>
           <span class="pv-stat__num">A<i>/</i>B</span>
           <span class="pv-stat__lab">factura</span>
         </div>
       </div>
+    </div>
+  </header>
+  {%- comment -%} ============ ORBIT CATEGORIAS ============ {%- endcomment -%}
+  <section class="pv-orb" id="provOrb">
+    <div class="pv-wrap pv-orb__head">
+      <span class="pv-sec-label">02 · Categorías</span>
+      <h2 class="pv-sec-title pv-rev">Lo que <em>más rota.</em></h2>
+      <p class="pv-orb__lead pv-rev" data-delay="80">8 rubros que mueven el 80% de un kiosko. Tocá cualquiera para verlo en el catálogo.</p>
+    </div>
 
-      <div class="pv-hero__brands pv-rev" data-delay="400">
-        <span class="pv-hero__brands-lab">Trabajamos con</span>
-        <div class="pv-hero__brands-list">
-          <span class="pv-brand-pill">Energizer</span>
-          <span class="pv-brand-pill">Duracell</span>
-          <span class="pv-brand-pill">Gillette</span>
-          <span class="pv-brand-pill">Candela</span>
-          <span class="pv-brand-pill">BIC</span>
+    <div class="pv-orb__stage" id="provOrbStage">
+      <div class="pv-orb__ring" id="provOrbRing">
+        {% assign cats = 'encendedores|🔥|Encendedores,pilas|🔋|Pilas,pegamentos|📎|Pegamentos,afeitado|✂️|Afeitado,perfumeria|✨|Perfumería,repelentes|🦟|Repelentes,golosinas|🍬|Golosinas,farmacia|💊|Farmacia' | split: ',' %}
+        {% for cat in cats %}
+          {% assign parts = cat | split: '|' %}
+          {% assign idx = forloop.index0 %}
+          {% assign angle = idx | times: 45 %}
+          <a href="/collections/{{ parts[0] }}" class="pv-orb__pin" style="--angle:{{ angle }}deg;--idx:{{ idx }}" aria-label="{{ parts[2] }}">
+            <span class="pv-orb__pin-emoji">{{ parts[1] }}</span>
+            <span class="pv-orb__pin-name">{{ parts[2] }}</span>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="pv-orb__core">
+        <div class="pv-orb__core-card">
+          <img src="{{ logo_url }}" alt="Provenzano">
+          <span>+216 productos</span>
         </div>
       </div>
     </div>
-  </header>
-  {%- comment -%} ============ ENVÍOS ============ {%- endcomment -%}
+
+    <div class="pv-wrap pv-orb__cta pv-rev">
+      <a href="/collections/all" class="pv-btn pv-btn--lg">Ver catálogo completo <i data-lucide="arrow-right"></i></a>
+    </div>
+  </section>
+  {%- comment -%} ============ BRANDS interactivas ============ {%- endcomment -%}
+  <section class="pv-marca" id="provMarca">
+    <div class="pv-wrap">
+      <header class="pv-marca__head">
+        <span class="pv-sec-label">03 · Marcas oficiales</span>
+        <h2 class="pv-sec-title pv-rev">Las que <em>tu cliente pide.</em></h2>
+        <p class="pv-marca__lead pv-rev" data-delay="80">Tocá cualquier marca para ver qué vendemos. Trabajamos con primeras marcas, producto original.</p>
+      </header>
+
+      <div class="pv-marca__layout">
+        <div class="pv-marca__list" role="tablist">
+          <button class="pv-marca__btn is-active" type="button" data-brand="energizer">
+            <span class="pv-marca__btn-num">01</span>
+            <span class="pv-marca__btn-name">Energizer</span>
+            <span class="pv-marca__btn-arr"><i data-lucide="arrow-right"></i></span>
+          </button>
+          <button class="pv-marca__btn" type="button" data-brand="duracell">
+            <span class="pv-marca__btn-num">02</span>
+            <span class="pv-marca__btn-name">Duracell</span>
+            <span class="pv-marca__btn-arr"><i data-lucide="arrow-right"></i></span>
+          </button>
+          <button class="pv-marca__btn" type="button" data-brand="gillette">
+            <span class="pv-marca__btn-num">03</span>
+            <span class="pv-marca__btn-name">Gillette</span>
+            <span class="pv-marca__btn-arr"><i data-lucide="arrow-right"></i></span>
+          </button>
+          <button class="pv-marca__btn" type="button" data-brand="candela">
+            <span class="pv-marca__btn-num">04</span>
+            <span class="pv-marca__btn-name">Candela</span>
+            <span class="pv-marca__btn-arr"><i data-lucide="arrow-right"></i></span>
+          </button>
+          <button class="pv-marca__btn" type="button" data-brand="bic">
+            <span class="pv-marca__btn-num">05</span>
+            <span class="pv-marca__btn-name">BIC</span>
+            <span class="pv-marca__btn-arr"><i data-lucide="arrow-right"></i></span>
+          </button>
+        </div>
+
+        <div class="pv-marca__panels">
+          <article class="pv-marca__panel is-active" data-panel="energizer">
+            <span class="pv-marca__panel-emoji">🔋</span>
+            <h3 class="pv-marca__panel-h">Energizer</h3>
+            <span class="pv-marca__panel-eye">Pilas alcalinas</span>
+            <p class="pv-marca__panel-p">AA, AAA, C, D y especiales. Stock permanente. Los formatos que más mueve un kiosko.</p>
+            <div class="pv-marca__tags"><span>AA</span><span>AAA</span><span>9V</span><span>D</span></div>
+          </article>
+          <article class="pv-marca__panel" data-panel="duracell">
+            <span class="pv-marca__panel-emoji">🐰</span>
+            <h3 class="pv-marca__panel-h">Duracell</h3>
+            <span class="pv-marca__panel-eye">Pilas premium</span>
+            <p class="pv-marca__panel-p">Línea premium para quien busca duración real. Las que tu cliente pide por nombre.</p>
+            <div class="pv-marca__tags"><span>AA</span><span>AAA</span><span>9V</span><span>Botón</span></div>
+          </article>
+          <article class="pv-marca__panel" data-panel="gillette">
+            <span class="pv-marca__panel-emoji">✂️</span>
+            <h3 class="pv-marca__panel-h">Gillette</h3>
+            <span class="pv-marca__panel-eye">Afeitado</span>
+            <p class="pv-marca__panel-p">Máquinas, repuestos y desechables. La marca que se vende sola en el mostrador.</p>
+            <div class="pv-marca__tags"><span>Prestobarba</span><span>Mach3</span><span>Fusion</span><span>Repuestos</span></div>
+          </article>
+          <article class="pv-marca__panel" data-panel="candela">
+            <span class="pv-marca__panel-emoji">🕯️</span>
+            <h3 class="pv-marca__panel-h">Candela</h3>
+            <span class="pv-marca__panel-eye">Hogar e iluminación</span>
+            <p class="pv-marca__panel-p">Catálogo completo de iluminación, velas y artículos de hogar para el almacén de barrio.</p>
+            <div class="pv-marca__tags"><span>Velas</span><span>Fósforos</span><span>Hogar</span></div>
+          </article>
+          <article class="pv-marca__panel" data-panel="bic">
+            <span class="pv-marca__panel-emoji">🔥</span>
+            <h3 class="pv-marca__panel-h">BIC</h3>
+            <span class="pv-marca__panel-eye">Encendedores y librería</span>
+            <p class="pv-marca__panel-p">Mini, Maxi, J5. Lapiceras y artículos de librería. Las marcas que nunca fallan en rotación.</p>
+            <div class="pv-marca__tags"><span>Mini</span><span>Maxi</span><span>J5</span><span>Lapiceras</span></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  {%- comment -%} ============ ENVIOS ============ {%- endcomment -%}
   <section class="pv-ship" id="provShip">
     <div class="pv-wrap">
 
-      <header class="pv-ship__head pv-rev">
-        <div class="pv-ship__head-l">
-          <span class="pv-mini-label">02 · Envíos</span>
-          <h2 class="pv-ship__title">Cómo te <span class="pv-ship__title-em">llega.</span></h2>
-        </div>
-        <p class="pv-ship__lead">Cuatro formas de recibir tu pedido. Todas claras desde el principio, sin letra chica.</p>
+      <header class="pv-ship__head">
+        <span class="pv-sec-label">04 · Envíos</span>
+        <h2 class="pv-sec-title pv-rev">Llegamos <em>donde estés.</em></h2>
+        <p class="pv-ship__lead pv-rev" data-delay="80">Tocá los pines del mapa para ver tiempos por destino. 4 modalidades de envío, todas claras desde el principio.</p>
       </header>
 
-      {%- comment -%} 4 modalidades {%- endcomment -%}
-      <div class="pv-ship__cards">
+      {%- comment -%} Mapa interactivo {%- endcomment -%}
+      <div class="pv-map" id="provMap">
+        <div class="pv-map__hud pv-map__hud--tl"><span class="pv-map__hud-dot"></span><span>Origen · Liniers, CABA</span></div>
+        <div class="pv-map__hud pv-map__hud--tr"><b>24</b> provincias</div>
+        <div class="pv-map__tip" id="provMapTip" aria-hidden="true">
+          <span class="pv-map__tip-name"></span>
+          <span class="pv-map__tip-meta"></span>
+        </div>
+        <svg class="pv-map__svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="pv-mg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(24,95,165,0.30)"/>
+              <stop offset="100%" stop-color="rgba(24,95,165,0)"/>
+            </radialGradient>
+          </defs>
+          <g class="pv-map__country">
+            <path d="M 220,40 L 235,55 L 240,75 L 248,95 L 256,115 L 268,140 L 274,165 L 282,195 L 290,225 L 296,255 L 298,290 L 290,325 L 280,360 L 268,395 L 252,425 L 234,450 L 215,470 L 195,485 L 178,495 L 165,505 L 158,520 L 162,533 L 175,530 L 175,512 L 188,508 L 192,495 L 178,488 L 198,470 L 215,455 L 220,470 L 215,488 L 218,500 L 232,492 L 230,478 L 240,460 L 252,440 L 230,425 L 215,395 L 200,370 L 185,345 L 170,335 L 155,330 L 148,320 L 152,300 L 168,285 L 180,272 L 186,250 L 178,225 L 168,200 L 155,180 L 148,158 L 152,135 L 162,115 L 175,95 L 188,72 L 200,55 L 210,42 Z" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5" stroke-linejoin="round"/>
+          </g>
+          <g class="pv-map__lines" stroke-linecap="round" fill="none">
+            <path class="pv-map__line" style="--d:0s"   d="M 260,295 Q 270,325 255,360" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:0.5s" d="M 260,295 Q 240,260 230,225" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:1.0s" d="M 260,295 Q 230,255 215,200" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:1.5s" d="M 260,295 Q 220,260 195,225" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:2.0s" d="M 260,295 Q 215,295 170,278" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:2.5s" d="M 260,295 Q 220,225 195,158" stroke="#185FA5" stroke-width="2"/>
+            <path class="pv-map__line" style="--d:3.0s" d="M 260,295 Q 200,360 190,470" stroke="#185FA5" stroke-width="2"/>
+          </g>
+          <g class="pv-map__origin" transform="translate(260,295)">
+            <circle r="22" fill="url(#pv-mg)"/>
+            <circle class="pv-map__ping" r="8" fill="none" stroke="#185FA5" stroke-width="2.5" opacity="0.7"/>
+            <circle r="9" fill="#185FA5" stroke="#FFFFFF" stroke-width="2.5"/>
+            <circle r="3" fill="#FFFFFF"/>
+          </g>
+          <g class="pv-map__pin" data-name="Mar del Plata" data-meta="Vía cargo · 24 hs" transform="translate(255,360)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Rosario" data-meta="Vía cargo · 24-48 hs" transform="translate(230,225)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Santa Fe" data-meta="Vía cargo · 2 días" transform="translate(215,200)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Córdoba" data-meta="Vía cargo · 2-3 días" transform="translate(195,225)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Mendoza" data-meta="Vía cargo · 3-4 días" transform="translate(170,278)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Salta · NOA" data-meta="Vía cargo · 4-6 días" transform="translate(195,158)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+          <g class="pv-map__pin" data-name="Patagonia" data-meta="Vía cargo · 5-7 días" transform="translate(190,470)" tabindex="0" role="button">
+            <circle r="14" fill="rgba(24,95,165,0)" class="pv-map__hit"/>
+            <circle r="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="3"/>
+          </g>
+        </svg>
+        <span class="pv-map__cap">Tocá un pin</span>
+      </div>
 
-        <article class="pv-ship-card pv-ship-card--blue pv-ship-card--feat pv-rev" data-delay="0">
+      {%- comment -%} 4 modalidades cards {%- endcomment -%}
+      <div class="pv-ship__cards">
+        <article class="pv-ship-card pv-ship-card--feat pv-rev">
           <div class="pv-ship-card__top">
             <span class="pv-ship-card__num">02</span>
-            <span class="pv-ship-card__icon"><i data-lucide="truck"></i></span>
+            <span class="pv-ship-card__icon">🚚</span>
           </div>
-          <div class="pv-ship-card__hero">
-            <span class="pv-ship-card__highlight">Envío GRATIS desde $600.000</span>
-            <h3 class="pv-ship-card__title">CABA<br>y GBA</h3>
-          </div>
-          <div class="pv-ship-card__big">
-            <span class="pv-ship-card__big-lab">Desde</span>
-            <span class="pv-ship-card__big-num">$4.100</span>
-          </div>
+          <span class="pv-ship-card__highlight">Envío GRATIS desde $600.000</span>
+          <h3 class="pv-ship-card__title">CABA<br>y GBA</h3>
+          <span class="pv-ship-card__big">Desde $4.100</span>
           <ul class="pv-ship-card__list">
-            <li><span>Pedido mínimo</span><span><b>$100.000</b></span></li>
-            <li><span>Días de despacho</span><span><b>Martes y jueves</b></span></li>
-            <li><span>Salida</span><span><b>14 hs</b></span></li>
-            <li><span>Llegada</span><span><b>14 a 21 hs</b></span></li>
+            <li><span>Pedido mínimo</span><b>$100.000</b></li>
+            <li><span>Días</span><b>Mar. y jue.</b></li>
+            <li><span>Salida</span><b>14 hs</b></li>
+            <li><span>Llegada</span><b>14 a 21 hs</b></li>
           </ul>
-          <a href="#provZones" class="pv-ship-card__cta">Ver zonas y precios <i data-lucide="arrow-down"></i></a>
+          <a href="#provZones" class="pv-ship-card__link">Ver zonas y precios <i data-lucide="arrow-down"></i></a>
         </article>
 
-        <article class="pv-ship-card pv-ship-card--green pv-rev" data-delay="80">
-          <div class="pv-ship-card__top">
-            <span class="pv-ship-card__num">01</span>
-            <span class="pv-ship-card__icon"><i data-lucide="store"></i></span>
-          </div>
+        <article class="pv-ship-card pv-ship-card--success pv-rev" data-delay="80">
+          <div class="pv-ship-card__top"><span class="pv-ship-card__num">01</span><span class="pv-ship-card__icon">🏪</span></div>
           <h3 class="pv-ship-card__title">Retiro<br>en sucursal</h3>
-          <span class="pv-ship-card__big-num pv-ship-card__big-num--free">SIN COSTO</span>
+          <span class="pv-ship-card__big pv-ship-card__big--free">SIN COSTO</span>
           <ul class="pv-ship-card__list">
-            <li><span>Pedido mínimo</span><span><b>$100.000</b></span></li>
-            <li><span>Días</span><span><b>Lun. a sáb.</b></span></li>
-            <li><span>Dirección</span><span><b>Carhué 74, Liniers</b></span></li>
+            <li><span>Pedido mínimo</span><b>$100.000</b></li>
+            <li><span>Días</span><b>Lun. a sáb.</b></li>
+            <li><span>Dirección</span><b>Carhué 74, Liniers</b></li>
           </ul>
         </article>
 
-        <article class="pv-ship-card pv-ship-card--purple pv-rev" data-delay="160">
-          <div class="pv-ship-card__top">
-            <span class="pv-ship-card__num">03</span>
-            <span class="pv-ship-card__icon"><i data-lucide="map"></i></span>
-          </div>
+        <article class="pv-ship-card pv-ship-card--warning pv-rev" data-delay="160">
+          <div class="pv-ship-card__top"><span class="pv-ship-card__num">03</span><span class="pv-ship-card__icon">🗺️</span></div>
           <h3 class="pv-ship-card__title">Envío al<br>interior</h3>
-          <span class="pv-ship-card__big-num pv-ship-card__big-num--alt">Vía cargo</span>
+          <span class="pv-ship-card__big pv-ship-card__big--alt">Vía cargo</span>
           <ul class="pv-ship-card__list">
-            <li><span>Pedido mínimo</span><span><b>$200.000</b></span></li>
-            <li><span>Tiempo</span><span><b>2 a 7 días hábiles</b></span></li>
-            <li><span>Cobertura</span><span><b>24 provincias</b></span></li>
-            <li><span>Flete</span><span><b>Lo paga el cliente</b></span></li>
+            <li><span>Pedido mínimo</span><b>$200.000</b></li>
+            <li><span>Tiempo</span><b>2 a 7 días</b></li>
+            <li><span>Cobertura</span><b>24 provincias</b></li>
+            <li><span>Flete</span><b>Cliente al recibir</b></li>
           </ul>
         </article>
 
-        <article class="pv-ship-card pv-ship-card--yellow pv-rev" data-delay="240">
-          <div class="pv-ship-card__top">
-            <span class="pv-ship-card__num">04</span>
-            <span class="pv-ship-card__icon"><i data-lucide="handshake"></i></span>
-          </div>
+        <article class="pv-ship-card pv-ship-card--danger pv-rev" data-delay="240">
+          <div class="pv-ship-card__top"><span class="pv-ship-card__num">04</span><span class="pv-ship-card__icon">🤝</span></div>
           <h3 class="pv-ship-card__title">Tu transporte<br>o comisionista</h3>
-          <span class="pv-ship-card__big-num pv-ship-card__big-num--free">SIN COSTO</span>
+          <span class="pv-ship-card__big pv-ship-card__big--free">SIN COSTO</span>
           <ul class="pv-ship-card__list">
-            <li><span>Pedido mínimo</span><span><b>$500.000</b></span></li>
-            <li><span>Retiro</span><span><b>Carhué 74, Liniers</b></span></li>
-            <li><span>Días</span><span><b>Lun. a sáb.</b></span></li>
+            <li><span>Pedido mínimo</span><b>$500.000</b></li>
+            <li><span>Retiro</span><b>Carhué 74, Liniers</b></li>
+            <li><span>Días</span><b>Lun. a sáb.</b></li>
           </ul>
         </article>
-
       </div>
 
       {%- comment -%} Zonas GBA {%- endcomment -%}
       <div class="pv-zones" id="provZones">
         <header class="pv-zones__head pv-rev">
-          <span class="pv-mini-label">02.1 · Zonas y precios CABA / GBA</span>
-          <h3 class="pv-zones__title">Tu zona, <span class="pv-zones__title-em">tu precio.</span></h3>
+          <span class="pv-sec-label">04.1 · Zonas CABA / GBA</span>
+          <h3 class="pv-zones__title">Tu zona, <em>tu precio.</em></h3>
         </header>
 
         <div class="pv-zones__list">
-          <article class="pv-zone pv-zone--green pv-rev">
-            <div class="pv-zone__head">
-              <span class="pv-zone__name">CABA</span>
-              <span class="pv-zone__price">$4.100</span>
-            </div>
+          <article class="pv-zone pv-zone--success pv-rev">
+            <div class="pv-zone__head"><span class="pv-zone__name">CABA</span><span class="pv-zone__price">$4.100</span></div>
             <p class="pv-zone__partidos">Toda la Capital Federal.</p>
           </article>
-
           <article class="pv-zone pv-zone--blue pv-rev" data-delay="80">
-            <div class="pv-zone__head">
-              <span class="pv-zone__name">GBA <em>1</em></span>
-              <span class="pv-zone__price">$5.000</span>
-            </div>
+            <div class="pv-zone__head"><span class="pv-zone__name">GBA <em>1</em></span><span class="pv-zone__price">$5.000</span></div>
             <p class="pv-zone__partidos">Avellaneda · Lanús · Lomas de Zamora · La Matanza Norte · Morón · 3 de Febrero · San Martín · Vicente López · San Isidro</p>
           </article>
-
-          <article class="pv-zone pv-zone--orange pv-rev" data-delay="160">
-            <div class="pv-zone__head">
-              <span class="pv-zone__name">GBA <em>2</em></span>
-              <span class="pv-zone__price">$6.000</span>
-            </div>
+          <article class="pv-zone pv-zone--warning pv-rev" data-delay="160">
+            <div class="pv-zone__head"><span class="pv-zone__name">GBA <em>2</em></span><span class="pv-zone__price">$6.000</span></div>
             <p class="pv-zone__partidos">San Fernando · Tigre · Malvinas Argentinas · José C. Paz · San Miguel · Hurlingham · Ituzaingó · La Matanza Sur · Merlo · Moreno · Esteban Echeverría · Almirante Brown · Ezeiza · Quilmes · Florencio Varela · Berazategui</p>
           </article>
-
-          <article class="pv-zone pv-zone--pink pv-rev" data-delay="240">
-            <div class="pv-zone__head">
-              <span class="pv-zone__name">GBA <em>3</em></span>
-              <span class="pv-zone__price">$7.900</span>
-            </div>
+          <article class="pv-zone pv-zone--danger pv-rev" data-delay="240">
+            <div class="pv-zone__head"><span class="pv-zone__name">GBA <em>3</em></span><span class="pv-zone__price">$7.900</span></div>
             <p class="pv-zone__partidos">Zárate · Campana · Escobar · Ing. Maschwitz · Garín · Pilar · Del Viso · Derqui · Villa Rosa · Luján · Gral. Rodríguez · Marcos Paz · Nordelta · San Vicente · Guernica · Berisso · La Plata · Cañuelas · Ensenada</p>
           </article>
         </div>
       </div>
 
-      {%- comment -%} CTA coordinar {%- endcomment -%}
-      <div class="pv-ship__bottom pv-rev">
-        <div class="pv-ship__bottom-text">
-          <span class="pv-mini-label">¿Dudas con tu envío?</span>
-          <h3 class="pv-ship__bottom-h">Coordinemos en el día.</h3>
-          <p class="pv-ship__bottom-p">Te respondemos por WhatsApp en horario comercial. Sin formularios largos.</p>
-        </div>
-        <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero coordinar el envio de un pedido' | url_encode }}" target="_blank" rel="noopener" class="pv-ship__bottom-cta">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
-          <span>Escribir por WhatsApp</span>
-        </a>
-      </div>
+    </div>
+  </section>
+  {%- comment -%} ============ COMO COMPRAR ============ {%- endcomment -%}
+  <section class="pv-htb" id="provHtb">
+    <div class="pv-wrap">
+      <header class="pv-htb__head">
+        <span class="pv-sec-label">05 · Cómo comprar</span>
+        <h2 class="pv-sec-title pv-rev">De la web a <em>tu negocio.</em></h2>
+        <p class="pv-htb__lead pv-rev" data-delay="80">4 pasos. Sin formularios largos. Si ya revendés, ya sabés cómo va.</p>
+      </header>
 
+      <div class="pv-htb__widget pv-rev">
+        <div class="pv-htb__nav" role="tablist">
+          <button class="pv-htb__dot is-active" type="button" data-step="0" aria-label="Paso 1"><span>01</span><b>Web</b></button>
+          <button class="pv-htb__dot" type="button" data-step="1" aria-label="Paso 2"><span>02</span><b>WhatsApp</b></button>
+          <button class="pv-htb__dot" type="button" data-step="2" aria-label="Paso 3"><span>03</span><b>Bodega</b></button>
+          <button class="pv-htb__dot" type="button" data-step="3" aria-label="Paso 4"><span>04</span><b>Entrega</b></button>
+        </div>
+
+        <div class="pv-htb__progress" aria-hidden="true">
+          <div class="pv-htb__progress-fill" id="provHtbFill" style="width:25%"></div>
+        </div>
+
+        <div class="pv-htb__viewport">
+          <article class="pv-htb__panel is-active" data-panel="0">
+            <span class="pv-htb__panel-emoji">🖥️</span>
+            <span class="pv-htb__panel-num">01</span>
+            <h3 class="pv-htb__panel-h">Armás tu pedido <em>en la web.</em></h3>
+            <p class="pv-htb__panel-p">Navegás el catálogo de 216+ productos, agregás al carrito por bulto o caja cerrada. Sin formularios largos.</p>
+            <ul class="pv-htb__chips">
+              <li>✓ Catálogo en vivo</li>
+              <li>✓ Bultos cerrados</li>
+              <li>✓ Sin mínimos rígidos</li>
+            </ul>
+          </article>
+
+          <article class="pv-htb__panel" data-panel="1">
+            <span class="pv-htb__panel-emoji">💬</span>
+            <span class="pv-htb__panel-num">02</span>
+            <h3 class="pv-htb__panel-h">Lo enviás <em>por WhatsApp.</em></h3>
+            <p class="pv-htb__panel-p">Elegís modalidad de entrega, completás tus datos. El pedido pre-armado nos llega listo para confirmar.</p>
+            <ul class="pv-htb__chips">
+              <li>✓ 1 click → WhatsApp</li>
+              <li>✓ Sin perder tiempo</li>
+              <li>✓ Asesor humano real</li>
+            </ul>
+          </article>
+
+          <article class="pv-htb__panel" data-panel="2">
+            <span class="pv-htb__panel-emoji">📦</span>
+            <span class="pv-htb__panel-num">03</span>
+            <h3 class="pv-htb__panel-h">Confirmamos <em>y embalamos.</em></h3>
+            <p class="pv-htb__panel-p">Validamos stock real, preparamos los bultos según tu modalidad y te avisamos el total + tiempo estimado.</p>
+            <ul class="pv-htb__chips">
+              <li>✓ Stock real, sí o sí</li>
+              <li>✓ Embalaje cuidado</li>
+              <li>✓ Aviso por WhatsApp</li>
+            </ul>
+          </article>
+
+          <article class="pv-htb__panel" data-panel="3">
+            <span class="pv-htb__panel-emoji">🚚</span>
+            <span class="pv-htb__panel-num">04</span>
+            <h3 class="pv-htb__panel-h">Llega <em>a tu negocio.</em></h3>
+            <p class="pv-htb__panel-p">CABA y GBA: misma jornada si entra antes del corte. Vía cargo a 24 provincias en 2-7 días hábiles.</p>
+            <ul class="pv-htb__chips">
+              <li>✓ CABA mismo día</li>
+              <li>✓ GBA mismo día</li>
+              <li>✓ 24 provincias</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="pv-htb__controls">
+          <button class="pv-htb__ctrl" type="button" id="provHtbPrev" aria-label="Anterior"><i data-lucide="arrow-left"></i></button>
+          <span class="pv-htb__counter"><b id="provHtbCur">01</b> / 04</span>
+          <button class="pv-htb__ctrl pv-htb__ctrl--primary" type="button" id="provHtbNext" aria-label="Siguiente"><i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
     </div>
   </section>
   {%- comment -%} ============ FOOTER mini ============ {%- endcomment -%}
@@ -271,7 +462,7 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
     <div class="pv-wrap pv-foot__inner">
       <a href="/" class="pv-foot__brand">
         <span class="pv-foot__mark"><img src="{{ logo_url }}" alt=""></span>
-        <span class="pv-foot__text">
+        <span class="pv-foot__txt">
           <span class="pv-foot__name">Provenzano</span>
           <span class="pv-foot__tag">Mayorista · Desde 2003</span>
         </span>
@@ -287,10 +478,7 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
           <i data-lucide="layout-grid"></i> Catálogo
         </a>
       </div>
-      <div class="pv-foot__legal">
-        <span>© Provenzano Mayorista 2026</span>
-        <span class="pv-foot__legal-mono">Hecho en Liniers, CABA</span>
-      </div>
+      <div class="pv-foot__legal">© Provenzano Mayorista · 2026</div>
     </div>
   </footer>
 
@@ -298,7 +486,7 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
   <a href="https://wa.me/{{ wpp_phone }}?text={{ 'Hola Provenzano, quiero hacer un pedido' | url_encode }}" target="_blank" rel="noopener" class="pv-fab" aria-label="WhatsApp">
     <span class="pv-fab__ring" aria-hidden="true"></span>
     <span class="pv-fab__ring pv-fab__ring--2" aria-hidden="true"></span>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/>
     </svg>
   </a>
@@ -306,678 +494,939 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
 
 <style>
 /* ============================================================
-   PROVENZANO HOME v5 — CLAYMORPHISM
+   PROVENZANO v6 — LINGO style
    ============================================================ */
 .pv, .pv *, .pv *::before, .pv *::after { box-sizing: border-box; }
 .pv [data-lucide] { width: 18px; height: 18px; stroke-width: 2; flex-shrink: 0; }
 .pv img { max-width: 100%; }
 
 .pv {
-  /* Tokens claymorphism */
-  --pv-bg: #EEF2FA;
-  --pv-bg-2: #F6F8FD;
-  --pv-surface: #FFFFFF;
-  --pv-ink: #1C398E;
-  --pv-ink-2: #475569;
-  --pv-ink-3: #94A3B8;
-  --pv-primary: #3B82F6;
-  --pv-primary-dk: #1D4ED8;
-  --pv-success: #16A34A;
-  --pv-warning: #D97706;
-  --pv-danger: #DC2626;
-  --pv-pink: #EC4899;
-  --pv-purple: #A855F7;
-  --pv-yellow: #FACC15;
-  --pv-wa: #25D366;
+  /* Paleta Provenzano */
+  --pv-primary:      #185FA5;
+  --pv-primary-dk:   #0C447C;
+  --pv-primary-lt:   #93C5FD;
+  --pv-primary-sub:  #E6F1FB;
+  --pv-success:      #10B981;
+  --pv-success-dk:   #047857;
+  --pv-warning:      #F59E0B;
+  --pv-warning-dk:   #B45309;
+  --pv-danger:       #DC2626;
+  --pv-danger-dk:    #991B1B;
+  --pv-wa:           #25D366;
+  --pv-wa-dk:        #1A9B4A;
 
-  /* Sombras claymorphic puffy */
-  --pv-clay: 0 16px 40px -12px rgba(28,57,142,0.18), 0 6px 14px -4px rgba(28,57,142,0.10), inset 0 -6px 14px rgba(28,57,142,0.08), inset 0 6px 14px rgba(255,255,255,0.95);
-  --pv-clay-sm: 0 10px 24px -8px rgba(28,57,142,0.16), inset 0 -4px 10px rgba(28,57,142,0.06), inset 0 4px 10px rgba(255,255,255,0.95);
-  --pv-clay-blue: 0 18px 42px -12px rgba(59,130,246,0.55), 0 6px 14px -4px rgba(59,130,246,0.30), inset 0 -8px 16px rgba(0,0,0,0.18), inset 0 8px 16px rgba(255,255,255,0.45);
-  --pv-clay-green: 0 18px 42px -12px rgba(37,211,102,0.50), 0 6px 14px -4px rgba(37,211,102,0.25), inset 0 -8px 16px rgba(0,0,0,0.18), inset 0 8px 16px rgba(255,255,255,0.50);
-  --pv-clay-press: 0 4px 10px -4px rgba(28,57,142,0.20), inset 0 -2px 6px rgba(28,57,142,0.06), inset 0 2px 6px rgba(255,255,255,0.95);
+  --pv-white:    #FFFFFF;
+  --pv-g100:     #F4F4F5;
+  --pv-g200:     #E5E7EB;
+  --pv-g300:     #D1D5DB;
+  --pv-g500:     #71717A;
+  --pv-g700:     #52525B;
+  --pv-black:    #0A0A0A;
 
-  --pv-r: 28px;
-  --pv-r-sm: 20px;
+  /* Lingo signature: bottom-border 3D */
+  --pv-r:    18px;
+  --pv-r-sm: 12px;
+  --pv-r-lg: 24px;
   --pv-r-pill: 9999px;
+  --pv-edge: 4px;
 
-  --pv-font: 'Poppins', 'Manrope', system-ui, -apple-system, sans-serif;
+  --pv-font: 'Nunito', system-ui, -apple-system, sans-serif;
   --pv-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   --pv-ease: cubic-bezier(.2,.7,.3,1);
   --pv-ease-out: cubic-bezier(.16,1,.3,1);
 
   font-family: var(--pv-font);
-  color: var(--pv-ink);
-  background: var(--pv-bg);
-  line-height: 1.55;
-  font-feature-settings: "ss01", "ss02";
+  font-weight: 600;
+  color: var(--pv-black);
+  background: var(--pv-primary-sub);
+  line-height: 1.5;
 }
 
 .pv :focus-visible { outline: 3px solid var(--pv-primary); outline-offset: 4px; border-radius: 8px; }
 
 /* Container */
-.pv-wrap { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
-@media (min-width: 760px) { .pv-wrap { padding: 0 32px; } }
+.pv-wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .pv-wrap { padding: 0 28px; } }
 @media (min-width: 1100px) { .pv-wrap { padding: 0 48px; } }
 
+/* === LINGO BUTTON: 3D tactile === */
+.pv-btn {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: var(--pv-r);
+  border: 2px solid currentColor;
+  border-bottom-width: 6px;
+  font-family: var(--pv-font);
+  font-size: 14px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  background: var(--pv-primary); color: var(--pv-white); border-color: var(--pv-primary-dk);
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease), filter 200ms var(--pv-ease);
+  user-select: none;
+}
+.pv-btn:hover { filter: brightness(1.06); }
+.pv-btn:active {
+  transform: translateY(4px);
+  border-bottom-width: 2px;
+}
+.pv-btn--lg { padding: 18px 28px; font-size: 15px; border-radius: var(--pv-r-lg); }
+.pv-btn--xl { padding: 22px 32px; font-size: 16px; border-radius: var(--pv-r-lg); border-bottom-width: 8px; }
+.pv-btn--xl:active { transform: translateY(6px); border-bottom-width: 2px; }
+.pv-btn [data-lucide] { width: 18px; height: 18px; }
+
+.pv-btn--white { background: var(--pv-white); color: var(--pv-black); border-color: var(--pv-g300); }
+.pv-btn--wa    { background: var(--pv-wa); color: #052E12; border-color: var(--pv-wa-dk); }
+.pv-btn--success { background: var(--pv-success); color: var(--pv-white); border-color: var(--pv-success-dk); }
+
 /* Reveal */
-.pv-rev { opacity: 0; transform: translateY(24px); }
-.pv-rev.is-in { opacity: 1; transform: translateY(0); transition: opacity 700ms var(--pv-ease-out), transform 700ms var(--pv-ease-out); }
+.pv-rev { opacity: 0; transform: translateY(20px); }
+.pv-rev.is-in { opacity: 1; transform: translateY(0); transition: opacity 600ms var(--pv-ease-out), transform 600ms var(--pv-ease-out); }
+
+/* Section label */
+.pv-sec-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+  padding: 8px 16px;
+  border-radius: var(--pv-r-pill);
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--pv-primary);
+}
+.pv-sec-label::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--pv-primary);
+  box-shadow: 0 0 0 3px rgba(24,95,165,0.2);
+}
+
+/* Section title */
+.pv-sec-title {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900; letter-spacing: -0.025em;
+  line-height: 1.0;
+  margin: 12px 0 0; color: var(--pv-black);
+  text-wrap: balance;
+}
+.pv-sec-title em { font-style: italic; color: var(--pv-primary); }
 
 /* ====== HERO ====== */
 .pv-hero {
-  position: relative; overflow: hidden;
+  position: relative;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg);
-  padding-bottom: 80px;
+  background: var(--pv-primary-sub);
+  padding-bottom: 64px;
+  overflow: hidden;
 }
-@media (min-width: 900px) { .pv-hero { padding-bottom: 120px; } }
-
-/* Decorative blobs */
-.pv-hero__deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-.pv-blob {
-  position: absolute; border-radius: 50%;
-  filter: blur(60px); opacity: 0.45;
-  animation: pvBlob 22s ease-in-out infinite alternate;
+.pv-hero::before, .pv-hero::after {
+  content: ""; position: absolute; border-radius: 50%;
+  filter: blur(60px); opacity: 0.5; pointer-events: none;
 }
-.pv-blob--1 { width: 320px; height: 320px; background: var(--pv-primary); top: -80px; left: -60px; }
-.pv-blob--2 { width: 280px; height: 280px; background: var(--pv-purple); top: 30%; right: -80px; animation-duration: 26s; animation-direction: alternate-reverse; }
-.pv-blob--3 { width: 240px; height: 240px; background: var(--pv-pink); bottom: -60px; left: 20%; animation-duration: 30s; }
-.pv-blob--4 { width: 200px; height: 200px; background: var(--pv-yellow); top: 50%; left: 40%; animation-duration: 34s; opacity: 0.30; }
-.pv-blob--5 { width: 260px; height: 260px; background: var(--pv-success); bottom: 10%; right: 10%; animation-duration: 28s; animation-direction: alternate-reverse; opacity: 0.25; }
-@keyframes pvBlob {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(60px, 40px) scale(1.15); }
-}
+.pv-hero::before { width: 320px; height: 320px; background: var(--pv-primary-lt); top: -80px; left: -60px; }
+.pv-hero::after  { width: 280px; height: 280px; background: var(--pv-warning); top: 20%; right: -60px; opacity: 0.30; }
 
 /* Nav */
 .pv-nav {
   position: relative; z-index: 4;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding-top: 20px; padding-bottom: 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding-top: 18px; padding-bottom: 18px;
 }
 .pv-nav__brand {
-  display: inline-flex; align-items: center; gap: 14px;
-  text-decoration: none; color: var(--pv-ink);
-  background: var(--pv-surface);
-  padding: 10px 18px 10px 10px;
+  display: inline-flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--pv-black);
+  background: var(--pv-white);
+  padding: 8px 16px 8px 8px;
   border-radius: var(--pv-r-pill);
-  box-shadow: var(--pv-clay-sm);
-  transition: transform 200ms var(--pv-ease);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease);
 }
-.pv-nav__brand:hover { transform: translateY(-2px); }
+.pv-nav__brand:active { transform: translateY(2px); border-bottom-width: 2px; }
 .pv-nav__mark {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 38px; height: 38px; border-radius: 50%;
   background: var(--pv-primary);
   display: inline-flex; align-items: center; justify-content: center;
   padding: 8px;
-  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.18), inset 0 3px 8px rgba(255,255,255,0.4);
+  border: 2px solid var(--pv-primary-dk);
+  border-bottom-width: 4px;
 }
 .pv-nav__mark img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
-.pv-nav__text { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
-.pv-nav__name { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: var(--pv-ink); }
+.pv-nav__txt { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
+.pv-nav__name { font-size: 15px; font-weight: 900; letter-spacing: -0.015em; }
 .pv-nav__tag {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--pv-mono);
-  font-size: 9.5px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--pv-ink-2);
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--pv-g500);
 }
 .pv-nav__live {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--pv-wa);
-  box-shadow: 0 0 0 0 rgba(37,211,102,0.55);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--pv-success);
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.55);
   animation: pvLive 1.8s var(--pv-ease) infinite;
 }
 @keyframes pvLive {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.55); }
-  50%      { box-shadow: 0 0 0 8px rgba(37,211,102,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.55); }
+  50%      { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
 }
 .pv-nav__actions { display: flex; gap: 10px; }
-.pv-nav__btn {
+
+/* Icon button (lingo) */
+.pv-icon-btn {
   position: relative;
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--pv-surface);
+  width: 50px; height: 50px; border-radius: var(--pv-r);
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
   display: inline-flex; align-items: center; justify-content: center;
-  color: var(--pv-ink); text-decoration: none;
-  box-shadow: var(--pv-clay-sm);
-  transition: transform 200ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease);
+  color: var(--pv-black); text-decoration: none;
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease);
 }
-.pv-nav__btn:hover { transform: translateY(-2px); background: var(--pv-primary); color: #fff; }
-.pv-nav__btn:active { transform: translateY(0); box-shadow: var(--pv-clay-press); }
-.pv-nav__btn [data-lucide] { width: 18px; height: 18px; }
-.pv-nav__badge {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--pv-danger); color: #fff;
+.pv-icon-btn:hover { background: var(--pv-primary-sub); color: var(--pv-primary); }
+.pv-icon-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-icon-btn [data-lucide] { width: 18px; height: 18px; }
+.pv-icon-btn__badge {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--pv-danger); color: var(--pv-white);
   min-width: 22px; height: 22px; padding: 0 6px;
   border-radius: 9999px; font-size: 11px; font-weight: 800;
   display: inline-flex; align-items: center; justify-content: center;
-  border: 3px solid var(--pv-bg);
-  box-shadow: 0 4px 10px rgba(220,38,38,0.4);
+  border: 3px solid var(--pv-primary-sub);
 }
 
 /* Hero inner */
 .pv-hero__inner {
   position: relative; z-index: 2;
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding-top: 40px;
+  padding-top: 32px;
 }
-@media (min-width: 760px) { .pv-hero__inner { padding-top: 56px; } }
-@media (min-width: 1100px) { .pv-hero__inner { padding-top: 72px; } }
+@media (min-width: 760px) { .pv-hero__inner { padding-top: 48px; } }
+@media (min-width: 1100px) { .pv-hero__inner { padding-top: 64px; } }
 
-/* Chip */
 .pv-hero__chip {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--pv-surface);
-  padding: 10px 20px;
+  background: var(--pv-white);
+  padding: 10px 18px;
   border-radius: var(--pv-r-pill);
-  box-shadow: var(--pv-clay-sm);
-  margin-bottom: 28px;
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--pv-black);
+  margin-bottom: 24px;
 }
-.pv-hero__chip-dot {
-  width: 10px; height: 10px; border-radius: 50%; background: var(--pv-success);
-  box-shadow: 0 0 0 0 rgba(22,163,74,0.55), inset 0 -2px 4px rgba(0,0,0,0.18);
-  animation: pvLive 1.8s var(--pv-ease) infinite;
-}
-.pv-hero__chip-text {
-  font-family: var(--pv-mono);
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--pv-ink);
-}
+.pv-hero__chip-icon { font-size: 16px; }
 
-/* Title */
 .pv-hero__title {
-  font-size: clamp(48px, 9vw, 120px);
-  font-weight: 800; letter-spacing: -0.035em;
-  line-height: 1.0;
-  margin: 0 0 24px;
-  color: var(--pv-ink); text-wrap: balance; max-width: 14ch;
+  font-size: clamp(44px, 9vw, 110px);
+  font-weight: 900; letter-spacing: -0.025em;
+  line-height: 0.98;
+  margin: 0 0 22px;
+  color: var(--pv-black); text-wrap: balance; max-width: 14ch;
 }
-.pv-hero__title-em {
-  background: linear-gradient(135deg, var(--pv-primary) 0%, var(--pv-purple) 50%, var(--pv-pink) 100%);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  font-style: italic; font-weight: 800;
+.pv-hero__title em {
+  font-style: italic;
+  color: var(--pv-primary);
 }
 
 .pv-hero__lead {
-  font-size: clamp(16px, 1.7vw, 19px);
-  font-weight: 500; line-height: 1.55;
-  color: var(--pv-ink-2);
-  margin: 0 auto 36px; max-width: 52ch;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 600; line-height: 1.55;
+  color: var(--pv-g700);
+  margin: 0 auto 32px; max-width: 52ch;
 }
-.pv-hero__lead b { color: var(--pv-ink); font-weight: 700; }
+.pv-hero__lead b { color: var(--pv-black); font-weight: 800; }
 
-/* CTAs */
 .pv-hero__ctas {
-  display: flex; flex-direction: column; gap: 18px;
+  display: flex; flex-direction: column; gap: 12px;
   align-items: center; width: 100%;
   margin-bottom: 48px;
 }
-@media (min-width: 760px) { .pv-hero__ctas { flex-direction: row; gap: 24px; justify-content: center; } }
-
-.pv-cta {
-  position: relative;
-  display: inline-flex; align-items: center; gap: 18px;
-  padding: 18px 18px 18px 28px;
-  background: var(--pv-primary);
-  color: #fff;
-  border-radius: var(--pv-r-pill);
-  text-decoration: none;
-  box-shadow: var(--pv-clay-blue);
-  transition: transform 220ms var(--pv-ease), box-shadow 220ms var(--pv-ease), background 220ms var(--pv-ease);
-}
-.pv-cta:hover { transform: translateY(-3px); background: var(--pv-primary-dk); box-shadow: 0 22px 50px -12px rgba(29,78,216,0.65), 0 8px 16px -4px rgba(29,78,216,0.30), inset 0 -8px 16px rgba(0,0,0,0.20), inset 0 8px 16px rgba(255,255,255,0.40); }
-.pv-cta:active { transform: translateY(0); box-shadow: var(--pv-clay-press); }
-.pv-cta__main { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; gap: 4px; }
-.pv-cta__lab {
-  font-family: var(--pv-mono);
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-}
-.pv-cta__title { display: inline-flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
-.pv-cta__title [data-lucide] { width: 18px; height: 18px; }
-.pv-cta__chip {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #fff; color: var(--pv-primary);
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 900;
-  box-shadow: inset 0 -4px 10px rgba(0,0,0,0.10), inset 0 4px 10px rgba(255,255,255,0.95);
-  transition: transform 220ms var(--pv-ease);
-}
-.pv-cta:hover .pv-cta__chip { transform: rotate(-15deg) scale(1.05); }
-
-.pv-wa-btn {
-  display: inline-flex; align-items: center; gap: 14px;
-  padding: 12px 22px 12px 12px;
-  background: var(--pv-surface);
-  color: var(--pv-ink);
-  border-radius: var(--pv-r-pill);
-  text-decoration: none;
-  box-shadow: var(--pv-clay-sm);
-  transition: transform 200ms var(--pv-ease);
-}
-.pv-wa-btn:hover { transform: translateY(-2px); }
-.pv-wa-btn__icon {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--pv-wa); color: #052E12;
-  display: inline-flex; align-items: center; justify-content: center;
-  box-shadow: var(--pv-clay-green);
-}
-.pv-wa-btn__text { display: flex; flex-direction: column; line-height: 1.1; align-items: flex-start; gap: 2px; }
-.pv-wa-btn__lab {
-  font-family: var(--pv-mono);
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--pv-ink-2);
-}
-.pv-wa-btn__num { font-size: 16px; font-weight: 800; color: var(--pv-ink); letter-spacing: -0.005em; }
+@media (min-width: 540px) { .pv-hero__ctas { flex-direction: row; gap: 16px; justify-content: center; flex-wrap: wrap; } }
 
 /* Stats grid */
 .pv-hero__stats {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
   width: 100%; max-width: 720px;
-  margin: 0 0 36px;
 }
 @media (min-width: 720px) { .pv-hero__stats { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
 .pv-stat {
-  display: flex; flex-direction: column; gap: 6px;
-  padding: 18px 20px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  background: var(--pv-white);
+  padding: 18px 18px 16px;
   border-radius: var(--pv-r);
-  background: var(--pv-surface);
-  box-shadow: var(--pv-clay);
-  position: relative; overflow: hidden;
-  transition: transform 220ms var(--pv-ease);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 6px;
+  border-bottom-color: var(--ac, var(--pv-primary-dk));
+  transition: transform 200ms var(--pv-ease), border-bottom-width 200ms var(--pv-ease);
 }
-.pv-stat:hover { transform: translateY(-3px) rotate(-1deg); }
-.pv-stat::before {
-  content: ""; position: absolute; top: -30px; right: -30px;
-  width: 80px; height: 80px; border-radius: 50%;
-  background: var(--accent, var(--pv-primary)); opacity: 0.18;
-  filter: blur(8px);
-}
-.pv-stat--blue   { --accent: var(--pv-primary); }
-.pv-stat--purple { --accent: var(--pv-purple); }
-.pv-stat--pink   { --accent: var(--pv-pink); }
-.pv-stat--yellow { --accent: var(--pv-yellow); }
+.pv-stat:hover { transform: translateY(-3px); }
+.pv-stat:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-stat--blue    { --ac: var(--pv-primary-dk); }
+.pv-stat--success { --ac: var(--pv-success-dk); }
+.pv-stat--warning { --ac: var(--pv-warning-dk); }
+.pv-stat--danger  { --ac: var(--pv-danger-dk); }
+.pv-stat__icon { font-size: 24px; line-height: 1; }
 .pv-stat__num {
-  font-size: clamp(28px, 4vw, 42px); font-weight: 800;
-  color: var(--pv-ink); letter-spacing: -0.03em; line-height: 1;
+  font-size: clamp(28px, 4vw, 36px); font-weight: 900;
+  color: var(--pv-black); letter-spacing: -0.03em; line-height: 1;
   font-variant-numeric: tabular-nums;
   display: inline-flex; align-items: baseline;
-  position: relative; z-index: 1;
 }
-.pv-stat__num i { font-style: normal; color: var(--accent, var(--pv-primary)); }
+.pv-stat__num i { font-style: normal; color: var(--pv-primary); }
+.pv-stat--success .pv-stat__num i { color: var(--pv-success); }
+.pv-stat--warning .pv-stat__num i { color: var(--pv-warning); }
+.pv-stat--danger .pv-stat__num i { color: var(--pv-danger); }
 .pv-stat__lab {
   font-family: var(--pv-mono);
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--pv-ink-2);
-  position: relative; z-index: 1;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--pv-g500);
 }
 
-/* Brands */
-.pv-hero__brands {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  width: 100%;
+/* ====== ORBIT ====== */
+.pv-orb {
+  position: relative; overflow: hidden;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-white);
+  padding: 64px 0 80px;
+  border-top: 2px solid var(--pv-g200);
 }
-@media (min-width: 720px) { .pv-hero__brands { flex-direction: row; justify-content: center; gap: 20px; } }
-.pv-hero__brands-lab {
+@media (min-width: 900px) { .pv-orb { padding: 88px 0 100px; } }
+.pv-orb__head { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; margin-bottom: 24px; text-align: left; }
+.pv-orb__lead { font-size: 15px; font-weight: 600; color: var(--pv-g700); margin: 0; max-width: 50ch; }
+
+.pv-orb__stage {
+  position: relative;
+  width: 100%; max-width: 600px; aspect-ratio: 1;
+  margin: 32px auto 24px;
+  --r: 130px; --pin: 92px;
+}
+@media (min-width: 420px) { .pv-orb__stage { --r: 145px; --pin: 100px; } }
+@media (min-width: 540px) { .pv-orb__stage { --r: 175px; --pin: 110px; } }
+@media (min-width: 720px) { .pv-orb__stage { --r: 210px; --pin: 124px; } }
+@media (min-width: 900px) { .pv-orb__stage { --r: 235px; --pin: 132px; } }
+
+.pv-orb__core {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  z-index: 4;
+}
+.pv-orb__core-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: var(--pv-primary);
+  padding: 18px 16px 14px;
+  border-radius: 50%;
+  width: clamp(110px, 22vw, 150px); aspect-ratio: 1;
+  border: 2px solid var(--pv-primary-dk);
+  border-bottom-width: 6px;
+  justify-content: center;
+}
+.pv-orb__core-card img { width: 50%; height: 50%; object-fit: contain; filter: brightness(0) invert(1); }
+.pv-orb__core-card span {
   font-family: var(--pv-mono);
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--pv-ink-3);
+  font-size: 9px; font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.10em; text-transform: uppercase;
+  text-align: center;
 }
-.pv-hero__brands-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.pv-brand-pill {
-  display: inline-flex; align-items: center;
-  background: var(--pv-surface);
-  padding: 8px 16px;
-  border-radius: var(--pv-r-pill);
-  font-size: 13px; font-weight: 700;
-  color: var(--pv-ink);
-  letter-spacing: -0.005em;
-  box-shadow: var(--pv-clay-sm);
-  transition: transform 200ms var(--pv-ease), color 200ms var(--pv-ease);
-}
-.pv-brand-pill:hover { transform: translateY(-2px); color: var(--pv-primary); }
 
-/* ====== ENVÍOS ====== */
+.pv-orb__ring {
+  position: absolute; inset: 0;
+  animation: pvOrbRotate 70s linear infinite;
+  transform-origin: center;
+}
+.pv-orb__stage.is-paused .pv-orb__ring { animation-play-state: paused; }
+@keyframes pvOrbRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.pv-orb__pin {
+  position: absolute; top: 50%; left: 50%;
+  width: var(--pin); height: var(--pin);
+  margin-top: calc(var(--pin) / -2);
+  margin-left: calc(var(--pin) / -2);
+  text-decoration: none;
+  transform: rotate(var(--angle)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * var(--angle)));
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 5px;
+  border-radius: var(--pv-r);
+  color: var(--pv-black);
+  padding: 8px;
+  transition: background 200ms var(--pv-ease), border-color 200ms var(--pv-ease), color 200ms var(--pv-ease), transform 100ms var(--pv-ease), border-bottom-width 100ms var(--pv-ease);
+}
+.pv-orb__pin:hover, .pv-orb__pin.is-active {
+  background: var(--pv-primary);
+  color: var(--pv-white);
+  border-color: var(--pv-primary-dk);
+}
+.pv-orb__pin:active { transform: rotate(var(--angle)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * var(--angle))) translateY(2px); border-bottom-width: 2px; }
+.pv-orb__pin-emoji { font-size: clamp(22px, 4vw, 30px); }
+.pv-orb__pin-name { font-size: 10px; font-weight: 800; letter-spacing: 0.02em; text-align: center; line-height: 1.1; }
+
+.pv-orb__cta {
+  display: flex; justify-content: center;
+  margin-top: 24px;
+}
+
+/* ====== MARCAS interactivas ====== */
+.pv-marca {
+  position: relative;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-primary-sub);
+  padding: 64px 0 80px;
+  border-top: 2px solid var(--pv-g200);
+}
+@media (min-width: 900px) { .pv-marca { padding: 88px 0 100px; } }
+.pv-marca__head { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; margin-bottom: 32px; }
+.pv-marca__lead { font-size: 15px; font-weight: 600; color: var(--pv-g700); margin: 0; max-width: 50ch; }
+
+.pv-marca__layout {
+  display: grid; grid-template-columns: 1fr; gap: 18px;
+}
+@media (min-width: 900px) { .pv-marca__layout { grid-template-columns: 1fr 1.2fr; gap: 28px; } }
+
+.pv-marca__list { display: flex; flex-direction: column; gap: 10px; }
+.pv-marca__btn {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 18px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 5px;
+  border-radius: var(--pv-r);
+  color: var(--pv-black);
+  font-family: var(--pv-font);
+  cursor: pointer;
+  text-align: left;
+  transition: background 200ms var(--pv-ease), border-color 200ms var(--pv-ease), color 200ms var(--pv-ease), transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease);
+}
+.pv-marca__btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-marca__btn:hover { background: var(--pv-primary-sub); }
+.pv-marca__btn.is-active {
+  background: var(--pv-primary);
+  color: var(--pv-white);
+  border-color: var(--pv-primary-dk);
+}
+.pv-marca__btn-num {
+  font-family: var(--pv-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--pv-g500);
+  background: var(--pv-g100);
+  padding: 4px 8px;
+  border-radius: var(--pv-r-sm);
+}
+.pv-marca__btn.is-active .pv-marca__btn-num { background: rgba(255,255,255,0.20); color: rgba(255,255,255,0.85); }
+.pv-marca__btn-name { font-size: clamp(20px, 3vw, 28px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.pv-marca__btn-arr {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--pv-g100); color: var(--pv-g500);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 200ms var(--pv-ease), color 200ms var(--pv-ease), transform 200ms var(--pv-ease);
+}
+.pv-marca__btn-arr [data-lucide] { width: 16px; height: 16px; }
+.pv-marca__btn.is-active .pv-marca__btn-arr { background: var(--pv-white); color: var(--pv-primary); transform: rotate(-15deg) scale(1.05); }
+
+.pv-marca__panels { position: relative; min-height: 320px; }
+@media (min-width: 900px) { .pv-marca__panels { min-height: 420px; } }
+.pv-marca__panel {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 28px 26px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 6px;
+  border-radius: var(--pv-r-lg);
+  opacity: 0; transform: translateY(12px) scale(0.98); pointer-events: none;
+  transition: opacity 320ms var(--pv-ease), transform 320ms var(--pv-ease);
+}
+@media (min-width: 900px) { .pv-marca__panel { padding: 36px 32px; } }
+.pv-marca__panel.is-active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.pv-marca__panel-emoji {
+  font-size: 56px; line-height: 1;
+  align-self: flex-start;
+  background: var(--pv-primary-sub);
+  padding: 14px;
+  border-radius: var(--pv-r);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+}
+.pv-marca__panel-h { margin: 4px 0 0; font-size: clamp(28px, 4vw, 40px); font-weight: 900; letter-spacing: -0.025em; line-height: 1; color: var(--pv-black); }
+.pv-marca__panel-eye {
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--pv-primary);
+}
+.pv-marca__panel-p { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.55; color: var(--pv-g700); max-width: 50ch; }
+.pv-marca__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.pv-marca__tags span {
+  display: inline-flex; align-items: center;
+  background: var(--pv-primary-sub); color: var(--pv-primary-dk);
+  padding: 6px 12px;
+  border-radius: var(--pv-r-pill);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 3px;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* ====== ENVIOS ====== */
 .pv-ship {
   position: relative;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg);
-  padding: 80px 0 96px;
-  overflow: hidden;
+  background: var(--pv-white);
+  padding: 64px 0 80px;
+  border-top: 2px solid var(--pv-g200);
 }
-@media (min-width: 900px) { .pv-ship { padding: 120px 0 140px; } }
+@media (min-width: 900px) { .pv-ship { padding: 88px 0 100px; } }
+.pv-ship__head { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; margin-bottom: 32px; }
+.pv-ship__lead { font-size: 15px; font-weight: 600; color: var(--pv-g700); margin: 0; max-width: 50ch; }
 
-.pv-mini-label {
-  display: inline-flex; align-items: center; gap: 8px;
+/* Mapa */
+.pv-map {
+  position: relative;
+  width: 100%; max-width: 720px; margin: 24px auto 56px;
+  aspect-ratio: 1 / 1.05;
+  background: var(--pv-primary-sub);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 5px;
+  border-radius: var(--pv-r-lg);
+  padding: 16px;
+}
+@media (min-width: 720px) { .pv-map { aspect-ratio: 4/3; max-width: 880px; padding: 24px; } }
+.pv-map__svg { width: 100%; height: 100%; }
+.pv-map__line {
+  stroke-dasharray: 200; stroke-dashoffset: 200;
+  animation: pvMapDraw 5s cubic-bezier(.4,0,.2,1) infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes pvMapDraw {
+  0%   { stroke-dashoffset: 200; opacity: 0; }
+  10%  { opacity: 1; }
+  60%  { stroke-dashoffset: 0; opacity: 1; }
+  85%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.pv-map__ping {
+  transform-origin: center; transform-box: fill-box;
+  animation: pvMapPing 2.4s ease-out infinite;
+}
+@keyframes pvMapPing {
+  0%   { transform: scale(1); opacity: 0.85; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+.pv-map__pin { cursor: pointer; outline: none; }
+.pv-map__pin circle:nth-child(2) { transition: fill 200ms var(--pv-ease), stroke-width 200ms var(--pv-ease), r 200ms var(--pv-ease); }
+.pv-map__pin:hover circle:nth-child(2),
+.pv-map__pin:focus circle:nth-child(2),
+.pv-map__pin.is-active circle:nth-child(2) { fill: var(--pv-primary); stroke: var(--pv-white); r: 8; }
+
+.pv-map__hud {
+  position: absolute; z-index: 4;
+  background: var(--pv-white);
+  padding: 8px 14px;
+  border-radius: var(--pv-r-pill);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
   font-family: var(--pv-mono);
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--pv-ink-2);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--pv-black);
+  display: inline-flex; align-items: center; gap: 8px;
 }
-.pv-mini-label::before {
-  content: ""; display: inline-block;
-  width: 8px; height: 8px; border-radius: 50%;
+.pv-map__hud--tl { top: 16px; left: 16px; }
+.pv-map__hud--tr { top: 16px; right: 16px; }
+.pv-map__hud b { font-weight: 900; color: var(--pv-primary); font-size: 14px; }
+.pv-map__hud-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--pv-success);
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.55);
+  animation: pvLive 1.8s var(--pv-ease) infinite;
+}
+
+.pv-map__tip {
+  position: absolute; z-index: 5; pointer-events: none;
+  background: var(--pv-primary); color: var(--pv-white);
+  padding: 10px 14px;
+  border-radius: var(--pv-r);
+  border: 2px solid var(--pv-primary-dk);
+  border-bottom-width: 4px;
+  display: flex; flex-direction: column; gap: 2px;
+  opacity: 0; transform: translate(-50%, calc(-100% - 16px)) scale(0.95);
+  transition: opacity 200ms var(--pv-ease), transform 200ms var(--pv-ease);
+  white-space: nowrap;
+}
+.pv-map__tip.is-visible { opacity: 1; transform: translate(-50%, calc(-100% - 24px)) scale(1); }
+.pv-map__tip::after {
+  content: ""; position: absolute; bottom: -8px; left: 50%;
+  width: 14px; height: 14px; transform: translateX(-50%) rotate(45deg);
   background: var(--pv-primary);
-  box-shadow: 0 0 12px rgba(59,130,246,0.55);
+  border-right: 2px solid var(--pv-primary-dk);
+  border-bottom: 2px solid var(--pv-primary-dk);
+}
+.pv-map__tip-name { font-size: 14px; font-weight: 900; letter-spacing: -0.01em; }
+.pv-map__tip-meta { font-family: var(--pv-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; color: rgba(255,255,255,0.85); }
+
+.pv-map__cap {
+  display: block;
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  background: var(--pv-white);
+  padding: 6px 14px;
+  border-radius: var(--pv-r-pill);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+  font-family: var(--pv-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--pv-g700);
 }
 
-.pv-ship__head {
-  display: flex; flex-direction: column; gap: 18px;
-  margin-bottom: 48px;
-}
-@media (min-width: 900px) { .pv-ship__head { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 56px; } }
-.pv-ship__head-l { display: flex; flex-direction: column; gap: 12px; }
-.pv-ship__title {
-  font-size: clamp(40px, 7vw, 88px);
-  font-weight: 800; letter-spacing: -0.035em; line-height: 0.95;
-  margin: 0; color: var(--pv-ink); text-wrap: balance;
-}
-.pv-ship__title-em {
-  background: linear-gradient(135deg, var(--pv-primary), var(--pv-purple));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  font-style: italic;
-}
-.pv-ship__lead {
-  font-size: clamp(15px, 1.6vw, 18px); font-weight: 500;
-  line-height: 1.55; color: var(--pv-ink-2);
-  margin: 0; max-width: 42ch;
-}
-
-/* Cards */
+/* Cards modalidades */
 .pv-ship__cards {
-  display: grid; grid-template-columns: 1fr; gap: 18px;
-  margin-bottom: 80px;
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+  margin-bottom: 64px;
 }
-@media (min-width: 720px) { .pv-ship__cards { grid-template-columns: 1fr 1fr; gap: 22px; } }
-@media (min-width: 1100px) { .pv-ship__cards { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+@media (min-width: 720px) { .pv-ship__cards { grid-template-columns: 1fr 1fr; gap: 20px; } }
 
 .pv-ship-card {
-  position: relative; overflow: hidden;
-  background: var(--pv-surface);
-  border-radius: var(--pv-r);
-  padding: 28px;
-  display: flex; flex-direction: column; gap: 18px;
-  box-shadow: var(--pv-clay);
-  transition: transform 240ms var(--pv-ease);
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 24px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 6px;
+  border-radius: var(--pv-r-lg);
+  transition: transform 200ms var(--pv-ease), border-bottom-width 200ms var(--pv-ease);
 }
-.pv-ship-card:hover { transform: translateY(-4px); }
-.pv-ship-card::before {
-  content: ""; position: absolute; top: -60px; right: -60px;
-  width: 180px; height: 180px; border-radius: 50%;
-  background: var(--accent, var(--pv-primary)); opacity: 0.20;
-  filter: blur(20px); pointer-events: none;
-}
-.pv-ship-card--blue   { --accent: var(--pv-primary); }
-.pv-ship-card--green  { --accent: var(--pv-success); }
-.pv-ship-card--purple { --accent: var(--pv-purple); }
-.pv-ship-card--yellow { --accent: var(--pv-warning); }
+.pv-ship-card:hover { transform: translateY(-3px); }
+.pv-ship-card:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-ship-card--success { border-bottom-color: var(--pv-success); }
+.pv-ship-card--warning { border-bottom-color: var(--pv-warning); }
+.pv-ship-card--danger  { border-bottom-color: var(--pv-danger); }
 .pv-ship-card--feat {
-  background: linear-gradient(180deg, var(--pv-primary) 0%, var(--pv-primary-dk) 100%);
-  color: #fff;
-  box-shadow: var(--pv-clay-blue);
   grid-column: 1 / -1;
+  background: var(--pv-primary);
+  color: var(--pv-white);
+  border-color: var(--pv-primary-dk);
 }
-@media (min-width: 1100px) { .pv-ship-card--feat { grid-column: 1 / -1; padding: 36px 36px 32px; } }
-.pv-ship-card--feat::before { background: rgba(255,255,255,0.4); opacity: 0.4; }
 .pv-ship-card--feat .pv-ship-card__num,
-.pv-ship-card--feat .pv-ship-card__list li > span:first-child { color: rgba(255,255,255,0.75); }
-.pv-ship-card--feat .pv-ship-card__list li > span:last-child b { color: #fff; }
+.pv-ship-card--feat .pv-ship-card__list span { color: rgba(255,255,255,0.75); }
+.pv-ship-card--feat .pv-ship-card__list b { color: var(--pv-white); }
 .pv-ship-card--feat .pv-ship-card__list li { border-color: rgba(255,255,255,0.20); }
-.pv-ship-card--feat .pv-ship-card__icon { background: rgba(255,255,255,0.20); color: #fff; }
-
-.pv-ship-card__top {
-  display: flex; align-items: center; justify-content: space-between;
-  position: relative; z-index: 1;
-}
+.pv-ship-card__top { display: flex; align-items: center; justify-content: space-between; }
 .pv-ship-card__num {
   font-family: var(--pv-mono);
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.20em; color: var(--pv-ink-3);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; color: var(--pv-g500);
+  background: var(--pv-g100);
+  padding: 4px 10px; border-radius: var(--pv-r-sm);
 }
-.pv-ship-card__icon {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--accent, var(--pv-primary));
-  color: #fff;
-  display: inline-flex; align-items: center; justify-content: center;
-  box-shadow: 0 10px 24px -6px var(--accent), inset 0 -4px 10px rgba(0,0,0,0.18), inset 0 4px 10px rgba(255,255,255,0.45);
-}
-.pv-ship-card__icon [data-lucide] { width: 24px; height: 24px; stroke-width: 2; }
-
-.pv-ship-card__hero { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; position: relative; z-index: 1; }
+.pv-ship-card--feat .pv-ship-card__num { background: rgba(255,255,255,0.20); }
+.pv-ship-card__icon { font-size: 36px; line-height: 1; }
 .pv-ship-card__highlight {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.20);
-  color: #fff;
-  padding: 6px 14px; border-radius: var(--pv-r-pill);
+  display: inline-flex; align-self: flex-start;
+  background: var(--pv-success);
+  color: var(--pv-white);
+  border: 2px solid var(--pv-success-dk);
+  border-bottom-width: 4px;
+  padding: 6px 14px;
+  border-radius: var(--pv-r-pill);
   font-family: var(--pv-mono);
-  font-size: 11px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase;
-  box-shadow: inset 0 -2px 6px rgba(0,0,0,0.15), inset 0 2px 6px rgba(255,255,255,0.30);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
 }
-.pv-ship-card__title {
-  margin: 0; font-size: clamp(28px, 3.6vw, 40px);
-  font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;
-  color: inherit;
-}
+.pv-ship-card__title { margin: 0; font-size: clamp(24px, 3.4vw, 36px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.05; color: inherit; }
 .pv-ship-card__big {
-  display: flex; flex-direction: column; gap: 4px;
-  position: relative; z-index: 1;
-}
-.pv-ship-card__big-lab {
-  font-family: var(--pv-mono);
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-}
-.pv-ship-card__big-num {
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 800; letter-spacing: -0.035em; line-height: 1;
-  color: inherit;
+  font-size: clamp(28px, 4vw, 40px); font-weight: 900;
+  letter-spacing: -0.025em; line-height: 1;
   font-variant-numeric: tabular-nums;
+  color: inherit;
 }
-.pv-ship-card__big-num--free { color: var(--pv-success); letter-spacing: 0.02em; font-size: clamp(28px, 4vw, 40px); }
-.pv-ship-card__big-num--alt { color: var(--accent, var(--pv-primary)); font-style: italic; font-size: clamp(28px, 4vw, 40px); }
-.pv-ship-card__list {
-  list-style: none; padding: 0; margin: 0;
-  position: relative; z-index: 1;
-}
+.pv-ship-card__big--free { color: var(--pv-success); font-size: clamp(22px, 3vw, 30px); letter-spacing: 0.04em; }
+.pv-ship-card__big--alt { color: var(--pv-warning); font-style: italic; font-size: clamp(22px, 3vw, 30px); }
+.pv-ship-card__list { list-style: none; padding: 0; margin: 0; }
 .pv-ship-card__list li {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 12px 0;
-  border-top: 1px solid rgba(28,57,142,0.10);
+  padding: 10px 0;
+  border-top: 1px solid var(--pv-g200);
   font-size: 13px;
 }
-.pv-ship-card__list li:last-child { border-bottom: 1px solid rgba(28,57,142,0.10); }
-.pv-ship-card__list li > span:first-child {
+.pv-ship-card__list li:last-child { border-bottom: 1px solid var(--pv-g200); }
+.pv-ship-card__list span {
   font-family: var(--pv-mono);
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--pv-ink-2);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--pv-g500);
 }
-.pv-ship-card__list li > span:last-child { font-weight: 600; color: var(--pv-ink); text-align: right; }
-.pv-ship-card__list b { font-weight: 700; }
-
-.pv-ship-card__cta {
-  display: inline-flex; align-items: center; gap: 8px;
+.pv-ship-card__list b { font-weight: 800; color: var(--pv-black); text-align: right; }
+.pv-ship-card__link {
+  display: inline-flex; align-items: center; gap: 6px;
   align-self: flex-start;
-  padding: 12px 18px;
-  background: rgba(255,255,255,0.20);
-  color: #fff;
+  background: var(--pv-white);
+  color: var(--pv-primary);
+  padding: 10px 18px;
+  border: 2px solid var(--pv-white);
+  border-bottom-width: 4px;
+  border-bottom-color: var(--pv-g200);
   border-radius: var(--pv-r-pill);
-  font-size: 13px; font-weight: 700;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
   text-decoration: none;
-  box-shadow: inset 0 -3px 8px rgba(0,0,0,0.18), inset 0 3px 8px rgba(255,255,255,0.30);
-  transition: background 200ms var(--pv-ease), transform 200ms var(--pv-ease);
-  position: relative; z-index: 1;
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease);
 }
-.pv-ship-card__cta:hover { background: rgba(255,255,255,0.30); transform: translateY(-2px); }
-.pv-ship-card__cta [data-lucide] { width: 14px; height: 14px; }
+.pv-ship-card__link:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-ship-card__link [data-lucide] { width: 14px; height: 14px; }
 
-/* Zonas GBA */
-.pv-zones { margin-bottom: 80px; }
-.pv-zones__head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-.pv-zones__title {
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 800; letter-spacing: -0.03em; line-height: 1;
-  margin: 0; color: var(--pv-ink);
-}
-.pv-zones__title-em {
-  background: linear-gradient(135deg, var(--pv-primary), var(--pv-purple));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  font-style: italic;
-}
-.pv-zones__list {
-  display: grid; grid-template-columns: 1fr; gap: 14px;
-}
+/* Zonas */
+.pv-zones__head { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; margin-bottom: 24px; }
+.pv-zones__title { margin: 0; font-size: clamp(28px, 4.5vw, 44px); font-weight: 900; letter-spacing: -0.025em; line-height: 1; color: var(--pv-black); }
+.pv-zones__title em { font-style: italic; color: var(--pv-primary); }
+.pv-zones__list { display: grid; grid-template-columns: 1fr; gap: 14px; }
 @media (min-width: 720px) { .pv-zones__list { grid-template-columns: 1fr 1fr; } }
 .pv-zone {
-  position: relative; overflow: hidden;
-  background: var(--pv-surface);
+  position: relative;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 6px;
   border-radius: var(--pv-r);
-  padding: 22px 24px;
-  box-shadow: var(--pv-clay);
-  transition: transform 220ms var(--pv-ease);
+  padding: 20px;
+  transition: transform 200ms var(--pv-ease), border-bottom-width 200ms var(--pv-ease);
 }
-.pv-zone:hover { transform: translateY(-3px); }
-.pv-zone::before {
-  content: ""; position: absolute; top: -40px; right: -40px;
-  width: 140px; height: 140px; border-radius: 50%;
-  background: var(--zc, var(--pv-primary)); opacity: 0.18;
-  filter: blur(14px);
-}
-.pv-zone--green  { --zc: var(--pv-success); }
-.pv-zone--blue   { --zc: var(--pv-primary); }
-.pv-zone--orange { --zc: var(--pv-warning); }
-.pv-zone--pink   { --zc: var(--pv-pink); }
-.pv-zone__head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
-  margin-bottom: 12px;
-  position: relative; z-index: 1;
-}
-.pv-zone__name {
-  font-size: 28px; font-weight: 800;
-  color: var(--zc, var(--pv-primary));
-  letter-spacing: -0.025em;
-}
-.pv-zone__name em { font-style: normal; opacity: 0.55; font-weight: 800; }
+.pv-zone:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-zone--success { border-bottom-color: var(--pv-success); }
+.pv-zone--blue    { border-bottom-color: var(--pv-primary); }
+.pv-zone--warning { border-bottom-color: var(--pv-warning); }
+.pv-zone--danger  { border-bottom-color: var(--pv-danger); }
+.pv-zone__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.pv-zone__name { font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: var(--pv-black); }
+.pv-zone__name em { font-style: normal; opacity: 0.55; font-weight: 900; }
 .pv-zone__price {
-  font-size: 28px; font-weight: 800;
-  color: var(--pv-ink); letter-spacing: -0.03em;
+  font-size: 22px; font-weight: 900;
+  color: var(--pv-primary); letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
-  background: rgba(28,57,142,0.06);
+  background: var(--pv-primary-sub);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 3px;
   padding: 4px 14px;
   border-radius: var(--pv-r-pill);
-  box-shadow: inset 0 -2px 6px rgba(28,57,142,0.08), inset 0 2px 6px rgba(255,255,255,0.85);
 }
-.pv-zone__partidos {
-  margin: 0; font-size: 13.5px; font-weight: 500;
-  line-height: 1.6; color: var(--pv-ink-2);
-  position: relative; z-index: 1;
+.pv-zone--success .pv-zone__price { background: rgba(16,185,129,0.12); color: var(--pv-success-dk); }
+.pv-zone--warning .pv-zone__price { background: rgba(245,158,11,0.15); color: var(--pv-warning-dk); }
+.pv-zone--danger .pv-zone__price { background: rgba(220,38,38,0.10); color: var(--pv-danger-dk); }
+.pv-zone__partidos { margin: 0; font-size: 13.5px; font-weight: 600; line-height: 1.55; color: var(--pv-g700); }
+
+/* ====== COMO COMPRAR ====== */
+.pv-htb {
+  position: relative;
+  width: 100vw; margin-left: calc(-50vw + 50%);
+  background: var(--pv-primary-sub);
+  padding: 64px 0 80px;
+  border-top: 2px solid var(--pv-g200);
+}
+@media (min-width: 900px) { .pv-htb { padding: 88px 0 100px; } }
+.pv-htb__head { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; margin-bottom: 32px; }
+.pv-htb__lead { font-size: 15px; font-weight: 600; color: var(--pv-g700); margin: 0; max-width: 50ch; }
+
+.pv-htb__widget {
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 6px;
+  border-radius: var(--pv-r-lg);
+  padding: 18px 18px 22px;
+}
+@media (min-width: 760px) { .pv-htb__widget { padding: 28px; } }
+
+/* Step nav */
+.pv-htb__nav {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  background: var(--pv-g100);
+  padding: 6px;
+  border-radius: var(--pv-r);
+  margin-bottom: 14px;
+}
+.pv-htb__dot {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px;
+  padding: 10px 4px;
+  background: transparent;
+  border: none;
+  border-radius: var(--pv-r-sm);
+  color: var(--pv-g500);
+  cursor: pointer;
+  font-family: var(--pv-font);
+  transition: background 240ms var(--pv-ease), color 240ms var(--pv-ease);
+}
+.pv-htb__dot:hover { color: var(--pv-black); background: var(--pv-white); }
+.pv-htb__dot.is-active {
+  background: var(--pv-primary);
+  color: var(--pv-white);
+  box-shadow: 0 4px 0 var(--pv-primary-dk);
+}
+.pv-htb__dot span { font-family: var(--pv-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.16em; opacity: 0.75; }
+.pv-htb__dot b { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; }
+@media (min-width: 540px) { .pv-htb__dot span { font-size: 10px; } .pv-htb__dot b { font-size: 13px; } }
+
+/* Progress bar */
+.pv-htb__progress {
+  height: 6px; background: var(--pv-g100);
+  border-radius: var(--pv-r-pill);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.pv-htb__progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--pv-primary), var(--pv-primary-lt));
+  border-radius: var(--pv-r-pill);
+  transition: width 380ms var(--pv-ease-out);
 }
 
-/* CTA bottom */
-.pv-ship__bottom {
-  display: flex; flex-direction: column; gap: 24px;
-  background: var(--pv-surface);
+/* Viewport */
+.pv-htb__viewport { position: relative; min-height: 320px; margin-bottom: 20px; }
+@media (min-width: 720px) { .pv-htb__viewport { min-height: 340px; } }
+.pv-htb__panel {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
+  padding: 20px 8px 8px;
+  opacity: 0; transform: translateX(20px); pointer-events: none;
+  transition: opacity 320ms var(--pv-ease), transform 320ms var(--pv-ease-out);
+}
+.pv-htb__panel.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.pv-htb__panel.is-prev { transform: translateX(-20px); }
+.pv-htb__panel-emoji {
+  font-size: 56px; line-height: 1;
+  background: var(--pv-primary-sub);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
+  padding: 12px;
   border-radius: var(--pv-r);
-  padding: 32px 28px;
-  box-shadow: var(--pv-clay);
 }
-@media (min-width: 760px) { .pv-ship__bottom { flex-direction: row; align-items: center; justify-content: space-between; padding: 28px 36px; gap: 40px; } }
-.pv-ship__bottom-text { display: flex; flex-direction: column; gap: 6px; }
-.pv-ship__bottom-h {
-  margin: 4px 0 0; font-size: clamp(24px, 3vw, 32px);
-  font-weight: 800; letter-spacing: -0.025em; line-height: 1.1;
-  color: var(--pv-ink);
+.pv-htb__panel-num {
+  font-family: var(--pv-mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--pv-primary);
+  background: var(--pv-primary-sub);
+  padding: 4px 10px;
+  border-radius: var(--pv-r-sm);
 }
-.pv-ship__bottom-p {
-  margin: 0; font-size: 14px; font-weight: 500;
-  color: var(--pv-ink-2); line-height: 1.55;
+.pv-htb__panel-h {
+  margin: 0; font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 900; letter-spacing: -0.025em; line-height: 1.05;
+  color: var(--pv-black);
 }
-.pv-ship__bottom-cta {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 16px 24px;
-  background: var(--pv-wa); color: #052E12;
+.pv-htb__panel-h em { font-style: italic; color: var(--pv-primary); }
+.pv-htb__panel-p { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.55; color: var(--pv-g700); max-width: 50ch; }
+.pv-htb__chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pv-htb__chips li {
+  display: inline-flex; align-items: center;
+  background: var(--pv-success);
+  color: var(--pv-white);
+  border: 2px solid var(--pv-success-dk);
+  border-bottom-width: 3px;
+  padding: 6px 12px;
   border-radius: var(--pv-r-pill);
-  font-size: 15px; font-weight: 800;
-  text-decoration: none;
-  box-shadow: var(--pv-clay-green);
-  transition: transform 200ms var(--pv-ease), filter 200ms var(--pv-ease);
-  flex-shrink: 0;
-  align-self: stretch; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
 }
-@media (min-width: 760px) { .pv-ship__bottom-cta { align-self: auto; } }
-.pv-ship__bottom-cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
-.pv-ship__bottom-cta:active { transform: translateY(0); box-shadow: var(--pv-clay-press); }
+
+/* Controls */
+.pv-htb__controls {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 2px dashed var(--pv-g200);
+}
+.pv-htb__ctrl {
+  width: 56px; height: 56px;
+  background: var(--pv-white);
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 5px;
+  border-radius: var(--pv-r);
+  color: var(--pv-black);
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease);
+}
+.pv-htb__ctrl:hover { background: var(--pv-primary-sub); }
+.pv-htb__ctrl:active { transform: translateY(2px); border-bottom-width: 2px; }
+.pv-htb__ctrl:disabled { opacity: 0.4; cursor: not-allowed; }
+.pv-htb__ctrl--primary { background: var(--pv-primary); color: var(--pv-white); border-color: var(--pv-primary-dk); }
+.pv-htb__ctrl--primary:hover { background: var(--pv-primary-dk); }
+.pv-htb__ctrl [data-lucide] { width: 20px; height: 20px; }
+.pv-htb__counter {
+  font-family: var(--pv-mono);
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.10em;
+  color: var(--pv-g500);
+}
+.pv-htb__counter b { font-weight: 900; color: var(--pv-black); }
 
 /* ====== FOOTER mini ====== */
 .pv-foot {
   position: relative;
   width: 100vw; margin-left: calc(-50vw + 50%);
-  background: var(--pv-bg-2);
-  padding: 32px 0;
-  border-top: 1px solid rgba(28,57,142,0.08);
+  background: var(--pv-white);
+  padding: 28px 0 24px;
+  border-top: 2px solid var(--pv-g200);
 }
-.pv-foot__inner {
-  display: flex; flex-direction: column; gap: 24px; align-items: center;
-}
+.pv-foot__inner { display: flex; flex-direction: column; gap: 18px; align-items: center; }
 @media (min-width: 900px) { .pv-foot__inner { flex-direction: row; justify-content: space-between; } }
-.pv-foot__brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--pv-ink); }
+.pv-foot__brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--pv-black); }
 .pv-foot__mark {
   width: 42px; height: 42px; border-radius: 50%;
   background: var(--pv-primary);
   display: inline-flex; align-items: center; justify-content: center;
   padding: 9px;
-  box-shadow: var(--pv-clay-sm);
+  border: 2px solid var(--pv-primary-dk);
+  border-bottom-width: 4px;
 }
 .pv-foot__mark img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
-.pv-foot__text { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
-.pv-foot__name { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+.pv-foot__txt { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
+.pv-foot__name { font-size: 16px; font-weight: 900; letter-spacing: -0.015em; }
 .pv-foot__tag {
   font-family: var(--pv-mono);
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--pv-ink-2);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--pv-g500);
 }
 .pv-foot__links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .pv-foot__chip {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--pv-surface);
-  padding: 10px 16px;
+  background: var(--pv-white);
+  padding: 8px 14px;
+  border: 2px solid var(--pv-g200);
+  border-bottom-width: 4px;
   border-radius: var(--pv-r-pill);
-  font-size: 13px; font-weight: 700; color: var(--pv-ink);
+  font-size: 12px; font-weight: 700; color: var(--pv-black);
   text-decoration: none;
-  box-shadow: var(--pv-clay-sm);
-  transition: transform 200ms var(--pv-ease), color 200ms var(--pv-ease);
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease), background 200ms var(--pv-ease), color 200ms var(--pv-ease);
 }
-.pv-foot__chip:hover { transform: translateY(-2px); color: var(--pv-primary); }
+.pv-foot__chip:hover { background: var(--pv-primary-sub); color: var(--pv-primary); }
+.pv-foot__chip:active { transform: translateY(2px); border-bottom-width: 2px; }
 .pv-foot__chip [data-lucide] { width: 14px; height: 14px; color: var(--pv-primary); }
 .pv-foot__chip--wa [data-lucide] { color: var(--pv-wa); }
 .pv-foot__legal {
-  display: flex; flex-direction: column; gap: 4px; align-items: center; text-align: center;
   font-family: var(--pv-mono);
-  font-size: 10px; font-weight: 500; letter-spacing: 0.10em;
-  color: var(--pv-ink-3);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.10em;
+  color: var(--pv-g500);
+  text-align: center;
 }
-@media (min-width: 900px) { .pv-foot__legal { align-items: flex-end; text-align: right; } }
-.pv-foot__legal-mono { letter-spacing: 0.16em; text-transform: uppercase; }
 
-/* ====== FAB WhatsApp ====== */
+/* ====== FAB ====== */
 .pv-fab {
-  position: fixed; right: 18px; bottom: 18px; z-index: 60;
+  position: fixed; right: 16px; bottom: 16px; z-index: 60;
   width: 60px; height: 60px; border-radius: 50%;
   background: var(--pv-wa); color: #052E12;
   display: inline-flex; align-items: center; justify-content: center;
   text-decoration: none;
-  box-shadow: var(--pv-clay-green);
-  transition: transform 220ms var(--pv-ease);
+  border: 2px solid var(--pv-wa-dk);
+  border-bottom-width: 6px;
+  transition: transform 80ms var(--pv-ease), border-bottom-width 80ms var(--pv-ease);
 }
-.pv-fab:hover { transform: translateY(-3px) scale(1.05); }
-.pv-fab:active { transform: translateY(0) scale(0.96); box-shadow: var(--pv-clay-press); }
+.pv-fab:hover { transform: translateY(-2px); }
+.pv-fab:active { transform: translateY(2px); border-bottom-width: 2px; }
 .pv-fab__ring {
   position: absolute; inset: 0; border-radius: 50%;
   border: 2px solid rgba(37,211,102,0.55);
@@ -1031,8 +1480,8 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) {
-          var idx = parseInt(e.target.dataset.delay, 10) || 0;
-          setTimeout(function () { e.target.classList.add('is-in'); }, idx);
+          var d = parseInt(e.target.dataset.delay, 10) || 0;
+          setTimeout(function () { e.target.classList.add('is-in'); }, d);
           io.unobserve(e.target);
         }
       });
@@ -1052,11 +1501,155 @@ Sin video, sin WebGL, sin smooth-scroll — load liviano.
     });
   }
 
+  // === ORBIT: pausa rotación al tap/hover, marca pin activo ===
+  function initOrbit() {
+    var stage = document.getElementById('provOrbStage');
+    var ring  = document.getElementById('provOrbRing');
+    if (!stage || !ring) return;
+    var pins = ring.querySelectorAll('.pv-orb__pin');
+    var resetTimer;
+
+    function clearActive() {
+      pins.forEach(function (p) { p.classList.remove('is-active'); });
+      stage.classList.remove('is-paused');
+    }
+    function activate(pin) {
+      clearTimeout(resetTimer);
+      pins.forEach(function (p) { p.classList.toggle('is-active', p === pin); });
+      stage.classList.add('is-paused');
+    }
+    function scheduleReset() {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(clearActive, 2500);
+    }
+
+    pins.forEach(function (pin) {
+      pin.addEventListener('mouseenter', function () { activate(pin); });
+      pin.addEventListener('mouseleave', function () { scheduleReset(); });
+      pin.addEventListener('focus', function () { activate(pin); });
+      pin.addEventListener('blur', function () { scheduleReset(); });
+      // Touch: tap toggles preview, second tap navigates
+      pin.addEventListener('touchstart', function (e) {
+        if (!pin.classList.contains('is-active')) {
+          e.preventDefault();
+          activate(pin);
+          scheduleReset();
+        }
+      }, { passive: false });
+    });
+  }
+
+  // === MARCAS: tap activa panel ===
+  function initBrands() {
+    var sec = document.getElementById('provMarca');
+    if (!sec) return;
+    var btns = sec.querySelectorAll('.pv-marca__btn');
+    var panels = sec.querySelectorAll('.pv-marca__panel');
+    function activate(name) {
+      btns.forEach(function (b) { b.classList.toggle('is-active', b.dataset.brand === name); });
+      panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.panel === name); });
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { activate(b.dataset.brand); });
+      b.addEventListener('mouseenter', function () { activate(b.dataset.brand); });
+    });
+  }
+
+  // === MAP: tap pin → tooltip ===
+  function initMap() {
+    var map = document.getElementById('provMap');
+    var tip = document.getElementById('provMapTip');
+    if (!map || !tip) return;
+    var tipName = tip.querySelector('.pv-map__tip-name');
+    var tipMeta = tip.querySelector('.pv-map__tip-meta');
+    var pins = map.querySelectorAll('.pv-map__pin');
+    var hideTimer;
+
+    function show(pin) {
+      clearTimeout(hideTimer);
+      var mr = map.getBoundingClientRect();
+      var pr = pin.getBoundingClientRect();
+      tip.style.left = (pr.left - mr.left + pr.width / 2) + 'px';
+      tip.style.top  = (pr.top  - mr.top  + pr.height / 2) + 'px';
+      tipName.textContent = pin.dataset.name || '';
+      tipMeta.textContent = pin.dataset.meta || '';
+      pins.forEach(function (p) { p.classList.toggle('is-active', p === pin); });
+      tip.classList.add('is-visible');
+    }
+    function hide() {
+      hideTimer = setTimeout(function () {
+        tip.classList.remove('is-visible');
+        pins.forEach(function (p) { p.classList.remove('is-active'); });
+      }, 200);
+    }
+    pins.forEach(function (pin) {
+      pin.addEventListener('mouseenter', function () { show(pin); });
+      pin.addEventListener('mouseleave', hide);
+      pin.addEventListener('focus', function () { show(pin); });
+      pin.addEventListener('blur', hide);
+      pin.addEventListener('touchstart', function (e) { e.preventDefault(); show(pin); setTimeout(hide, 2200); }, { passive: false });
+      pin.addEventListener('click', function (e) { e.preventDefault(); show(pin); setTimeout(hide, 2200); });
+    });
+  }
+
+  // === COMO COMPRAR: navegación 4 pasos ===
+  function initHtb() {
+    var sec = document.getElementById('provHtb');
+    if (!sec) return;
+    var dots = sec.querySelectorAll('.pv-htb__dot');
+    var panels = sec.querySelectorAll('.pv-htb__panel');
+    var fill = document.getElementById('provHtbFill');
+    var prev = document.getElementById('provHtbPrev');
+    var next = document.getElementById('provHtbNext');
+    var cur = document.getElementById('provHtbCur');
+    var idx = 0; var total = panels.length;
+
+    function go(n) {
+      n = Math.max(0, Math.min(total - 1, n));
+      idx = n;
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === n); });
+      panels.forEach(function (p, i) {
+        p.classList.toggle('is-active', i === n);
+        p.classList.toggle('is-prev', i < n);
+      });
+      if (fill) fill.style.width = ((n + 1) / total * 100) + '%';
+      if (cur) cur.textContent = '0' + (n + 1);
+      if (prev) prev.disabled = (n === 0);
+      if (next) next.disabled = (n === total - 1);
+    }
+    dots.forEach(function (d) { d.addEventListener('click', function () { go(parseInt(d.dataset.step, 10)); }); });
+    if (prev) prev.addEventListener('click', function () { go(idx - 1); });
+    if (next) next.addEventListener('click', function () { go(idx + 1); });
+
+    // Swipe support para mobile
+    var touchStartX = 0;
+    var viewport = sec.querySelector('.pv-htb__viewport');
+    if (viewport) {
+      viewport.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+      viewport.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) { go(dx < 0 ? idx + 1 : idx - 1); }
+      });
+    }
+
+    // Keyboard
+    sec.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') go(idx + 1);
+      if (e.key === 'ArrowLeft')  go(idx - 1);
+    });
+
+    go(0);
+  }
+
   ready(function () {
     initLucide();
     updateCartBadge();
     initReveal();
     initSmoothScroll();
+    initOrbit();
+    initBrands();
+    initMap();
+    initHtb();
   });
 })();
 </script>
